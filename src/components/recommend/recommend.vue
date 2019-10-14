@@ -5,6 +5,11 @@
             class="recommend-content"
             ref="scroll">
       <div>
+        <!-- 装饰 -->
+        <div v-show="banners.length"
+             v-if="banners.length"
+             class="decorate">
+        </div>
         <!-- 轮播图 -->
         <div v-if="banners.length"
              class="slider-wrapper">
@@ -19,10 +24,6 @@
               </div>
             </slider>
           </div>
-        </div>
-        <!-- 装饰 -->
-        <div v-show="banners.length"
-             class="decorate">
         </div>
         <!-- 推荐歌单 -->
         <div class="recommend-list">
@@ -131,25 +132,27 @@ export default {
 @import 'common/scss/variable.scss';
 .recommend {
   position: fixed;
-  top: 87px;
-  bottom: 0;
   width: 100%;
+  top: 88px;
+  bottom: 0;
+  z-index: 100;
+  overflow: hidden;
   .recommend-content {
+    position: relative;
+    width: 100%;
     height: 100%;
-    overflow: hidden;
     .decorate {
       position: absolute;
       top: -30vh;
       z-index: -10;
-      background: #d44439;
+      background: $color-theme;
       width: 100%;
       height: 50vh;
-      border-radius: 20px;
       vertical-align: inherit;
+      border-radius: 20px;
     }
     .slider-wrapper {
       position: relative;
-      overflow: hidden;
       width: 96%;
       height: 0;
       padding-top: 40%;
