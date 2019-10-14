@@ -229,11 +229,11 @@ export default {
 @import 'common/scss/mixin.scss';
 .disc {
   position: fixed;
+  z-index: 100;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
-  z-index: 100;
   background: $color-background;
   .header {
     height: 40px;
@@ -409,17 +409,18 @@ export default {
   }
   .loading-container {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    width: 100%;
+    top: 60%;
+    transform: translateY(-60%);
   }
-}
-.slide-enter,
-.slide-leave-to {
-  transform: translate3d(100%, 0, 0);
 }
 .slide-enter-active,
 .slide-leave-active {
   transition: all 0.3s;
+}
+
+.slide-enter,
+.slide-leave-to {
+  transform: translate3d(100%, 0, 0);
 }
 </style>

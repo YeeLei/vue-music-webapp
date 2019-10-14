@@ -4,7 +4,8 @@
          width="30"
          height="30">
     <p class="desc"
-       v-html="title"></p>
+       v-html="title">
+    </p>
   </div>
 </template>
 
