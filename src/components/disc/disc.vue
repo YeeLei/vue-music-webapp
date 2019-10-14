@@ -339,11 +339,14 @@ export default {
         font-size: $font-size-medium;
         line-height: 14px;
         margin-bottom: 10px;
+        margin-top: 10px;
       }
       .detail-author {
         line-height: 30px;
         color: #fff;
         font-size: 0;
+        margin-bottom: 10px;
+        @include no-wrap();
         .avatar {
           display: inline-block;
           vertical-align: middle;

@@ -82,7 +82,9 @@ export default {
     }, 20)
   },
   mounted () {
-    this.$refs.scroll.refresh()
+    this.$nextTick(() => {
+      this.$refs.scroll.refresh()
+    })
   },
   methods: {
     loadImage () {
@@ -136,11 +138,11 @@ export default {
   top: 88px;
   bottom: 0;
   z-index: 100;
-  overflow: hidden;
   .recommend-content {
     position: relative;
     width: 100%;
     height: 100%;
+    overflow: hidden;
     .decorate {
       position: absolute;
       top: -30vh;
