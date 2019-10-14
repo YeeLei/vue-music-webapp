@@ -137,16 +137,16 @@ export default {
   .recommend-content {
     height: 100%;
     overflow: hidden;
-    // .decorate {
-    //   position: absolute;
-    //   top: -30vh;
-    //   z-index: -10;
-    //   background: #d44439;
-    //   width: 100%;
-    //   height: 50vh;
-    //   border-radius: 20px;
-    //   vertical-align: inherit;
-    // }
+    .decorate {
+      position: absolute;
+      top: -30vh;
+      z-index: -10;
+      background: #d44439;
+      width: 100%;
+      height: 50vh;
+      border-radius: 20px;
+      vertical-align: inherit;
+    }
     .slider-wrapper {
       position: relative;
       overflow: hidden;
