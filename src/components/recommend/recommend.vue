@@ -1,5 +1,6 @@
 <template>
-  <div class="recommend">
+  <div class="recommend"
+       ref="recommend">
     <scroll :data="discList"
             class="recommend-content"
             ref="scroll">
@@ -13,8 +14,7 @@
                    :key="index">
                 <a :href="item.linkUrl">
                   <img @load="loadImage"
-                       :src="item.picUrl"
-                       height="166">
+                       :src="item.picUrl">
                 </a>
               </div>
             </slider>
@@ -80,6 +80,9 @@ export default {
       this.$refs.slider && this.$refs.slider.refresh()
     }, 20)
   },
+  mounted () {
+    this.$refs.scroll.refresh()
+  },
   methods: {
     loadImage () {
       if (!this.checkloaded) {
@@ -128,32 +131,28 @@ export default {
 @import 'common/scss/variable.scss';
 .recommend {
   position: fixed;
-  overflow: hidden;
   top: 87px;
   bottom: 0;
-  z-index: 100;
   width: 100%;
   .recommend-content {
-    width: 100%;
     height: 100%;
     overflow: hidden;
-    .decorate {
-      position: absolute;
-      top: -30vh;
-      z-index: -10;
-      background: #d44439;
-      width: 100%;
-      height: 50vh;
-      border-radius: 20px;
-      vertical-align: inherit;
-    }
+    // .decorate {
+    //   position: absolute;
+    //   top: -30vh;
+    //   z-index: -10;
+    //   background: #d44439;
+    //   width: 100%;
+    //   height: 50vh;
+    //   border-radius: 20px;
+    //   vertical-align: inherit;
+    // }
     .slider-wrapper {
       position: relative;
       overflow: hidden;
       width: 96%;
       height: 0;
-      padding-top: 45%;
-      top: 0;
+      padding-top: 40%;
       left: 50%;
       transform: translateX(-50%);
       .slider-content {
@@ -233,8 +232,8 @@ export default {
     .loading-wrapper {
       position: absolute;
       width: 100%;
-      top: 50%;
-      transform: translateY(-50%);
+      top: 60%;
+      transform: translateY(-60%);
     }
   }
 }
