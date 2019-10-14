@@ -20,7 +20,8 @@
         </div>
       </div>
       <div class="filter"
-           ref="filter"></div>
+           ref="filter">
+      </div>
     </div>
     <div class="bg-layer"
          ref="bgLayer">
@@ -52,6 +53,7 @@ const OFFSET_TOP = 20
 const RESERVED_HEIGHT = 40
 const transform = prefixStyle('transform')
 const backdrop = prefixStyle('backdrop-filter')
+
 export default {
   props: {
     songs: {
@@ -109,12 +111,12 @@ export default {
 
       this.$refs.bgLayer.style[transform] = `translate3d(0,${translateY}px,0)`
       // 下拉图片放大
-      const percent = Math.abs(newY / this.imageHeight)
+      const precent = Math.abs(newY / this.imageHeight)
       if (newY > 0) {
-        scale = 1 + percent
+        scale = 1 + precent
         zIndex = 10
       } else {
-        blur = Math.min(20 * percent, 20)
+        blur = Math.min(20 * precent, 20)
       }
       // backdrop 针对ios设置模糊渐变效果
       this.$refs.filter.style[backdrop] = `blur(${blur}px)`
@@ -243,8 +245,7 @@ export default {
       left: 0;
       width: 100%;
       height: 100%;
-      background: #000;
-      opacity: 0.2;
+      background: $color-theme-d;
     }
   }
   .bg-layer {
