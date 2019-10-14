@@ -1,0 +1,50 @@
+@font-face {
+  font-family: 'iconfont';
+  /* project id 1451521 */
+  src: url('//at.alicdn.com/t/font_1451521_etnx83qef24.eot');
+  src: url('//at.alicdn.com/t/font_1451521_etnx83qef24.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_1451521_etnx83qef24.woff2') format('woff2'),
+    url('//at.alicdn.com/t/font_1451521_etnx83qef24.woff') format('woff'),
+    url('//at.alicdn.com/t/font_1451521_etnx83qef24.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_1451521_etnx83qef24.svg#iconfont') format('svg');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-list:before {
+  content: "\e606";
+}
+
+.icon-search:before {
+  content: "\e6bd";
+}
+
+.icon-caidan:before {
+  content: "\e6e4";
+}
+
+.icon-random-play:before {
+  content: "\e771";
+}
+
+.icon-play:before {
+  content: "\e600";
+}
+
+.icon-arrow-right:before {
+  content: "\e60c";
+}
+
+.icon-dujia:before {
+  content: "\e8aa";
+}
+
+.icon-sq:before {
+  content: "\e601";
+}

@@ -1,0 +1,275 @@
+<template>
+  <div class="music-list">
+    <div class="header">
+      <div class="back"
+           @click="back">
+        <i class="fa fa-angle-left"></i>
+      </div>
+    </div>
+    <div class="bg-image"
+         :style="bgStyle"
+         ref="bgImage">
+      <div class="text"
+           v-html="title"></div>
+      <div class="play-wrapper">
+        <div class="play"
+             v-show="songs.length > 0"
+             ref="playBtn">
+          <i class="iconfont icon-random-play"></i>
+          <span class="play-text">随机播放全部</span>
+        </div>
+      </div>
+      <div class="filter"
+           ref="filter"></div>
+    </div>
+    <div class="bg-layer"
+         ref="bgLayer">
+    </div>
+    <scroll :data="songs"
+            :probeType="probeType"
+            :listenScroll="listenScroll"
+            @scroll="scroll"
+            class="list"
+            ref="list">
+      <div class="song-list-wrapper">
+        <song-list :songs="songs"></song-list>
+      </div>
+    </scroll>
+    <div class="loading-container"
+         v-show="!songs.length">
+      <loading></loading>
+    </div>
+  </div>
+</template>
+
+<script>
+import Scroll from 'base/scroll/scroll'
+import SongList from 'base/song-list/song-list'
+import Loading from 'base/loading/loading'
+import { prefixStyle } from 'common/js/dom'
+
+const OFFSET_TOP = 20
+const RESERVED_HEIGHT = 40
+const transform = prefixStyle('transform')
+const backdrop = prefixStyle('backdrop-filter')
+export default {
+  props: {
+    songs: {
+      type: Array,
+      default () {
+        return []
+      }
+    },
+    title: {
+      type: String,
+      default: ''
+    },
+    bgImage: {
+      type: String,
+      default: ''
+    }
+  },
+  data () {
+    return {
+      scrollY: 0
+    }
+  },
+  computed: {
+    // 处理背景
+    bgStyle () {
+      return `background-image: url(${this.bgImage})`
+    }
+  },
+  created () {
+    this.probeType = 3
+    this.listenScroll = true
+  },
+  mounted () {
+    this.imageHeight = this.$refs.bgImage.clientHeight
+    // 最小滚动距离
+    this.minTranslateY = -this.imageHeight + RESERVED_HEIGHT + OFFSET_TOP
+
+    this.$refs.list.$el.style.top = this.imageHeight - OFFSET_TOP + 'px'
+    this.$refs.bgLayer.style.top = `-${OFFSET_TOP + 41}px`
+  },
+  methods: {
+    scroll (pos) {
+      this.scrollY = pos.y
+    },
+    back () {
+      this.$router.back()
+    }
+  },
+  watch: {
+    scrollY (newY) {
+      let translateY = Math.max(this.minTranslateY, newY)
+      let zIndex = 0
+      let scale = 1
+      let blur = 0
+
+      this.$refs.bgLayer.style[transform] = `translate3d(0,${translateY}px,0)`
+      // 下拉图片放大
+      const percent = Math.abs(newY / this.imageHeight)
+      if (newY > 0) {
+        scale = 1 + percent
+        zIndex = 10
+      } else {
+        blur = Math.min(20 * percent, 20)
+      }
+      // backdrop 针对ios设置模糊渐变效果
+      this.$refs.filter.style[backdrop] = `blur(${blur}px)`
+
+      // 向上滚动,固定header
+      if (newY < this.minTranslateY) {
+        zIndex = 10
+        this.$refs.bgImage.style.paddingTop = 0
+        this.$refs.bgImage.style.height = `${RESERVED_HEIGHT}px`
+        this.$refs.playBtn.style.display = 'none'
+      } else {
+        zIndex = 0
+        this.$refs.bgImage.style.paddingTop = '70%'
+        this.$refs.bgImage.style.height = 0
+        this.$refs.playBtn.style.display = ''
+      }
+      this.$refs.bgImage.style.zIndex = zIndex
+      // 设置下拉放大图片的比例
+      this.$refs.bgImage.style[transform] = `scale(${scale})`
+    }
+  },
+  components: {
+    SongList,
+    Scroll,
+    Loading
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+@import 'common/scss/variable.scss';
+@import 'common/scss/mixin.scss';
+.music-list {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: $color-background;
+  .header {
+    height: 40px;
+    line-height: 40px;
+    background: $color-theme-d;
+    box-shadow: 0 0 5px $color-theme-d;
+    .back {
+      position: absolute;
+      top: 0;
+      left: 6px;
+      z-index: 50;
+      width: 40px;
+      height: 40px;
+      i {
+        display: block;
+        text-align: center;
+        line-height: 40px;
+        font-weight: bold;
+        font-size: 30px;
+        color: #fff;
+      }
+    }
+    .title {
+      position: absolute;
+      top: 0;
+      left: 10%;
+      z-index: 40;
+      width: 80%;
+      text-align: center;
+      line-height: 40px;
+      font-size: $font-size-large;
+      color: #fff;
+      @include no-wrap();
+    }
+  }
+  .bg-image {
+    position: relative;
+    top: -40px;
+    padding-top: 70%;
+    height: 0px;
+    transform-origin: top;
+    background-size: cover;
+    .text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      margin: 0 auto;
+      width: 80%;
+      height: 40px;
+      line-height: 40px;
+      font-weight: bold;
+      text-align: center;
+      color: #fff;
+      z-index: 1;
+    }
+    .play-wrapper {
+      position: absolute;
+      bottom: 40px;
+      z-index: 50;
+      width: 100%;
+      .play {
+        width: 135px;
+        padding: 5px 0;
+        margin: 0 auto;
+        text-align: center;
+        border: 1px solid $color-sub-theme;
+        color: $color-sub-theme;
+        border-radius: 100px;
+        font-size: 0;
+        i {
+          display: inline-block;
+          vertical-align: middle;
+          margin-right: 6px;
+          font-size: $font-size-large-x;
+        }
+        .play-text {
+          display: inline-block;
+          vertical-align: middle;
+          font-size: 12px;
+        }
+      }
+    }
+    .filter {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      opacity: 0.2;
+    }
+  }
+  .bg-layer {
+    position: relative;
+    height: 100%;
+    background: $color-background;
+    border-radius: 10px;
+  }
+  .list {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    .song-list-wrapper {
+      position: relative;
+      border-radius: 10px;
+      background: #f2f3f4;
+      overflow: hidden;
+    }
+  }
+  .loading-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+</style>
