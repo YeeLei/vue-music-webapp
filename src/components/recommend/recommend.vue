@@ -13,7 +13,8 @@
                    :key="index">
                 <a :href="item.linkUrl">
                   <img @load="loadImage"
-                       :src="item.picUrl">
+                       :src="item.picUrl"
+                       height="166">
                 </a>
               </div>
             </slider>
@@ -79,9 +80,6 @@ export default {
       this.$refs.slider && this.$refs.slider.refresh()
     }, 20)
   },
-  mounted () {
-    this.$refs.scroll.refresh()
-  },
   methods: {
     loadImage () {
       if (!this.checkloaded) {
@@ -136,6 +134,7 @@ export default {
   z-index: 100;
   width: 100%;
   .recommend-content {
+    width: 100%;
     height: 100%;
     overflow: hidden;
     .decorate {
@@ -153,7 +152,8 @@ export default {
       overflow: hidden;
       width: 96%;
       height: 0;
-      padding-top: 40%;
+      padding-top: 45%;
+      top: 0;
       left: 50%;
       transform: translateX(-50%);
       .slider-content {
@@ -233,8 +233,8 @@ export default {
     .loading-wrapper {
       position: absolute;
       width: 100%;
-      top: 60%;
-      transform: translateY(-60%);
+      top: 50%;
+      transform: translateY(-50%);
     }
   }
 }

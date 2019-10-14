@@ -128,7 +128,6 @@ export default {
       float: left;
       overflow: hidden;
       text-align: center;
-      border-radius: 5px;
       box-sizing: border-box;
       a {
         display: block;
