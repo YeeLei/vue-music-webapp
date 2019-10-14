@@ -79,6 +79,9 @@ export default {
       this.$refs.slider && this.$refs.slider.refresh()
     }, 20)
   },
+  mounted () {
+    this.$refs.scroll.refresh()
+  },
   methods: {
     loadImage () {
       if (!this.checkloaded) {

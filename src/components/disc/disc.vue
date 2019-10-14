@@ -299,7 +299,7 @@ export default {
       vertical-align: top;
       top: 50px;
       margin-right: 5px;
-      width: 35%;
+      width: 120px;
       img {
         border-radius: 7px;
         overflow: hidden;
@@ -313,7 +313,7 @@ export default {
       }
       .detail-hover {
         position: absolute;
-        right: 14px;
+        right: 12px;
         top: 50%;
         transform: translate(0, -50%);
         width: 80%;
