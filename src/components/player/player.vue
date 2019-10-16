@@ -511,7 +511,7 @@ export default {
     top: 0;
     bottom: 0;
     z-index: 150;
-    background: $color-background;
+    background: #333;
     .background {
       position: absolute;
       top: 0;
@@ -584,7 +584,6 @@ export default {
         width: 100%;
         height: 0;
         padding-top: 80%;
-        margin-top: 15%;
         .cd-wrapper {
           position: absolute;
           left: 10%;
