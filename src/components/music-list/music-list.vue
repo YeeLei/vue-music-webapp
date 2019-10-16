@@ -11,7 +11,8 @@
          ref="bgImage">
       <div class="text"
            v-html="title"></div>
-      <div class="play-wrapper">
+      <div class="play-wrapper"
+           v-show="playBtn">
         <div class="play"
              v-show="songs.length > 0"
              ref="playBtn"
@@ -19,6 +20,14 @@
           <i class="iconfont icon-random-play"></i>
           <span class="play-text">随机播放全部</span>
         </div>
+      </div>
+      <div class="date-wrapper">
+        <p class="date"
+           v-show="dateTime">
+          {{dateTime}}更新
+          <i class="iconfont icon-tishi"
+             @click="detail"></i>
+        </p>
       </div>
       <div class="filter"
            ref="filter">
@@ -75,6 +84,14 @@ export default {
     bgImage: {
       type: String,
       default: ''
+    },
+    playBtn: {
+      type: Boolean,
+      default: true
+    },
+    dateTime: {
+      type: String,
+      default: ''
     }
   },
   data () {
@@ -119,6 +136,9 @@ export default {
       this.randomPlay({
         list: this.songs
       })
+    },
+    detail () {
+      this.$emit('detailList')
     },
     _getSongInfo (type, mid, id) {
       getSongInfo(type, mid, id).then(res => {
@@ -191,8 +211,6 @@ export default {
   .header {
     height: 40px;
     line-height: 40px;
-    background: $color-theme-d;
-    box-shadow: 0 0 5px $color-theme-d;
     .back {
       position: absolute;
       top: 0;
@@ -267,6 +285,24 @@ export default {
           display: inline-block;
           vertical-align: middle;
           font-size: 12px;
+        }
+      }
+    }
+    .date-wrapper {
+      position: absolute;
+      bottom: 40px;
+      z-index: 50;
+      width: 100%;
+      text-align: center;
+      .date {
+        color: $color-text-ll;
+        font-size: $font-size-small-x;
+        line-height: 16px;
+        height: 16px;
+        i {
+          color: #fff;
+          font-size: $font-size-medium;
+          vertical-align: middle;
         }
       }
     }

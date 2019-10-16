@@ -105,7 +105,9 @@
                  @click="next"></i>
             </div>
             <div class="icon i-right">
-              <i class="iconfont icon-favorite"></i>
+              <i class="iconfont"
+                 :class="getFavoriteIcon(currentSong)"
+                 @click="toggleFavorite(currentSong)"></i>
             </div>
           </div>
         </div>
@@ -127,10 +129,8 @@
           </div>
         </div>
         <div class="text">
-          <h2 class="name"
-              v-html="currentSong.name">
-          </h2>
-          <p class="desc"></p>
+          <h2 class="name">{{songName}}</h2>
+          <!-- <p class="desc">{{playingLyric}}</p> -->
         </div>
         <div class="control">
           <progress-circle :radius="radius"
@@ -158,7 +158,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import { playMode } from 'common/js/config'
 import ProgressBar from './progress-bar/progress-bar'
 import ProgressCircle from './progress-circle/progress-circle'
@@ -207,6 +207,9 @@ export default {
           ? 'icon-loop'
           : 'icon-random'
     },
+    songName () {
+      return `${this.currentSong.name} - ${this.currentSong.singer}`
+    },
     ...mapGetters([
       'playlist',
       'currentSong',
@@ -214,7 +217,8 @@ export default {
       'currentIndex',
       'playing',
       'mode',
-      'sequenceList'
+      'sequenceList',
+      'favoriteList'
     ])
   },
   methods: {
@@ -452,13 +456,37 @@ export default {
       this.$refs.middleL.style[transitionDuration] = `${time}ms`
       this.touch.initiated = false
     },
+    getFavoriteIcon (song) {
+      if (this.isFavorite(song)) {
+        return 'icon-favorite'
+      }
+      return 'icon-not-favorite'
+    },
+    toggleFavorite (song) {
+      // 如果当前是收藏的歌曲,则取消收藏
+      if (this.isFavorite(song)) {
+        this.deleteFavoriteList(song)
+      } else {
+        this.saveFavoriteList(song)
+      }
+    },
+    isFavorite (song) {
+      const index = this.favoriteList.findIndex((item) => {
+        return item.id === song.id
+      })
+      return index > -1
+    },
     ...mapMutations({
       setFullScreen: 'SET_FULL_SCREEN',
       setPlayingState: 'SET_PLAYING_STATE',
       setCurrentIndex: 'SET_CURRENT_INDEX',
       setPlayMode: 'SET_PLAY_MODE',
       setPlaylist: 'SET_PLAYLIST'
-    })
+    }),
+    ...mapActions([
+      'saveFavoriteList',
+      'deleteFavoriteList'
+    ])
   },
   watch: {
     // 所以需要判断newSong和oldSong 的歌曲id是否一致 或者 newSong为undefined
@@ -684,6 +712,9 @@ export default {
         .i-right {
           text-align: left;
         }
+        .icon-favorite {
+          color: $color-theme;
+        }
       }
       .progress-wrapper {
         display: flex;
@@ -730,17 +761,10 @@ export default {
     &.normal-enter-active,
     &.normal-leave-active {
       transition: all 0.4s;
-      .top,
-      .bottom {
-        transition: all 1s cubic-bezier(0.86, 0.18, 0.82, 1.32);
-      }
     }
     &.normal-enter,
     &.normal-leave-to {
       opacity: 0;
-      .top {
-        transform: translate3d(0, -100px, 0);
-      }
     }
   }
   .mini-player {
@@ -751,13 +775,15 @@ export default {
     bottom: 0;
     z-index: 180;
     width: 100%;
-    height: 60px;
+    height: 40px;
     background: $color-text-ll;
     .icon {
-      flex: 0 0 40px;
-      width: 40px;
-      height: 40px;
-      padding: 0 10px 0 20px;
+      width: 45px;
+      height: 45px;
+      text-align: center;
+      bottom: 5px;
+      left: 2px;
+      margin-right: 10px;
       .imgWrapper {
         height: 100%;
         width: 100%;
@@ -781,6 +807,7 @@ export default {
       overflow: hidden;
       .name {
         margin-bottom: 2px;
+        margin-top: 4px;
         font-size: $font-size-medium;
         color: $color-text;
         @include no-wrap;

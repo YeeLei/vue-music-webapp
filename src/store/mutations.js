@@ -9,6 +9,9 @@ const mutations = {
   [types.SET_BRIEF] (state, brief) {
     state.brief = brief
   },
+  [types.SET_DETAIL] (state, detail) {
+    state.detail = detail
+  },
   [types.SET_PLAYING_STATE] (state, flag) {
     state.playing = flag
   },
@@ -32,6 +35,15 @@ const mutations = {
   },
   [types.SET_SONGINFO] (state, songinfo) {
     state.songinfo = songinfo
+  },
+  [types.SET_SEARCH_HISTORY] (state, history) {
+    state.searchHistory = history
+  },
+  [types.SET_PLAY_HISTORY] (state, history) {
+    state.playHistory = history
+  },
+  [types.SET_FAVORITE_LIST] (state, list) {
+    state.favoriteList = list
   }
 }
 export default mutations

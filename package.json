@@ -13,6 +13,7 @@
     "body-parser": "^1.19.0",
     "core-js": "^2.6.5",
     "fastclick": "^1.0.6",
+    "good-storage": "^1.1.0",
     "jsonp": "^0.2.1",
     "lyric-parser": "^1.0.1",
     "vue": "^2.6.10",

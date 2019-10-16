@@ -1,6 +1,6 @@
 <template>
-  <transition name="slide"
-              appear>
+  <transition appear
+              name="slide">
     <div class="disc">
       <div class="header">
         <div class="back"

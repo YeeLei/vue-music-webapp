@@ -4,6 +4,8 @@ export const disc = state => state.disc
 
 export const brief = state => state.brief
 
+export const detail = state => state.detail
+
 export const playing = state => state.playing
 
 export const fullScreen = state => state.fullScreen
@@ -23,3 +25,9 @@ export const currentSong = (state) => {
 export const topList = state => state.topList
 
 export const songinfo = state => state.songinfo
+
+export const searchHistory = state => state.searchHistory
+
+export const playHistory = state => state.playHistory
+
+export const favoriteList = state => state.favoriteList
