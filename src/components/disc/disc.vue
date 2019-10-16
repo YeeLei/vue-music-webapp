@@ -161,11 +161,12 @@ export default {
       })
     },
     _getSongList () {
-      if (!this.disc.dissid) {
+      const id = this.disc.dissid ? this.disc.dissid : this.disc.id
+      if (!id) {
         this.$router.push('/recommend')
         return
       }
-      getSongList(this.disc.dissid).then(res => {
+      getSongList(id).then(res => {
         if (res.code === ERR_OK) {
           this.detail = res.cdlist[0]
           // console.log(this.detail)

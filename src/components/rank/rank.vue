@@ -89,8 +89,7 @@ export default {
       padding: 20px 0;
       .item {
         display: flex;
-        margin: 0 20px;
-        padding-top: 20px;
+        margin: 0 20px 20px 20px;
         height: 100px;
         border-radius: 5px;
         overflow: hidden;

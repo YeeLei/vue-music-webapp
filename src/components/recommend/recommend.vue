@@ -1,7 +1,7 @@
 <template>
   <div class="recommend"
        ref="recommend">
-    <scroll :data="discList"
+    <scroll :data="list"
             class="recommend-content"
             ref="scroll">
       <div>
@@ -47,8 +47,30 @@
             </li>
           </ul>
         </div>
+        <!-- 热门歌单 -->
+        <div class="recommend-list">
+          <h1 class="title">热门歌单</h1>
+          <ul>
+            <li v-for="(item,index) in hotList"
+                :key="index"
+                @click="selectHotList(item)"
+                class="item">
+              <div class="icon">
+                <div class="gradients"></div>
+                <p class="play-count">
+                  <i class="fa fa-headphones"> {{Math.floor(item.accessnum / 10000)}}万</i>
+                </p>
+                <i class="iconfont icon-play"></i>
+                <img v-lazy="item.picUrl">
+              </div>
+              <div class="text">
+                <p class="name">{{item.songListDesc}}</p>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div v-show="!discList.length"
+      <div v-show="!list.length"
            class="loading-wrapper">
         <loading></loading>
       </div>
@@ -69,7 +91,13 @@ export default {
   data () {
     return {
       banners: [],
-      discList: []
+      discList: [],
+      hotList: []
+    }
+  },
+  computed: {
+    list () {
+      return this.discList.concat(this.hotList)
     }
   },
   created () {
@@ -102,10 +130,18 @@ export default {
       })
       this.setDisc(list)
     },
+    selectHotList (list) {
+      this.$router.push({
+        path: `/recommend/${list.id}`
+      })
+      this.setDisc(list)
+    },
     _getRecommend () {
       getRecommend().then(res => {
         if (res.code === ERR_OK) {
           this.banners = res.data.slider
+          this.hotList = res.data.songList
+          // console.log(this.hotList)
           // console.log(this.banners)
         }
       })
