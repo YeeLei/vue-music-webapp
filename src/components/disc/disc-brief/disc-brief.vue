@@ -27,7 +27,7 @@
                 <i :style="iconStyle"
                    v-show="brief.ifpicurl"></i>
               </span>
-              <span class="author-name">音乐情话馆</span>
+              <span class="author-name">{{brief.nick}}</span>
             </div>
             <ul class="tags">
               <li v-for="(tag,index) in brief.tags"

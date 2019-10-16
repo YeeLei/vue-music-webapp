@@ -17,6 +17,7 @@ export default class Song {
     album,
     albumdesc,
     duration,
+    type,
     isonly,
     image,
     url
@@ -28,6 +29,7 @@ export default class Song {
     this.album = album
     this.albumdesc = albumdesc
     this.duration = duration
+    this.type = type
     this.isonly = isonly
     this.image = image
     this.url = url
@@ -60,6 +62,7 @@ export function createSong (musicData) {
     album: musicData.albumname,
     albumdesc: musicData.albumdesc,
     duration: musicData.interval,
+    type: musicData.songtype,
     isonly: musicData.isonly,
     image: `https://y.gtimg.cn/music/photo_new/T002R300x300M000${musicData.albummid}.jpg?max_age=2592000`,
     url: musicData.url

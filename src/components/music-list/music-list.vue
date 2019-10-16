@@ -14,7 +14,8 @@
       <div class="play-wrapper">
         <div class="play"
              v-show="songs.length > 0"
-             ref="playBtn">
+             ref="playBtn"
+             @click="random">
           <i class="iconfont icon-random-play"></i>
           <span class="play-text">随机播放全部</span>
         </div>
@@ -33,7 +34,9 @@
             class="list"
             ref="list">
       <div class="song-list-wrapper">
-        <song-list :songs="songs"></song-list>
+        <song-list :songs="songs"
+                   @selectSong="selectSong">
+        </song-list>
       </div>
     </scroll>
     <div class="loading-container"
@@ -48,6 +51,9 @@ import Scroll from 'base/scroll/scroll'
 import SongList from 'base/song-list/song-list'
 import Loading from 'base/loading/loading'
 import { prefixStyle } from 'common/js/dom'
+import { getSongInfo } from 'api/song'
+import { ERR_OK } from 'api/config'
+import { mapMutations, mapActions } from 'vuex'
 
 const OFFSET_TOP = 20
 const RESERVED_HEIGHT = 40
@@ -100,7 +106,32 @@ export default {
     },
     back () {
       this.$router.back()
-    }
+    },
+    selectSong (song, index) {
+      // 保存点击的当前歌曲的信息
+      this._getSongInfo(song.type, song.mid, song.id)
+      this.selectPlay({
+        list: this.songs,
+        index
+      })
+    },
+    random () {
+      this.randomPlay({
+        list: this.songs
+      })
+    },
+    _getSongInfo (type, mid, id) {
+      getSongInfo(type, mid, id).then(res => {
+        if (res.code === ERR_OK) {
+          const songinfo = res.songinfo.data
+          this.setSongInfo(songinfo)
+        }
+      })
+    },
+    ...mapActions(['selectPlay', 'randomPlay']),
+    ...mapMutations({
+      setSongInfo: 'SET_SONGINFO'
+    })
   },
   watch: {
     scrollY (newY) {

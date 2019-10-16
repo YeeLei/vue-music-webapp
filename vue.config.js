@@ -45,6 +45,21 @@ module.exports = {
         })
       })
 
+      app.get('/api/getSongInfo', function (req, res) {
+        const url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
+        axios.get(url, {
+          headers: {
+            referer: 'https://u.y.qq.com/',
+            host: 'u.y.qq.com'
+          },
+          params: req.query
+        }).then((response) => {
+          res.json(response.data)
+        }).catch((e) => {
+          console.log(e)
+        })
+      })
+
       app.get('/api/lyric', function (req, res) {
         const url = 'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg'
 

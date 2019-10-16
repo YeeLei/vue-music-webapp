@@ -11,6 +11,36 @@ import {
 
 const debug = process.env.NODE_ENV !== 'production'
 
+// 获取歌曲相关简介
+export function getSongInfo (type, mid, id) {
+  const url = debug ? '/api/getSongInfo' : 'http://www.yeelei.top/music/api/getSongInfo'
+
+  const data = Object.assign({}, commonParams, {
+    platform: 'yqq.json',
+    hostUin: 0,
+    needNewCode: 0,
+    data: {
+      'comm': {
+        'ct': 24,
+        'cv': 0
+      },
+      'songinfo': {
+        'method': 'get_song_detail_yqq',
+        'param': {
+          'song_type': type,
+          'song_mid': mid,
+          'song_id': id
+        },
+        'module': 'music.pf_song_detail_svr'
+      }
+    }
+  })
+  return axios.get(url, {
+    params: data
+  }).then((res) => {
+    return Promise.resolve(res.data)
+  })
+}
 // 获取歌词
 export function getLyric (mid) {
   const url = debug ? '/api/lyric' : 'http://www.yeelei.top/music/api/lyric'

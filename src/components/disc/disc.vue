@@ -67,7 +67,8 @@
               ref="list">
         <div class="song-list-wrapper">
           <song-list :songs="songs"
-                     :rank="rank">
+                     :rank="rank"
+                     @selectSong="selectSong">
           </song-list>
         </div>
       </scroll>
@@ -88,15 +89,16 @@ import SongList from 'base/song-list/song-list'
 import Scroll from 'base/scroll/scroll'
 import Loading from 'base/loading/loading'
 import DiscBrief from 'components/disc/disc-brief/disc-brief'
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import { ERR_OK } from 'api/config'
+import { getSongInfo } from 'api/song'
 import { createSong, isValidMusic, processSongUrl } from 'common/js/song'
 import { prefixStyle } from 'common/js/dom'
 
 const OFFSET_TOP = 20
 const RESERVED_HEIGHT = 40
 const transform = prefixStyle('transform')
-const backdrop = prefixStyle('backdrop-filter')
+
 export default {
   data () {
     return {
@@ -150,6 +152,14 @@ export default {
     hideBrief () {
       this.flag = false
     },
+    selectSong (song, index) {
+      // 保存点击的当前歌曲的信息
+      this._getSongInfo(song.type, song.mid, song.id)
+      this.selectPlay({
+        list: this.songs,
+        index
+      })
+    },
     _getSongList () {
       if (!this.disc.dissid) {
         this.$router.push('/recommend')
@@ -162,6 +172,7 @@ export default {
           processSongUrl(this._normalizeSongs(res.cdlist[0].songlist)).then(
             songs => {
               this.songs = songs
+              // console.log(this.songs)
             }
           )
         }
@@ -176,9 +187,19 @@ export default {
       })
       return ret
     },
+    _getSongInfo (type, mid, id) {
+      getSongInfo(type, mid, id).then(res => {
+        if (res.code === ERR_OK) {
+          const songinfo = res.songinfo.data
+          this.setSongInfo(songinfo)
+        }
+      })
+    },
     ...mapMutations({
-      setBrief: 'SET_BRIEF'
-    })
+      setBrief: 'SET_BRIEF',
+      setSongInfo: 'SET_SONGINFO'
+    }),
+    ...mapActions(['selectPlay'])
   },
   watch: {
     scrollY (newY) {
@@ -194,10 +215,8 @@ export default {
         scale = 1 + percent
         zIndex = 100
       } else {
-        blur = Math.min(20 * percent, 20)
+        blur = Math.min(20, 20 * percent)
       }
-      // backdrop 针对ios设置模糊渐变效果
-      this.$refs.filter.style[backdrop] = `blur(${blur}px)`
 
       // 向上滚动,固定header
       if (newY < this.minTranslateY) {
@@ -284,8 +303,6 @@ export default {
       left: 0;
       width: 100%;
       height: 100%;
-      background: #000;
-      opacity: 0.2;
     }
   }
   .detail {

@@ -1,17 +1,19 @@
 <template>
   <div class="song-list">
     <div class="random-play">
-      <i class="iconfont icon-random-play"></i>
+      <i class="iconfont icon-random-play"
+         @click="play"></i>
       <span class="text">播放全部</span>
       <span class="count">(共{{count}}首)</span>
     </div>
     <ul>
       <li v-for="(song,index) in songs"
           :key="index"
+          @click="selectSong(song,index)"
           class="item">
         <div class="rank"
              v-show="rank">
-          <span class="icon icon0">{{index+1}}</span>
+          <span class="icon">{{index+1}}</span>
         </div>
         <div class="content">
           <h2 class="name">{{song.name}}</h2>
@@ -32,6 +34,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   props: {
     songs: {
@@ -62,7 +65,17 @@ export default {
         return `${song.singer} · ${song.album} · ${song.albumdesc}`
       }
       return `${song.singer} · ${song.album}`
-    }
+    },
+    selectSong (song, index) {
+      // 选择播放的歌曲
+      this.$emit('selectSong', song, index)
+    },
+    play () {
+      this.sequencePlay({
+        list: this.songs
+      })
+    },
+    ...mapActions(['sequencePlay'])
   }
 }
 </script>
