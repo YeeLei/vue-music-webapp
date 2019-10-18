@@ -1,12 +1,13 @@
 <template>
   <transition name="fade">
     <div class="disc-brief"
-         v-show="flag">
+         v-show="flag"
+         ref="disc">
       <div class="bg-image"
            :style="bgStyle">
       </div>
-      <div class="disc-brief-wrapper"
-           ref="discBrief">
+      <scroll class="disc-brief-wrapper"
+              ref="scroll">
         <div>
           <div class="header">
             <div class="back"
@@ -41,16 +42,18 @@
             </p>
           </div>
         </div>
-      </div>
+      </scroll>
     </div>
   </transition>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import BScroll from 'better-scroll'
+import scroll from 'base/scroll/scroll'
+import { playlistMixin } from 'common/js/mixin'
 
 export default {
+  mixins: [playlistMixin],
   props: {
     flag: {
       type: Boolean,
@@ -68,18 +71,26 @@ export default {
   },
   mounted () {
     // 初始化BScroll
-    this.$nextTick(() => {
-      if (!this.scroll) {
-        this.scroll = new BScroll(this.$refs.discBrief)
-      } else {
-        this.scroll.refresh()
-      }
-    })
+    // this.$nextTick(() => {
+    //   if (!this.scroll) {
+    //     this.scroll = new BScroll(this.$refs.discBrief)
+    //   } else {
+    //     this.scroll.refresh()
+    //   }
+    // })
   },
   methods: {
     back () {
       this.$emit('back')
+    },
+    handlePlaylist (playlist) {
+      const bottom = playlist.length ? '50px' : ''
+      this.$refs.disc.style.bottom = bottom
+      this.$refs.scroll.refresh()
     }
+  },
+  components: {
+    scroll
   }
 }
 </script>

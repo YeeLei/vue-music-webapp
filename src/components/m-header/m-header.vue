@@ -4,9 +4,11 @@
     <div class="mine">
       <i class="iconfont icon-list"></i>
     </div>
-    <div class="search">
+    <router-link to="/search"
+                 class="search"
+                 tag="div">
       <i class="iconfont icon-search"></i>
-    </div>
+    </router-link>
   </div>
 </template>
 

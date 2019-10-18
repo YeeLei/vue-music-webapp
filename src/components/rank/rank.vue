@@ -1,35 +1,95 @@
 <template>
-  <div class="rank">
+  <div class="rank"
+       ref="rank">
     <scroll class="top-list"
-            :data="topList">
-      <ul>
-        <li v-for="(item,index) in topList"
-            :key="index"
-            @click="selectItem(item)"
-            class="item">
-          <ul class="songlist">
-            <h2>{{item.topTitle}}</h2>
-            <li class="song"
-                v-for="(song,index) in item.songList"
-                :key="index">
-              <span class="song-num">{{index + 1}}.</span>
-              <span>{{song.songname}} </span>
-              <span class="sub-name"> - {{song.singername}}</span>
-            </li>
-          </ul>
-          <div class="icon">
-            <img v-lazy="item.picUrl"
-                 width="100"
-                 height="100">
-          </div>
-        </li>
-      </ul>
-      <div v-show="!topList.length"
-           class="loading-wrapper">
-        <loading></loading>
+            :data="topList"
+            ref="scroll">
+      <div>
+        <!-- 巅峰榜 -->
+        <h2 class="title">巅峰榜</h2>
+        <ul class="top-wrapper"
+            v-if="this.topList[0]">
+          <li v-for="(item,index) in this.topList[0].toplist"
+              :key="index"
+              @click="selectItem(item)"
+              class="item">
+            <ul class="songlist">
+              <h2>{{item.title}}</h2>
+              <li class="song"
+                  v-for="(song,index) in item.song"
+                  :key="index">
+                <span class="song-num">{{index + 1}}.</span>
+                <span>{{song.title}} </span>
+                <span class="sub-name"> - {{song.singerName}}</span>
+              </li>
+            </ul>
+            <div class="icon">
+              <img v-lazy="item.frontPicUrl"
+                   width="100"
+                   height="100">
+            </div>
+          </li>
+        </ul>
+        <!-- 地区榜 -->
+        <h2 class="title are-title">地区榜</h2>
+        <ul class="area-wrapper"
+            v-if="this.topList[1]">
+          <li v-for="(area,index) in this.topList[1].toplist"
+              :key="index"
+              @click="selectItem(area)"
+              class="area">
+            <div class="icon">
+              <div class="gradients"></div>
+              <p class="play-count">
+                <i class="fa fa-headphones"> {{Math.floor(area.listenNum / 10000)}}万</i>
+              </p>
+              <i class="iconfont icon-play"></i>
+              <img v-lazy="area.frontPicUrl">
+            </div>
+          </li>
+        </ul>
+        <!-- 地区榜 -->
+        <h2 class="title">特色榜</h2>
+        <ul class="area-wrapper"
+            v-if="this.topList[2]">
+          <li v-for="(area,index) in this.topList[2].toplist.slice(0,9)"
+              :key="index"
+              @click="selectItem(area)"
+              class="area">
+            <div class="icon">
+              <div class="gradients"></div>
+              <p class="play-count">
+                <i class="fa fa-headphones"> {{Math.floor(area.listenNum / 10000)}}万</i>
+              </p>
+              <i class="iconfont icon-play"></i>
+              <img v-lazy="area.frontPicUrl">
+            </div>
+          </li>
+        </ul>
+        <!-- 地区榜 -->
+        <h2 class="title">全球榜</h2>
+        <ul class="area-wrapper"
+            v-if="this.topList[3]">
+          <li v-for="(area,index) in this.topList[3].toplist"
+              :key="index"
+              @click="selectItem(area)"
+              class="area">
+            <div class="icon">
+              <p class="play-count">
+                <i class="fa fa-headphones"> {{Math.floor(area.listenNum / 10000)}}万</i>
+              </p>
+              <i class="iconfont icon-play"></i>
+              <img v-lazy="area.frontPicUrl">
+            </div>
+          </li>
+        </ul>
+        <div v-show="!topList.length"
+             class="loading-wrapper">
+          <loading></loading>
+        </div>
       </div>
+      <router-view></router-view>
     </scroll>
-    <router-view></router-view>
   </div>
 </template>
 
@@ -39,7 +99,10 @@ import Loading from 'base/loading/loading'
 import { getTopList } from 'api/rank'
 import { ERR_OK } from 'api/config'
 import { mapMutations } from 'vuex'
+import { playlistMixin } from 'common/js/mixin'
+
 export default {
+  mixins: [playlistMixin],
   data () {
     return {
       topList: []
@@ -51,14 +114,19 @@ export default {
   methods: {
     selectItem (item) {
       this.$router.push({
-        path: `/rank/${item.listenCount}`
+        path: `/rank/${item.listenNum}`
       })
       this.setTopList(item)
+    },
+    handlePlaylist (playlist) {
+      const bottom = playlist.length ? '50px' : ''
+      this.$refs.rank.style.bottom = bottom
+      this.$refs.scroll.refresh()
     },
     _getTopList () {
       getTopList().then(res => {
         if (res.code === ERR_OK) {
-          this.topList = res.data.topList
+          this.topList = res.req_0.data.group
           // console.log(this.topList)
         }
       })
@@ -85,11 +153,21 @@ export default {
   .top-list {
     height: 100%;
     overflow: hidden;
-    ul {
-      padding: 20px 0;
+    .title {
+      color: #000;
+      font-size: $font-size-large;
+      font-weight: 400;
+      padding: 20px 18px 0;
+      box-sizing: border-box;
+      &.are-title {
+        padding-top: 0;
+      }
+    }
+    .top-wrapper {
+      padding: 10px 0;
       .item {
         display: flex;
-        margin: 0 20px 20px 20px;
+        margin: 0 15px 20px 15px;
         height: 100px;
         border-radius: 5px;
         overflow: hidden;
@@ -97,7 +175,7 @@ export default {
           padding-top: 0;
         }
         &:last-child {
-          padding-bottom: 20px;
+          padding-bottom: 0;
         }
         .icon {
           flex: 0 0 100px;
@@ -134,6 +212,41 @@ export default {
             .sub-name {
               color: $color-text-g;
             }
+          }
+        }
+      }
+    }
+    .area-wrapper {
+      margin-top: 10px;
+      text-align: center;
+      .area {
+        display: inline-block;
+        position: relative;
+        box-sizing: border-box;
+        width: 31%;
+        padding: 0 1%;
+        .icon {
+          position: relative;
+          display: inline-block;
+          width: 100%;
+          margin-bottom: 5px;
+          img {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+          }
+          .play-count {
+            position: absolute;
+            bottom: 10px;
+            left: 8px;
+            font-size: $font-size-small-s;
+            color: $color-theme-l;
+          }
+          .iconfont {
+            position: absolute;
+            bottom: 7px;
+            right: 5px;
+            color: #fff;
           }
         }
       }

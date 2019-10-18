@@ -1,5 +1,6 @@
 <template>
-  <div class="music-list">
+  <div class="music-list"
+       ref="musicList">
     <div class="header">
       <div class="back"
            @click="back">
@@ -29,6 +30,7 @@
              @click="detail"></i>
         </p>
       </div>
+      <slot></slot>
       <div class="filter"
            ref="filter">
       </div>
@@ -63,6 +65,7 @@ import { prefixStyle } from 'common/js/dom'
 import { getSongInfo } from 'api/song'
 import { ERR_OK } from 'api/config'
 import { mapMutations, mapActions } from 'vuex'
+import { playlistMixin } from 'common/js/mixin'
 
 const OFFSET_TOP = 20
 const RESERVED_HEIGHT = 40
@@ -70,6 +73,7 @@ const transform = prefixStyle('transform')
 const backdrop = prefixStyle('backdrop-filter')
 
 export default {
+  mixins: [playlistMixin],
   props: {
     songs: {
       type: Array,
@@ -139,6 +143,11 @@ export default {
     },
     detail () {
       this.$emit('detailList')
+    },
+    handlePlaylist (playlist) {
+      const bottom = playlist.length ? '50px' : ''
+      this.$refs.musicList.style.bottom = bottom
+      this.$refs.list.refresh()
     },
     _getSongInfo (type, mid, id) {
       getSongInfo(type, mid, id).then(res => {

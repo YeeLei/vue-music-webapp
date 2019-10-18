@@ -1,5 +1,6 @@
 <template>
-  <div class="singer">
+  <div class="singer"
+       ref="singer">
     <list-view :singers="singers"
                @selectItem="selectSinger">
     </list-view>
@@ -13,10 +14,12 @@ import { getSingerList } from 'api/singer'
 import { ERR_OK } from 'api/config'
 import Singer from 'common/js/singer'
 import { mapMutations } from 'vuex'
+import { playlistMixin } from 'common/js/mixin'
 
 const HOT_TITLE = '热门'
 const HOT_SINGER_LEN = 10
 export default {
+  mixins: [playlistMixin],
   data () {
     return {
       singers: []
@@ -34,6 +37,10 @@ export default {
       })
       // 操作mutaion,设置singer保存到state上
       this.setSinger(singer)
+    },
+    handlePlaylist (playlist) {
+      const bottom = playlist.length > 0 ? '50px' : ''
+      this.$refs.singer.style.bottom = bottom
     },
     _getSingerList () {
       getSingerList().then(res => {
@@ -107,7 +114,7 @@ export default {
 <style lang="scss" scoped>
 .singer {
   position: fixed;
-  top: 87px;
+  top: 88px;
   bottom: 0;
   width: 100%;
 }

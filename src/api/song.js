@@ -36,7 +36,7 @@ export function getSongInfo (type, mid, id) {
     }
   })
   return axios.get(url, {
-    params: data
+    data
   }).then((res) => {
     return Promise.resolve(res.data)
   })

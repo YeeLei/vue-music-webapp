@@ -55,11 +55,13 @@
 import Scroll from 'base/scroll/scroll'
 import { getData } from 'common/js/dom'
 import Loading from 'base/loading/loading'
+import { playlistMixin } from 'common/js/mixin'
 
 const ANCHOR_HEIGHT = 18
 const TITLE_HEIGHT = 25
 
 export default {
+  mixins: [playlistMixin],
   created () {
     // 保存touch对象
     this.touch = {}
@@ -125,6 +127,9 @@ export default {
     scroll (pos) {
       // 获取Y轴方向上的滚动距离
       this.scrollY = pos.y
+    },
+    handlePlaylist (playlist) {
+      this.$refs.listview.refresh()
     },
     _scrollTo (index) {
       if (index === null) {
@@ -208,6 +213,9 @@ export default {
   overflow: hidden;
   .list-group {
     padding-bottom: 30px;
+    &:last-child {
+      padding-bottom: 0;
+    }
     .list-group-title {
       height: 25px;
       line-height: 25px;

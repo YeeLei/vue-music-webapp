@@ -26,6 +26,15 @@ export default {
       type: Boolean,
       default: false
     },
+    pullup: {
+      // 是否开启下拉刷新
+      type: Boolean,
+      default: false
+    },
+    beforeScroll: {
+      type: Boolean,
+      default: false
+    },
     refreshDelay: {
       type: Number,
       default: 20
@@ -49,6 +58,20 @@ export default {
         this.scroll.on('scroll', pos => {
           // pos:滚动的实时坐标
           me.$emit('scroll', pos)
+        })
+      }
+      if (this.pullup) {
+        // 监听滚动到底部事件
+        this.scroll.on('scrollEnd', () => {
+          // 如果滚动的Y轴方向上的距离小于等于scroll组件最大Y轴方向上距离+50,则触发scrollToEnd事件
+          if (this.scroll.y <= (this.scroll.maxScrollY + 50)) {
+            this.$emit('scrollToEnd')
+          }
+        })
+      }
+      if (this.beforeScroll) {
+        this.scroll.on('beforeScrollStart', () => {
+          this.$emit('beforeScroll')
         })
       }
     },

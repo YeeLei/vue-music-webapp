@@ -1,7 +1,8 @@
 <template>
   <transition appear
               name="slide">
-    <div class="disc">
+    <div class="disc"
+         ref="disc">
       <div class="header">
         <div class="back"
              @click="back">
@@ -9,13 +10,6 @@
         </div>
         <h1 class="title"
             ref="title">{{title}}</h1>
-      </div>
-      <div class="bg-image"
-           ref="bgImage"
-           :style="bgStyle">
-        <div class="filter"
-             ref="filter">
-        </div>
       </div>
       <div class="detail"
            ref="detail">
@@ -56,6 +50,13 @@
           </div>
         </div>
       </div>
+      <div class="bg-image"
+           ref="bgImage"
+           :style="bgStyle">
+        <div class="filter"
+             ref="filter">
+        </div>
+      </div>
       <div class="bg-layer"
            ref="bgLayer">
       </div>
@@ -94,12 +95,14 @@ import { ERR_OK } from 'api/config'
 import { getSongInfo } from 'api/song'
 import { createSong, isValidMusic, processSongUrl } from 'common/js/song'
 import { prefixStyle } from 'common/js/dom'
+import { playlistMixin } from 'common/js/mixin'
 
 const OFFSET_TOP = 20
 const RESERVED_HEIGHT = 40
 const transform = prefixStyle('transform')
 
 export default {
+  mixins: [playlistMixin],
   data () {
     return {
       rank: true,
@@ -160,6 +163,11 @@ export default {
         index
       })
     },
+    handlePlaylist (playlist) {
+      const bottom = playlist.length ? '50px' : ''
+      this.$refs.disc.style.bottom = bottom
+      this.$refs.list.refresh()
+    },
     _getSongList () {
       const id = this.disc.dissid ? this.disc.dissid : this.disc.id
       if (!id) {
@@ -212,11 +220,12 @@ export default {
       this.$refs.bgLayer.style[transform] = `translate3d(0,${translateY}px,0)`
       // 下拉图片放大
       const percent = Math.abs(newY / this.imageHeight)
+
       if (newY > 0) {
         scale = 1 + percent
         zIndex = 100
       } else {
-        blur = Math.min(20, 20 * percent)
+        blur = Math.min(17, 17 * percent)
       }
 
       // 向上滚动,固定header

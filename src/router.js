@@ -10,6 +10,8 @@ const Rank = () => import('components/rank/rank')
 const SingerDetail = () => import('components/singer-detail/singer-detail')
 const Disc = () => import('components/disc/disc')
 const TopList = () => import('components/top-list/top-list')
+const Search = () => import('components/search/search')
+
 export default new Router({
   routes: [{
     path: '/',
@@ -46,6 +48,17 @@ export default new Router({
     children: [{
       path: ':id',
       component: TopList
+    }]
+  },
+  {
+    path: '/search',
+    component: Search,
+    meta: {
+      index: 4
+    },
+    children: [{
+      path: ':id',
+      component: SingerDetail
     }]
   }
   ]

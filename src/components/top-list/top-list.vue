@@ -62,11 +62,11 @@ export default {
       this.flag = false
     },
     _getMusicList () {
-      if (!this.topList.id) {
+      if (!this.topList.topId) {
         this.$router.push('/rank')
         return
       }
-      getMusicList(this.topList.id).then((res) => {
+      getMusicList(this.topList.topId).then((res) => {
         if (res.code === ERR_OK) {
           this.songList = res
           processSongUrl(this._normalizeSongs(res.songlist)).then((songs) => {

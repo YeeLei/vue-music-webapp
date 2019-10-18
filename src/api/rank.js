@@ -3,17 +3,27 @@ import {
   commonParams,
   options
 } from './config'
+import axios from 'axios'
+const debug = process.env.NODE_ENV !== 'production'
 
 export function getTopList () {
-  const url = 'https://c.y.qq.com/v8/fcg-bin/fcg_myqq_toplist.fcg'
-
-  const data = Object.assign({}, commonParams, {
-    uin: 0,
-    needNewCode: 1,
-    platform: 'h5'
+  const url = debug ? '/api/getTopList' : 'http://www.yeelei.top/music/api/getTopList'
+  return axios.post(url, {
+    'req_0': {
+      'module': 'musicToplist.ToplistInfoServer',
+      'method': 'GetAll',
+      'param': {}
+    },
+    'comm': {
+      'g_tk': 5381,
+      'uin': 0,
+      'format': 'json',
+      'ct': 23,
+      'cv': 0
+    }
+  }).then((res) => {
+    return Promise.resolve(res.data)
   })
-
-  return jsonp(url, data, options)
 }
 
 export function getMusicList (topid) {

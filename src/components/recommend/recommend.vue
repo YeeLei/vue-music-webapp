@@ -86,8 +86,10 @@ import Loading from 'base/loading/loading'
 import { getRecommend, getDiscList } from 'api/recommend'
 import { ERR_OK } from 'api/config'
 import { mapMutations } from 'vuex'
+import { playlistMixin } from 'common/js/mixin'
 
 export default {
+  mixins: [playlistMixin],
   data () {
     return {
       banners: [],
@@ -124,7 +126,6 @@ export default {
       }
     },
     selectDiscList (list) {
-      // console.log(list)
       this.$router.push({
         path: `/recommend/${list.dissid}`
       })
@@ -135,6 +136,11 @@ export default {
         path: `/recommend/${list.id}`
       })
       this.setDisc(list)
+    },
+    handlePlaylist (playlist) {
+      const bottom = playlist.length ? '50px' : ''
+      this.$refs.recommend.style.bottom = bottom
+      this.$refs.scroll.refresh()
     },
     _getRecommend () {
       getRecommend().then(res => {
