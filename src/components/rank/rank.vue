@@ -128,7 +128,7 @@ export default {
       this.setTopList(item)
     },
     handlePlaylist (playlist) {
-      const bottom = playlist.length ? '50px' : ''
+      const bottom = playlist.length ? '40px' : ''
       this.$refs.rank.style.bottom = bottom
       this.$refs.scroll.refresh()
     },

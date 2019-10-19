@@ -7,8 +7,8 @@
           :key="item"
           @click="selectItem(item)"
           class="search-item">
-        <span class="num">{{index+1}}、</span>
-        <span class="text">{{item}}</span>
+        <span class="num">{{index+1}}</span>
+        <span class="text">、{{item}}</span>
         <span class="icon"
               @click.stop="deleteOne(item)">
           <i class="iconfont icon-delete"></i>

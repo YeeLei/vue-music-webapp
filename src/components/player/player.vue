@@ -9,10 +9,7 @@
       <!-- 全屏播放器 -->
       <div class="normal-player"
            v-show="fullScreen"
-           ref="normalPlayer"
-           @touchstart.prevent="normalTouchStart"
-           @touchmove.prevent="normalTouchMove"
-           @touchend="normalTouchEnd">
+           ref="normalPlayer">
         <!-- 播放器背景 -->
         <div class="background">
           <img :src="currentSong.image"
@@ -20,7 +17,10 @@
                height="100%">
         </div>
         <!-- top -->
-        <div class="top">
+        <div class="top"
+             @touchstart.prevent="normalTouchStart"
+             @touchmove.prevent="normalTouchMove"
+             @touchend="normalTouchEnd">
           <div class="back"
                @click="back">
             <i class="iconfont icon-arrow-down"></i>
@@ -130,8 +130,8 @@
         <div class="icon">
           <div class="imgWrapper"
                ref="miniWrapper">
-            <img width="40"
-                 height="40"
+            <img width="45"
+                 height="45"
                  :src="currentSong.image"
                  :class="cdCls">
           </div>
@@ -233,10 +233,16 @@ export default {
     enter (el, done) {
       let animation = {
         0: {
-          transform: `translate3d(0px,100%,0)`
+          transform: `translate3d(0,100%,0)`
         },
-        60: {
+        25: {
+          transform: `translate3d(0,75%,0)`
+        },
+        50: {
           transform: `translate3d(0,50%,0)`
+        },
+        75: {
+          transform: `translate3d(0,25%,0)`
         },
         100: {
           transform: `translate3d(0,0,0)`
@@ -256,7 +262,7 @@ export default {
     },
     afterEnter () {
       animations.unregisterAnimation('move')
-      this.$refs.cdWrapper.style.animation = ''
+      this.$refs.normalPlayer.style.animation = ''
     },
     leave (el, done) {
       this.$refs.normalPlayer.style.transition = 'all 0.4s'
@@ -292,11 +298,7 @@ export default {
         this.normalTouch.moved = true
       }
       const top = this.fullScreen ? 0 : window.innerHeight
-      // const height = parseInt(top + deltaY)
-      // console.log(Math.min(top + deltaY, window.innerWidth))
       const offsetHeight = Math.max(0, Math.min(window.innerHeight, top + deltaY))
-      // console.log(offsetHeight)
-      // console.log(this.normalTouch.percent)
 
       this.normalTouch.percent = Math.abs(offsetHeight / window.innerHeight)
       this.$refs.normalPlayer.style[transform] = `translate3d(0,${offsetHeight}px,0)`
@@ -830,11 +832,9 @@ export default {
     height: 40px;
     background: $color-text-llll;
     .icon {
-      width: 45px;
-      height: 45px;
+      width: 50px;
+      height: 50px;
       text-align: center;
-      bottom: 5px;
-      left: 2px;
       margin-right: 10px;
       .imgWrapper {
         height: 100%;
@@ -888,7 +888,7 @@ export default {
       .icon-playlist {
         display: block;
         margin-top: 5px;
-        font-size: 25px;
+        font-size: 22px;
         color: $color-theme;
       }
     }

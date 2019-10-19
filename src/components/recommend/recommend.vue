@@ -138,7 +138,7 @@ export default {
       this.setDisc(list)
     },
     handlePlaylist (playlist) {
-      const bottom = playlist.length ? '50px' : ''
+      const bottom = playlist.length ? '40px' : ''
       this.$refs.recommend.style.bottom = bottom
       this.$refs.scroll.refresh()
     },
