@@ -2,12 +2,12 @@ const path = require('path')
 const bodyParser = require('body-parser')
 const axios = require('axios')
 
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, dir)
 }
 module.exports = {
   devServer: {
-    before (app) {
+    before(app) {
       app.get('/api/getDiscList', function (req, res) {
         const url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg'
         axios.get(url, {
@@ -129,7 +129,7 @@ module.exports = {
       })
     }
   },
-  chainWebpack (config) {
+  chainWebpack(config) {
     config.resolve.alias
       .set('components', resolve('src/components'))
       .set('common', resolve('src/common'))

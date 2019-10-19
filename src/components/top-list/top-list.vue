@@ -30,8 +30,8 @@ export default {
       return this.topList.topTitle
     },
     bgImage () {
-      if (this.songs.length) {
-        return this.songs[0].image
+      if (this.topList) {
+        return this.topList.mbFrontPicUrl
       }
       return ''
     },

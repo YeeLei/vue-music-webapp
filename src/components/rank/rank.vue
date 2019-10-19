@@ -6,7 +6,8 @@
             ref="scroll">
       <div>
         <!-- 巅峰榜 -->
-        <h2 class="title">巅峰榜</h2>
+        <h2 class="title"
+            v-if="this.topList[0]">{{this.topList[0].groupName}}</h2>
         <ul class="top-wrapper"
             v-if="this.topList[0]">
           <li v-for="(item,index) in this.topList[0].toplist"
@@ -24,14 +25,20 @@
               </li>
             </ul>
             <div class="icon">
-              <img v-lazy="item.frontPicUrl"
+              <p class="update-tip">{{item.updateTips}}</p>
+              <img v-lazy="item.mbFrontPicUrl"
                    width="100"
                    height="100">
+              <p class="play-count">
+                <i class="fa fa-headphones">{{Math.floor(item.listenNum / 10000)}}万</i>
+              </p>
+              <i class="iconfont icon-play"></i>
             </div>
           </li>
         </ul>
         <!-- 地区榜 -->
-        <h2 class="title are-title">地区榜</h2>
+        <h2 class="title are-title"
+            v-if="this.topList[1]">{{this.topList[1].groupName}}</h2>
         <ul class="area-wrapper"
             v-if="this.topList[1]">
           <li v-for="(area,index) in this.topList[1].toplist"
@@ -48,8 +55,9 @@
             </div>
           </li>
         </ul>
-        <!-- 地区榜 -->
-        <h2 class="title">特色榜</h2>
+        <!-- 特色榜 -->
+        <h2 class="title"
+            v-if="this.topList[2]">{{this.topList[2].groupName}}</h2>
         <ul class="area-wrapper"
             v-if="this.topList[2]">
           <li v-for="(area,index) in this.topList[2].toplist.slice(0,9)"
@@ -66,8 +74,9 @@
             </div>
           </li>
         </ul>
-        <!-- 地区榜 -->
-        <h2 class="title">全球榜</h2>
+        <!-- 全球榜 -->
+        <h2 class="title"
+            v-if="this.topList[3]">{{this.topList[3].groupName}}</h2>
         <ul class="area-wrapper"
             v-if="this.topList[3]">
           <li v-for="(area,index) in this.topList[3].toplist"
@@ -178,9 +187,31 @@ export default {
           padding-bottom: 0;
         }
         .icon {
+          position: relative;
           flex: 0 0 100px;
           width: 100px;
           height: 100px;
+          letter-spacing: 1px;
+          .update-tip {
+            position: absolute;
+            top: 10px;
+            right: 5px;
+            color: $color-text-llll;
+            font-size: $font-size-small-s;
+          }
+          .play-count {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            font-size: $font-size-small-s;
+            color: $color-theme-l;
+          }
+          .icon-play {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            color: $color-text-llll;
+          }
         }
         .songlist {
           flex: 1;
@@ -190,7 +221,7 @@ export default {
           padding: 0 10px;
           height: 100px;
           overflow: hidden;
-          background: #fff;
+          background: $color-text-llll;
           color: $color-text;
           font-size: $font-size-small;
           h2 {
@@ -246,7 +277,7 @@ export default {
             position: absolute;
             bottom: 7px;
             right: 5px;
-            color: #fff;
+            color: $color-text-llll;
           }
         }
       }
