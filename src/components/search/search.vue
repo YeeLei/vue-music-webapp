@@ -140,6 +140,7 @@ export default {
     },
     ...mapActions([
       'saveSearchHistory',
+      'deleteSearchHistory',
       'clearSearchHistory'
     ])
   },

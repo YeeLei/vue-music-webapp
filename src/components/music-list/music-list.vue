@@ -46,6 +46,7 @@
             ref="list">
       <div class="song-list-wrapper">
         <song-list :songs="songs"
+                   :rank="rank"
                    @selectSong="selectSong">
         </song-list>
       </div>
@@ -88,6 +89,10 @@ export default {
     bgImage: {
       type: String,
       default: ''
+    },
+    rank: {
+      type: Boolean,
+      default: false
     },
     playBtn: {
       type: Boolean,

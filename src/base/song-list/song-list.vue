@@ -13,7 +13,8 @@
           class="item">
         <div class="rank"
              v-show="rank">
-          <span class="icon">{{index+1}}</span>
+          <span class="icon"
+                :class="{'active': index < 3}">{{index+1}}</span>
         </div>
         <div class="content">
           <h2 class="name">{{song.name}}</h2>
@@ -130,6 +131,9 @@ export default {
           width: 25px;
           height: 25px;
           background-size: 25px 25px;
+          &.active {
+            color: $color-theme;
+          }
         }
       }
       .content {

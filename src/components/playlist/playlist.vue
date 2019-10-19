@@ -42,8 +42,10 @@
                     <i></i>
                   </div>
                 </span>
-                <span class="like">
-                  <i class="iconfont icon-favorite"></i>
+                <span class="like"
+                      @click.stop="toggleFavorite(item)">
+                  <i class="iconfont"
+                     :class="getFavoriteIcon(item)"></i>
                 </span>
                 <span class="delete"
                       @click.stop="deleteOne(item)">
@@ -154,7 +156,7 @@ export default {
       this.deleteSongList()
       this.hide()
     },
-    ...mapActions(['deleteSong', 'deleteSongList'])
+    ...mapActions(['deleteSong'])
   },
   watch: {
     currentSong (newSong, oldSong) {
@@ -202,10 +204,11 @@ export default {
     left: 0;
     bottom: 0;
     width: 100%;
+    border-radius: 10px;
     background-color: $color-background;
     .list-header {
       position: relative;
-      padding: 20px 30px 10px 20px;
+      padding: 20px 20px 10px 20px;
       @include border-bottom-1px(#ccc);
       .title {
         display: flex;
@@ -237,7 +240,7 @@ export default {
           display: flex;
           align-items: center;
           height: 45px;
-          margin: 0 30px 0 20px;
+          margin-left: 20px;
           @include border-bottom-1px(#ccc);
           overflow: hidden;
           &.list-enter-active,
@@ -360,12 +363,12 @@ export default {
             @include extend-click();
             margin-right: 15px;
             font-size: $font-size-small;
-            color: $color-theme;
             .icon-favorite {
-              color: $color-text;
+              color: $color-theme;
             }
           }
           .delete {
+            margin-right: 21px;
             @include extend-click();
             i {
               font-size: $font-size-medium;

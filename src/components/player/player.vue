@@ -168,7 +168,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import animations from 'create-keyframe-animation'
 import { playMode } from 'common/js/config'
 import ProgressBar from './progress-bar/progress-bar'
@@ -220,7 +220,7 @@ export default {
     ...mapGetters([
       'fullScreen',
       'currentIndex',
-      'favoriteList'
+      'playing'
     ])
   },
   methods: {
@@ -519,36 +519,12 @@ export default {
       this.$refs.middleL.style[transitionDuration] = `${time}ms`
       this.touch.initiated = false
     },
-    getFavoriteIcon (song) {
-      if (this.isFavorite(song)) {
-        return 'icon-favorite'
-      }
-      return 'icon-not-favorite'
-    },
-    toggleFavorite (song) {
-      // 如果当前是收藏的歌曲,则取消收藏
-      if (this.isFavorite(song)) {
-        this.deleteFavoriteList(song)
-      } else {
-        this.saveFavoriteList(song)
-      }
-    },
-    isFavorite (song) {
-      const index = this.favoriteList.findIndex((item) => {
-        return item.id === song.id
-      })
-      return index > -1
-    },
     showPlayList () {
       this.$refs.playlist.show()
     },
     ...mapMutations({
       setFullScreen: 'SET_FULL_SCREEN'
-    }),
-    ...mapActions([
-      'saveFavoriteList',
-      'deleteFavoriteList'
-    ])
+    })
   },
   watch: {
     // 所以需要判断newSong和oldSong 的歌曲id是否一致 或者 newSong为undefined
@@ -576,6 +552,9 @@ export default {
     playing (newPlaying) {
       // console.log(newPlaying)
       // 监听playing状态,控制audio播放状态
+      if (!this.songReady) {
+        return
+      }
       const audio = this.$refs.audio
       this.$nextTick(() => {
         newPlaying ? audio.play() : audio.pause()
