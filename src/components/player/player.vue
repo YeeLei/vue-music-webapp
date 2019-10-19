@@ -1,10 +1,18 @@
 <template>
   <div class="player"
        v-show="playlist.length>0">
-    <transition name="normal">
+    <transition name="normal"
+                @enter="enter"
+                @after-enter="afterEnter"
+                @leave="leave"
+                @after-leave="afterLeave">
       <!-- 全屏播放器 -->
       <div class="normal-player"
-           v-show="fullScreen">
+           v-show="fullScreen"
+           ref="normalPlayer"
+           @touchstart.prevent="normalTouchStart"
+           @touchmove.prevent="normalTouchMove"
+           @touchend="normalTouchEnd">
         <!-- 播放器背景 -->
         <div class="background">
           <img :src="currentSong.image"
@@ -99,7 +107,7 @@
                  class="iconfont">
               </i>
             </div>
-            <div class="icon icon-right"
+            <div class="icon i-right"
                  :class="disableCls">
               <i class="iconfont icon-next"
                  @click="next"></i>
@@ -141,11 +149,13 @@
             </i>
           </progress-circle>
         </div>
-        <div class="control">
+        <div class="control"
+             @click.stop="showPlayList">
           <i class="iconfont icon-playlist"></i>
         </div>
       </div>
     </transition>
+    <play-list ref="playlist"></play-list>
     <audio :src="currentSong.url"
            @playing="ready"
            @error="error"
@@ -159,17 +169,20 @@
 
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
+import animations from 'create-keyframe-animation'
 import { playMode } from 'common/js/config'
 import ProgressBar from './progress-bar/progress-bar'
 import ProgressCircle from './progress-circle/progress-circle'
-import { shuffle } from 'common/js/util'
 import Lyric from 'lyric-parser'
 import Scroll from 'base/scroll/scroll'
+import PlayList from 'components/playlist/playlist'
 import { prefixStyle } from 'common/js/dom'
-
+import { playerMixin } from 'common/js/mixin'
 const transform = prefixStyle('transform')
 const transitionDuration = prefixStyle('transitionDuration')
+
 export default {
+  mixins: [playerMixin],
   data () {
     return {
       songReady: false,
@@ -182,6 +195,7 @@ export default {
     }
   },
   created () {
+    this.normalTouch = {}
     this.touch = {}
   },
   computed: {
@@ -200,24 +214,12 @@ export default {
     percent () {
       return this.currentTime / this.currentSong.duration
     },
-    iconMode () {
-      return this.mode === playMode.sequence
-        ? 'icon-sequence'
-        : this.mode === playMode.loop
-          ? 'icon-loop'
-          : 'icon-random'
-    },
     songName () {
       return `${this.currentSong.name} - ${this.currentSong.singer}`
     },
     ...mapGetters([
-      'playlist',
-      'currentSong',
       'fullScreen',
       'currentIndex',
-      'playing',
-      'mode',
-      'sequenceList',
       'favoriteList'
     ])
   },
@@ -227,6 +229,94 @@ export default {
     },
     open () {
       this.setFullScreen(true)
+    },
+    enter (el, done) {
+      let animation = {
+        0: {
+          transform: `translate3d(0px,100%,0)`
+        },
+        60: {
+          transform: `translate3d(0,50%,0)`
+        },
+        100: {
+          transform: `translate3d(0,0,0)`
+        }
+      }
+
+      animations.registerAnimation({
+        name: 'move',
+        animation,
+        presets: {
+          duration: 300,
+          easing: 'linear'
+        }
+      })
+
+      animations.runAnimation(this.$refs.normalPlayer, 'move', done)
+    },
+    afterEnter () {
+      animations.unregisterAnimation('move')
+      this.$refs.cdWrapper.style.animation = ''
+    },
+    leave (el, done) {
+      this.$refs.normalPlayer.style.transition = 'all 0.4s'
+      // eslint-disable-next-line standard/computed-property-even-spacing
+      this.$refs.normalPlayer.style[
+        transform
+      ] = `translate3d(0px,100%,0)`
+      this.$refs.normalPlayer.addEventListener('transitionend', () => {
+        done()
+      })
+    },
+    afterLeave () {
+      this.$refs.normalPlayer.style.transition = ''
+      this.$refs.normalPlayer.style[transform] = ''
+    },
+    normalTouchStart (e) {
+      this.normalTouch.initiated = true
+      // 用来判断是否是一次移动
+      this.normalTouch.moved = false
+      const normalTouch = e.touches[0]
+      this.normalTouch.startX = normalTouch.pageX
+      this.normalTouch.startY = normalTouch.pageY
+    },
+    normalTouchMove (e) {
+      if (!this.normalTouch.initiated) {
+        return
+      }
+      const touch = e.touches[0]
+      const deltaY = touch.pageY - this.normalTouch.startY
+      // console.log(deltaY)
+
+      if (!this.normalTouch.moved) {
+        this.normalTouch.moved = true
+      }
+      const top = this.fullScreen ? 0 : window.innerHeight
+      // const height = parseInt(top + deltaY)
+      // console.log(Math.min(top + deltaY, window.innerWidth))
+      const offsetHeight = Math.max(0, Math.min(window.innerHeight, top + deltaY))
+      // console.log(offsetHeight)
+      // console.log(this.normalTouch.percent)
+
+      this.normalTouch.percent = Math.abs(offsetHeight / window.innerHeight)
+      this.$refs.normalPlayer.style[transform] = `translate3d(0,${offsetHeight}px,0)`
+      this.$refs.normalPlayer.style[transitionDuration] = 0
+    },
+    normalTouchEnd () {
+      if (!this.normalTouch.moved) {
+        return
+      }
+      let offsetHeight
+      if (this.normalTouch.percent > 0.3) {
+        offsetHeight = window.innerWidth
+        this.setFullScreen(false)
+      } else {
+        offsetHeight = 0
+      }
+      const time = 300
+      this.$refs.normalPlayer.style[transform] = `translate3d(0,${offsetHeight}px,0)`
+      this.$refs.normalPlayer.style[transitionDuration] = `${time}ms`
+      this.normalTouch.initiated = false
     },
     togglePlaying () {
       if (!this.songReady) {
@@ -306,26 +396,6 @@ export default {
       if (this.currentLyric) {
         this.currentLyric.stop()
       }
-    },
-    changeMode () {
-      const mode = (this.mode + 1) % 3
-      this.setPlayMode(mode)
-      let list = null
-      if (mode === playMode.random) {
-        list = shuffle(this.sequenceList)
-      } else {
-        list = this.sequenceList
-      }
-      // 展示提示框显示当前播放状态
-      // this.$refs.topTip.show()
-      this.resetCurrentIndex(list)
-      this.setPlaylist(list)
-    },
-    resetCurrentIndex (list) {
-      let index = list.findIndex(item => {
-        return item.id === this.currentSong.id
-      })
-      this.setCurrentIndex(index)
     },
     updateTime (e) {
       this.currentTime = e.target.currentTime
@@ -410,13 +480,9 @@ export default {
         this.touch.moved = true
       }
       const left = this.currentShow === 'cd' ? 0 : -window.innerWidth
-      const offsetWidth = Math.min(
-        0,
-        Math.max(-window.innerWidth, left + deltaX)
-      )
-      // console.log(offsetWidth)
-
+      const offsetWidth = Math.min(0, Math.max(-window.innerWidth, left + deltaX))
       this.touch.percent = Math.abs(offsetWidth / window.innerWidth)
+      this.$refs.lyricList.$el.style[transform] = `translate3d(${offsetWidth}px,0,0)`
       this.$refs.lyricList.$el.style[transitionDuration] = 0
       this.$refs.middleL.style.opacity = 1 - this.touch.percent
       this.$refs.middleL.style[transitionDuration] = 0
@@ -447,10 +513,7 @@ export default {
         }
       }
       const time = 300
-      // eslint-disable-next-line standard/computed-property-even-spacing
-      this.$refs.lyricList.$el.style[
-        transform
-      ] = `translate3d(${offsetWidth}px,0,0)`
+      this.$refs.lyricList.$el.style[transform] = `translate3d(${offsetWidth}px,0,0)`
       this.$refs.lyricList.$el.style[transitionDuration] = `${time}ms`
       this.$refs.middleL.style.opacity = opacity
       this.$refs.middleL.style[transitionDuration] = `${time}ms`
@@ -476,12 +539,11 @@ export default {
       })
       return index > -1
     },
+    showPlayList () {
+      this.$refs.playlist.show()
+    },
     ...mapMutations({
-      setFullScreen: 'SET_FULL_SCREEN',
-      setPlayingState: 'SET_PLAYING_STATE',
-      setCurrentIndex: 'SET_CURRENT_INDEX',
-      setPlayMode: 'SET_PLAY_MODE',
-      setPlaylist: 'SET_PLAYLIST'
+      setFullScreen: 'SET_FULL_SCREEN'
     }),
     ...mapActions([
       'saveFavoriteList',
@@ -523,7 +585,8 @@ export default {
   components: {
     ProgressBar,
     ProgressCircle,
-    Scroll
+    Scroll,
+    PlayList
   }
 }
 </script>
@@ -561,7 +624,7 @@ export default {
         i {
           display: block;
           padding: 9px;
-          font-size: 30px;
+          font-size: 35px;
           color: $color-text-lll;
         }
       }
@@ -692,7 +755,7 @@ export default {
             color: $color-text-ggg;
           }
           i {
-            font-size: 30px;
+            font-size: 27px;
           }
         }
         .i-m {
@@ -701,19 +764,29 @@ export default {
         .i-left {
           text-align: right;
           margin-top: -3px;
+          i {
+            font-size: 35px;
+          }
         }
         .i-center {
           padding: 0 20px;
           text-align: center;
           i {
-            font-size: 40px;
+            font-size: 45px;
           }
         }
         .i-right {
           text-align: left;
-        }
-        .icon-favorite {
-          color: $color-theme;
+          i {
+            font-size: 35px;
+          }
+          .icon-favorite,
+          .icon-not-favorite {
+            font-size: 25px;
+          }
+          .icon-favorite {
+            color: $color-theme;
+          }
         }
       }
       .progress-wrapper {
@@ -776,7 +849,7 @@ export default {
     z-index: 180;
     width: 100%;
     height: 40px;
-    background: $color-text-ll;
+    background: $color-text-llll;
     .icon {
       width: 45px;
       height: 45px;

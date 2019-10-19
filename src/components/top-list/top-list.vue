@@ -1,19 +1,17 @@
 <template>
   <transition appear
               name="slide">
-    <div class="top-list-wrapper">
-      <music-list :songs="songs"
-                  :title="title"
-                  :bg-image="bgImage"
-                  :rank="rank"
-                  :play-btn="false"
-                  :date-time="dateTime"
-                  @detailList="detailList">
-      </music-list>
-      <detail :flag="flag"
-              @back="back">
-      </detail>
-    </div>
+    <music-list :songs="songs"
+                :title="title"
+                :bg-image="bgImage"
+                :rank="rank"
+                :play-btn="false"
+                :date-time="dateTime"
+                @detailList="detailList">
+    </music-list>
+    <detail :flag="flag"
+            @back="back">
+    </detail>
   </transition>
 </template>
 

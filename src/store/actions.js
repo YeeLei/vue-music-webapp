@@ -162,8 +162,7 @@ export const deleteSong = function ({
 
   let sIndex = findIndex(sequenceList, song)
   sequenceList.splice(sIndex, 1)
-  console.log(currentIndex)
-  console.log(pIndex)
+
   if (currentIndex > pIndex || currentIndex === playlist.length) {
     currentIndex--
   }
@@ -171,8 +170,12 @@ export const deleteSong = function ({
   commit(types.SET_SEQUENCE_LIST, sequenceList)
   commit(types.SET_CURRENT_INDEX, currentIndex)
 
-  const playingState = playlist.length > 0 ? 'true' : 'false'
-  commit(types.SET_PLAYING_STATE, playingState)
+  // 如果播放列表为空,则停止播放
+  if (!playlist.length) {
+    commit(types.SET_PLAYING_STATE, false)
+  } else {
+    commit(types.SET_PLAYING_STATE, true)
+  }
 }
 
 // 删除整个播放列表
