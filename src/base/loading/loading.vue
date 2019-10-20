@@ -28,7 +28,7 @@ export default {
   .desc {
     line-height: 20px;
     font-size: $font-size-small;
-    color: $color-text-g;
+    color: $color-theme;
   }
 }
 </style>

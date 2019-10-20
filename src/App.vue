@@ -40,6 +40,13 @@ export default {
 }
 </script>
 <style lang="scss">
+html,
+body,
+#app {
+  height: 100%;
+  background: url('../src/common/image/bg.jpg') no-repeat;
+  background-size: cover;
+}
 .slide-right-enter-active,
 .slide-right-leave-active,
 .slide-left-enter-active,

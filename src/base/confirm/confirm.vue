@@ -88,6 +88,7 @@ export default {
         line-height: 22px;
         text-align: center;
         font-size: $font-size-medium-x;
+        color: $color-text-title;
       }
       .operate {
         display: flex;
@@ -102,7 +103,7 @@ export default {
           color: #31c27c;
           &.left {
             border-right: 1px solid #ccc;
-            color: $color-text;
+            color: $color-text-title;
           }
         }
       }

@@ -108,7 +108,7 @@ export default {
     }
     .count {
       font-size: $font-size-medium-x;
-      color: $color-text-g;
+      color: $color-theme;
       margin-left: 5px;
     }
   }

@@ -68,7 +68,6 @@ import { ERR_OK } from 'api/config'
 import { mapMutations, mapActions } from 'vuex'
 import { playlistMixin } from 'common/js/mixin'
 
-const OFFSET_TOP = 20
 const RESERVED_HEIGHT = 40
 const transform = prefixStyle('transform')
 const backdrop = prefixStyle('backdrop-filter')
@@ -119,12 +118,12 @@ export default {
     this.listenScroll = true
   },
   mounted () {
+    // 组件渲染完毕后,获取bgImage的高度
     this.imageHeight = this.$refs.bgImage.clientHeight
     // 最小滚动距离
-    this.minTranslateY = -this.imageHeight + RESERVED_HEIGHT + OFFSET_TOP
+    this.minTranslateY = -this.imageHeight + RESERVED_HEIGHT
 
-    this.$refs.list.$el.style.top = this.imageHeight - OFFSET_TOP + 'px'
-    this.$refs.bgLayer.style.top = `-${OFFSET_TOP + 41}px`
+    this.$refs.list.$el.style.top = this.imageHeight + 'px'
   },
   methods: {
     scroll (pos) {
@@ -221,8 +220,13 @@ export default {
   left: 0;
   bottom: 0;
   right: 0;
-  background: $color-background;
+  background: url('../../common/image/bg.jpg') no-repeat;
+  background-size: cover;
   .header {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 40px;
     line-height: 40px;
     .back {
@@ -250,7 +254,7 @@ export default {
       text-align: center;
       line-height: 40px;
       font-size: $font-size-large;
-      color: #fff;
+      color: $color-text;
       @include no-wrap();
     }
   }
@@ -261,6 +265,7 @@ export default {
     height: 0px;
     transform-origin: top;
     background-size: cover;
+    z-index: -1;
     .text {
       position: absolute;
       top: 50%;
@@ -326,14 +331,13 @@ export default {
       left: 0;
       width: 100%;
       height: 100%;
-      background: $color-theme;
+      background: $color-background-dddd;
     }
   }
   .bg-layer {
     position: relative;
+    top: -40px;
     height: 100%;
-    background: $color-background;
-    border-radius: 10px;
   }
   .list {
     position: absolute;
@@ -343,7 +347,6 @@ export default {
     .song-list-wrapper {
       position: relative;
       border-radius: 10px;
-      background: #f2f3f4;
       overflow: hidden;
     }
   }

@@ -70,14 +70,14 @@ export default {
     font-size: $font-size-medium;
     background: transparent;
     outline: 0;
-    caret-color: #31c27c;
+    caret-color: $color-theme;
     &::placeholder {
       color: rgba(255, 255, 255, 0.6);
     }
   }
   .icon-delete {
     font-size: $font-size-large-x;
-    color: $color-text-g;
+    color: $color-theme;
   }
 }
 </style>

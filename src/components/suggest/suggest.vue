@@ -248,12 +248,12 @@ export default {
         line-height: 18px;
         font-size: $font-size-medium;
         font-weight: 400;
-        color: #000;
+        color: $color-text;
         @include no-wrap();
       }
       .sub-tit {
         font-size: $font-size-small-x;
-        color: grey;
+        color: $color-text-gggg;
         @include no-wrap();
       }
     }

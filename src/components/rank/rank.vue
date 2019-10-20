@@ -243,7 +243,7 @@ export default {
               font-size: $font-size-small-x;
             }
             .sub-name {
-              color: $color-text-g;
+              color: $color-theme;
             }
           }
         }

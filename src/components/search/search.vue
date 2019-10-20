@@ -225,7 +225,7 @@ export default {
                 text-align: center;
                 line-height: 35px;
                 font-size: $font-size-medium-x;
-                color: $color-text-g;
+                color: $color-theme;
                 &.active {
                   color: $color-theme;
                 }

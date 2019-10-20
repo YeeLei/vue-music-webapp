@@ -38,16 +38,16 @@ export default {
   align-items: center;
   width: 240px;
   margin: 0 auto;
-  border: 1px solid $color-text-g;
+  border: 1px solid $color-theme;
   border-radius: 5px;
   .switch-item {
     flex: 1;
     padding: 8px;
     text-align: center;
     font-size: $font-size-medium;
-    color: $color-text-ggg;
+    color: $color-theme;
     &.active {
-      background: $color-text-g;
+      background: $color-theme;
       color: $color-text;
     }
   }

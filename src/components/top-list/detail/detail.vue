@@ -86,7 +86,7 @@ export default {
     margin-top: 20px;
     padding: 0 10px;
     box-sizing: border-box;
-    color: $color-text-g;
+    color: $color-text;
     line-height: 24px;
     font-size: $font-size-small-x;
   }

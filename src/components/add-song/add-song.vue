@@ -3,6 +3,9 @@
     <div class="add-song"
          v-show="showFlag"
          @click.stop>
+      <div class="bg-image">
+
+      </div>
       <!-- 头部 -->
       <div class="header">
         <h1 class="title">添加歌曲到列表</h1>
@@ -165,8 +168,17 @@ export default {
   bottom: 0;
   width: 100%;
   z-index: 200;
-  background: url('../../common/image/bg.jpg') no-repeat;
-  background-size: cover;
+  .bg-image {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: url('../../common/image/bg.jpg') no-repeat;
+    background-size: cover;
+    filter: brightness(0.8);
+  }
   &.slide-enter-active,
   &.slide-leave-active {
     transition: all 0.5s;

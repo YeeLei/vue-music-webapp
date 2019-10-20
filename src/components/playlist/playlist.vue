@@ -222,11 +222,11 @@ export default {
     bottom: 0;
     width: 100%;
     border-radius: 10px;
-    background-color: $color-text-s;
+    background-color: $color-background-play-list;
     .list-header {
       position: relative;
       padding: 20px 20px 10px 20px;
-      @include border-bottom-1px($color-text-lm);
+      @include border-bottom-1px($color-text-ggg);
       .title {
         display: flex;
         align-items: center;
@@ -238,13 +238,13 @@ export default {
         .text {
           flex: 1;
           font-size: $font-size-medium-x;
-          color: #000;
+          color: $color-text;
         }
         .clear {
           @include extend-click();
           .icon-clear {
             font-size: $font-size-medium-x;
-            color: $color-text-g;
+            color: $color-text-ggg;
           }
         }
       }
@@ -291,11 +291,11 @@ export default {
               margin-right: 2px;
             }
             .icon-dujia {
-              color: rgb(49, 194, 124);
+              color: $color-theme;
               margin-top: 1px;
             }
             .singer {
-              color: rgba(0, 0, 0, 0.5);
+              color: $color-text-ggg;
               font-size: $font-size-small-x;
             }
             .music {
@@ -308,7 +308,7 @@ export default {
               i {
                 position: absolute;
                 bottom: 0;
-                background-color: rgb(49, 194, 124);
+                background-color: $color-theme;
                 width: 2px;
                 &:nth-of-type(1) {
                   height: 10px;
@@ -389,7 +389,7 @@ export default {
             @include extend-click();
             i {
               font-size: $font-size-medium;
-              color: gray;
+              color: $color-text-ggg;
             }
           }
         }
@@ -416,10 +416,10 @@ export default {
     .list-close {
       text-align: center;
       line-height: 45px;
-      background: $color-text-s;
+      background: rgba(63, 63, 63, 0.8);
       font-size: $font-size-medium-x;
       color: $color-text;
-      @include border-top-1px($color-text-lm);
+      @include border-top-1px(#807373);
     }
   }
 }
