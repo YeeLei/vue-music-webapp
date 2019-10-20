@@ -256,7 +256,7 @@ export default {
             bottom: 10px;
             left: 8px;
             font-size: $font-size-small-s;
-            color: $color-theme-l;
+            color: $color-theme;
           }
           .iconfont {
             position: absolute;

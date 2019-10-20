@@ -12,6 +12,7 @@
     <scroll class="search-wrapper"
             :data="shortcut"
             v-show="!query"
+            :refreshDelay="refreshDelay"
             ref="searchWrapper">
       <div>
         <div class="shortcut-wrapper">
@@ -77,14 +78,13 @@ import SearchList from 'base/search-list/search-list'
 import Confirm from 'base/confirm/confirm'
 import { getHotKey } from 'api/search'
 import { ERR_OK } from 'api/config'
-import { mapActions, mapGetters } from 'vuex'
-import { playlistMixin } from 'common/js/mixin'
+import { mapActions } from 'vuex'
+import { playlistMixin, searchMixin } from 'common/js/mixin'
 export default {
-  mixins: [playlistMixin],
+  mixins: [playlistMixin, searchMixin],
   data () {
     return {
-      hotKey: [],
-      query: ''
+      hotKey: []
     }
   },
   created () {
@@ -93,26 +93,11 @@ export default {
   computed: {
     shortcut () {
       return this.hotKey.concat(this.searchHistory)
-    },
-    ...mapGetters([
-      'searchHistory'
-    ])
+    }
   },
   methods: {
     back () {
       this.$router.back()
-    },
-    addQuery (query) {
-      this.$refs.searchBox.setQuery(query)
-    },
-    onQueryChange (query) {
-      this.query = query.trim()
-    },
-    blurInput () {
-      this.$refs.searchBox.blur()
-    },
-    saveSearch () {
-      this.saveSearchHistory(this.query)
     },
     deleteOne (item) {
       // 删除选中的一条搜索历史数据
@@ -139,8 +124,6 @@ export default {
       })
     },
     ...mapActions([
-      'saveSearchHistory',
-      'deleteSearchHistory',
       'clearSearchHistory'
     ])
   },
@@ -149,7 +132,7 @@ export default {
       if (!newQuery) {
         setTimeout(() => {
           this.$refs.searchWrapper.refresh()
-        }, 20)
+        }, this.refreshDelay)
       }
     }
   },

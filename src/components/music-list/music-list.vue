@@ -285,8 +285,8 @@ export default {
         padding: 5px 0;
         margin: 0 auto;
         text-align: center;
-        border: 1px solid $color-sub-theme;
-        color: $color-sub-theme;
+        border: 1px solid $color-theme;
+        color: $color-theme;
         border-radius: 100px;
         font-size: 0;
         i {
@@ -309,7 +309,7 @@ export default {
       width: 100%;
       text-align: center;
       .date {
-        color: $color-text-ll;
+        color: $color-text;
         font-size: $font-size-small-x;
         line-height: 16px;
         height: 16px;
@@ -326,7 +326,7 @@ export default {
       left: 0;
       width: 100%;
       height: 100%;
-      background: $color-theme-d;
+      background: $color-theme;
     }
   }
   .bg-layer {

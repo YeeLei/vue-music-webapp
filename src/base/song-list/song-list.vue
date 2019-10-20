@@ -1,10 +1,11 @@
 <template>
   <div class="song-list">
-    <div class="random-play">
+    <div class="random-play"
+         v-if="playBtn">
       <i class="iconfont icon-random-play"
          @click="play"></i>
       <span class="text">播放全部</span>
-      <span class="count">(共{{count}}首)</span>
+      <span class="count">({{count}})</span>
     </div>
     <ul>
       <li v-for="(song,index) in songs"
@@ -23,8 +24,7 @@
                   style="color:#ffcd31">
             </span>
             <span v-show="song.isonly !== 0"
-                  class="detail-icon iconfont icon-dujia"
-                  style="color:#31c27c;margin-top: 1px;">
+                  class="detail-icon iconfont icon-dujia">
             </span>
             <span class="detail-song-name">{{getDesc(song)}}</span>
           </p>
@@ -53,6 +53,10 @@ export default {
     rank: {
       type: Boolean,
       default: false
+    },
+    playBtn: {
+      type: Boolean,
+      default: true
     }
   },
   computed: {
@@ -93,7 +97,7 @@ export default {
     width: 100%;
     height: 40px;
     padding-left: 16px;
-    border-bottom: 1px solid $color-text-lm;
+    @include border-bottom-1px($color-text-lm);
     i {
       font-size: $font-size-large-x;
       color: $color-theme;
@@ -103,12 +107,12 @@ export default {
       font-size: $font-size-medium-x;
     }
     .count {
-      font-size: $font-size-medium;
+      font-size: $font-size-medium-x;
       color: $color-text-g;
+      margin-left: 5px;
     }
   }
   ul {
-    margin-top: 41px;
     padding: 0 15px;
     .item {
       display: flex;
@@ -116,10 +120,6 @@ export default {
       box-sizing: border-box;
       height: 64px;
       font-size: $font-size-medium;
-      border-bottom: 1px solid $color-text-lm;
-      &:last-child {
-        border: 0;
-      }
       .rank {
         flex: 0 0 25px;
         width: 25px;
@@ -149,11 +149,12 @@ export default {
           margin-top: 4px;
           .detail-song-name {
             font-size: $font-size-small-x;
-            color: $color-text-g;
+            color: $color-text-gggg;
             vertical-align: top;
             margin-left: 5px;
           }
-          .desc-icon {
+          .detail-icon {
+            color: $color-theme;
             height: 16px;
             display: inline-block;
             vertical-align: top;

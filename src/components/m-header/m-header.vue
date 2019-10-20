@@ -19,7 +19,9 @@ export default {}
 <style lang="scss" scoped>
 @import 'common/scss/variable.scss';
 .header {
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 44px;
   line-height: 44px;
@@ -27,13 +29,13 @@ export default {}
   background: $color-theme;
   .text {
     font-weight: bold;
-    color: $color-text-l;
+    color: $color-text;
     letter-spacing: 3px;
   }
   .iconfont {
     display: block;
     font-size: 20px;
-    color: $color-text-l;
+    color: $color-text;
   }
   .mine {
     position: absolute;

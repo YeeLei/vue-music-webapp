@@ -8,8 +8,7 @@
           ref="suggest">
     <div class="suggest-wrapper">
       <ul class="suggest-list">
-        <h2 class="title"
-            v-show="!result.length">搜索“{{query}}”</h2>
+        <h2 class="title">搜索“{{query}}”</h2>
         <li class="suggest-item"
             v-for="(item,index) in result"
             :key="index"

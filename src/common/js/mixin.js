@@ -95,3 +95,33 @@ export const playerMixin = {
     ...mapActions(['saveFavoriteList', 'deleteFavoriteList'])
   }
 }
+
+export const searchMixin = {
+  data () {
+    return {
+      query: '',
+      // refreshDelay 用于延迟scrll refresh()的时长,确保组件全部渲染完毕之后进行重新计算高度
+      refreshDelay: 100
+    }
+  },
+  computed: {
+    ...mapGetters(['searchHistory'])
+  },
+  methods: {
+    blurInput () {
+      this.$refs.searchBox.blur()
+    },
+    // 保存搜索历史
+    saveSearch () {
+      this.saveSearchHistory(this.query)
+    },
+    onQueryChange (query) {
+      // 处理带空格的情况
+      this.query = query.trim()
+    },
+    addQuery (query) {
+      this.$refs.searchBox.setQuery(query)
+    },
+    ...mapActions(['saveSearchHistory', 'deleteSearchHistory'])
+  }
+}

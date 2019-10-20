@@ -56,21 +56,23 @@ export default {
   width: 80%;
   padding: 0 12px;
   height: 35px;
-  background: $color-text-llll;
+  background: $color-background-ddd;
   border-radius: 15px;
-  .icon-search {
-    font-size: 24px;
-    color: $color-text-g;
+  .icon-search1 {
+    font-size: $font-size-large;
+    color: rgba(255, 255, 255, 0.4);
   }
   .box {
     flex: 1;
     margin: 0 10px;
     line-height: 18px;
-    color: $color-text;
+    color: $color-text-llll;
     font-size: $font-size-medium;
+    background: transparent;
     outline: 0;
+    caret-color: #31c27c;
     &::placeholder {
-      color: $color-text-g;
+      color: rgba(255, 255, 255, 0.6);
     }
   }
   .icon-delete {

@@ -128,7 +128,7 @@ export default {
       this.setTopList(item)
     },
     handlePlaylist (playlist) {
-      const bottom = playlist.length ? '40px' : ''
+      const bottom = playlist.length ? '45px' : ''
       this.$refs.rank.style.bottom = bottom
       this.$refs.scroll.refresh()
     },
@@ -191,7 +191,6 @@ export default {
           flex: 0 0 100px;
           width: 100px;
           height: 100px;
-          letter-spacing: 1px;
           .update-tip {
             position: absolute;
             top: 10px;
@@ -204,7 +203,10 @@ export default {
             bottom: 8px;
             left: 8px;
             font-size: $font-size-small-s;
-            color: $color-theme-l;
+            color: $color-theme;
+            .fa:before {
+              margin-right: 3px;
+            }
           }
           .icon-play {
             position: absolute;
@@ -271,7 +273,7 @@ export default {
             bottom: 10px;
             left: 8px;
             font-size: $font-size-small-s;
-            color: $color-theme-l;
+            color: $color-theme;
           }
           .iconfont {
             position: absolute;

@@ -1,22 +1,21 @@
 // 颜色定义规范
 $color-background: #f2f3f4;
 $color-background-d: rgba(0, 0, 0, 0.3);
-$color-highlight-background: rgb(253, 108, 98);
+$color-background-dd: rgb(252, 253, 253);
+$color-background-ddd: rgba(255, 255, 255, 0.1);
 $color-dialog-background: rgb(204, 204, 204);
-$color-theme: rgb(212, 68, 57);
-$color-theme-l: rgb(241, 241, 241);
-$color-theme-g: rgb(219, 219, 219);
-$color-theme-d: rgba(7, 17, 27, 0.4);
-$color-sub-theme: rgb(240, 116, 107);
-$color-text: #2e3030;
-$color-text-g: #757575;
-$color-text-ggg: #c7c7c7;
-$color-text-gg: rgb(219, 219, 219);
-$color-text-l: rgb(241, 241, 241);
+$color-theme: #31c27c;
+$color-text: #fff;
+$color-text-title: #000;
+$color-text-g: #31c27c;
+$color-text-gg: rgba(0, 0, 0, 0.5);
+$color-text-ggg: #757575;
+$color-text-gggg: #c7c7c7;
 $color-text-lm: rgb(228, 228, 228);
 $color-text-ll: rgba(255, 255, 255, 0.8);
 $color-text-lll: rgba(255, 255, 255, 0.6);
 $color-text-llll: rgb(255, 255, 255);
+$color-text-s: #f6f3f3;
 //字体定义规范
 $font-size-small-ss: 9px;
 $font-size-small-s: 10px;

@@ -1,19 +1,17 @@
 <template>
   <transition appear
               name="slide">
-    <div class="top-list-wrapper">
-      <music-list :songs="songs"
-                  :title="title"
-                  :bg-image="bgImage"
-                  :rank="rank"
-                  :play-btn="false"
-                  :date-time="dateTime"
-                  @detailList="detailList">
-      </music-list>
+    <music-list :songs="songs"
+                :title="title"
+                :bg-image="bgImage"
+                :rank="rank"
+                :play-btn="false"
+                :date-time="dateTime"
+                @detailList="detailList">
       <detail :flag="flag"
               @back="back">
       </detail>
-    </div>
+    </music-list>
   </transition>
 </template>
 
@@ -27,7 +25,7 @@ import { createSong, isValidMusic, processSongUrl } from 'common/js/song'
 export default {
   computed: {
     title () {
-      return this.topList.topTitle
+      return this.topList.title
     },
     bgImage () {
       if (this.topList) {

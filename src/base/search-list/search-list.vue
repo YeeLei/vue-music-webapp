@@ -47,7 +47,7 @@ export default {
     display: flex;
     align-items: center;
     height: 40px;
-    color: #000;
+    color: $color-text;
     .num {
       font-size: $font-size-medium-x;
     }
@@ -61,7 +61,7 @@ export default {
       @include extend-click();
       .icon-delete {
         font-size: $font-size-large-x;
-        color: gray;
+        color: $color-text-gggg;
       }
     }
     &.list-enter-active,

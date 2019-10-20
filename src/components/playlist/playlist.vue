@@ -29,7 +29,8 @@
                   :key="item.id"
                   @click="selectItem(item,index)"
                   ref="listItem">
-                <span class="text">
+                <span class="text"
+                      :class="textActive(item)">
                   {{item.name}}
                   <i class="iconfont icon-sq"></i>
                   <i class="iconfont icon-dujia"
@@ -54,7 +55,8 @@
               </li>
             </transition-group>
             <div class="list-operate">
-              <div class="add">
+              <div class="add"
+                   @click="addSong">
                 <i class="iconfont icon-add"></i>
                 <span class="text">添加歌曲到队列</span>
               </div>
@@ -72,6 +74,7 @@
                confirmBtnText="清空"
                @confirm="confirmClear">
       </confirm>
+      <add-song ref="addSong"></add-song>
     </div>
   </transition>
 </template>
@@ -80,6 +83,7 @@
 import { mapActions } from 'vuex'
 import Scroll from 'base/scroll/scroll'
 import Confirm from 'base/confirm/confirm'
+import AddSong from 'components/add-song/add-song'
 import { playMode } from 'common/js/config'
 import { playerMixin } from 'common/js/mixin'
 
@@ -122,6 +126,12 @@ export default {
         return ''
       }
     },
+    textActive (item) {
+      // 如果当前是播放的,则加上active样式
+      if (this.currentSong.id === item.id) {
+        return 'active'
+      }
+    },
     selectItem (song, index) {
       // 提交mutations,设置当前播放的索引
       if (this.mode === playMode.random) {
@@ -156,7 +166,13 @@ export default {
       this.deleteSongList()
       this.hide()
     },
-    ...mapActions(['deleteSong'])
+    addSong () {
+      this.$refs.addSong.show()
+    },
+    ...mapActions([
+      'deleteSong',
+      'deleteSongList'
+    ])
   },
   watch: {
     currentSong (newSong, oldSong) {
@@ -169,7 +185,8 @@ export default {
   },
   components: {
     Scroll,
-    Confirm
+    Confirm,
+    AddSong
   }
 }
 </script>
@@ -205,11 +222,11 @@ export default {
     bottom: 0;
     width: 100%;
     border-radius: 10px;
-    background-color: $color-background;
+    background-color: $color-text-s;
     .list-header {
       position: relative;
       padding: 20px 20px 10px 20px;
-      @include border-bottom-1px(#ccc);
+      @include border-bottom-1px($color-text-lm);
       .title {
         display: flex;
         align-items: center;
@@ -239,9 +256,9 @@ export default {
         .item {
           display: flex;
           align-items: center;
-          height: 45px;
+          height: 50px;
           margin-left: 20px;
-          @include border-bottom-1px(#ccc);
+          @include border-bottom-1px($color-text-lm);
           overflow: hidden;
           &.list-enter-active,
           &.list-leave-active {
@@ -398,11 +415,11 @@ export default {
     }
     .list-close {
       text-align: center;
-      line-height: 50px;
-      background: $color-background;
+      line-height: 45px;
+      background: $color-text-s;
       font-size: $font-size-medium-x;
       color: $color-text;
-      @include border-top-1px(#ccc);
+      @include border-top-1px($color-text-lm);
     }
   }
 }

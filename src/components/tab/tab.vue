@@ -25,6 +25,8 @@ export default {}
 <style lang="scss" scoped>
 @import 'common/scss/variable.scss';
 .tab {
+  position: fixed;
+  top: 44px;
   display: flex;
   width: 100%;
   height: 44px;
@@ -34,15 +36,15 @@ export default {}
   .tab-item {
     flex: 1;
     text-align: center;
-    color: $color-text-lm;
+    color: $color-text-ggg;
     span {
       padding-bottom: 3px;
     }
     &.router-link-active {
-      color: $color-text-l;
+      color: $color-text;
       font-weight: bold;
       span {
-        border-bottom: 2px solid $color-text-l;
+        border-bottom: 2px solid $color-text;
       }
     }
   }

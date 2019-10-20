@@ -206,7 +206,7 @@ export default {
         box-sizing: border-box;
         line-height: 30px;
         font-size: $font-size-small-x;
-        color: $color-text-l;
+        color: $color-text;
         text-align: center;
       }
     }

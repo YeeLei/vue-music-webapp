@@ -18,11 +18,11 @@
         </div>
         <!-- top -->
         <div class="top"
-             @touchstart.prevent="normalTouchStart"
-             @touchmove.prevent="normalTouchMove"
+             @touchstart="normalTouchStart"
+             @touchmove="normalTouchMove"
              @touchend="normalTouchEnd">
           <div class="back"
-               @click="back">
+               @click.stop="back">
             <i class="iconfont icon-arrow-down"></i>
           </div>
           <h1 class="title"
@@ -39,7 +39,10 @@
              @touchmove.prevent="middleTouchMove"
              @touchend="middleTouchEnd">
           <div class="middle-l"
-               ref="middleL">
+               ref="middleL"
+               @touchstart="normalTouchStart"
+               @touchmove="normalTouchMove"
+               @touchend="normalTouchEnd">
             <div class="cd-wrapper"
                  ref="cdWrapper">
               <div class="cd"
@@ -91,7 +94,7 @@
           </div>
           <div class="operators">
             <div class="icon i-m"
-                 @click="changeMode">
+                 @click.stop="changeMode">
               <i class="iconfont"
                  :class="iconMode">
               </i>
@@ -99,23 +102,23 @@
             <div class="icon i-left"
                  :class="disableCls">
               <i class="iconfont icon-prev"
-                 @click="prev"></i>
+                 @click.stop="prev"></i>
             </div>
             <div class="icon i-center">
               <i :class="playIcon"
-                 @click="togglePlaying"
+                 @click.stop="togglePlaying"
                  class="iconfont">
               </i>
             </div>
             <div class="icon i-right"
                  :class="disableCls">
               <i class="iconfont icon-next"
-                 @click="next"></i>
+                 @click.stop="next"></i>
             </div>
             <div class="icon i-right">
               <i class="iconfont"
                  :class="getFavoriteIcon(currentSong)"
-                 @click="toggleFavorite(currentSong)"></i>
+                 @click.stop="toggleFavorite(currentSong)"></i>
             </div>
           </div>
         </div>
@@ -168,7 +171,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import animations from 'create-keyframe-animation'
 import { playMode } from 'common/js/config'
 import ProgressBar from './progress-bar/progress-bar'
@@ -283,23 +286,28 @@ export default {
       // 用来判断是否是一次移动
       this.normalTouch.moved = false
       const normalTouch = e.touches[0]
-      this.normalTouch.startX = normalTouch.pageX
-      this.normalTouch.startY = normalTouch.pageY
+      this.normalTouch.startX = parseInt(normalTouch.pageX - (this.$refs.normalPlayer.lefts || 0))
+      this.normalTouch.startY = parseInt(normalTouch.pageY - (this.$refs.normalPlayer.tops || 0))
     },
     normalTouchMove (e) {
       if (!this.normalTouch.initiated) {
         return
       }
-      const touch = e.touches[0]
-      const deltaY = touch.pageY - this.normalTouch.startY
-      // console.log(deltaY)
+      // 低端安卓 touch事件 有的导致touchend事件时效  必须开始 就加   e.preventDefault();
+      e.preventDefault()
+      const touch = e.changedTouches[0]
+      const deltaY = parseInt(touch.pageY) - this.normalTouch.startY
 
       if (!this.normalTouch.moved) {
         this.normalTouch.moved = true
       }
       const top = this.fullScreen ? 0 : window.innerHeight
       const offsetHeight = Math.max(0, Math.min(window.innerHeight, top + deltaY))
+      // console.log(offsetHeight)
 
+      if (this.normalTouch.moved && offsetHeight < 50) {
+        return
+      }
       this.normalTouch.percent = Math.abs(offsetHeight / window.innerHeight)
       this.$refs.normalPlayer.style[transform] = `translate3d(0,${offsetHeight}px,0)`
       this.$refs.normalPlayer.style[transitionDuration] = 0
@@ -319,6 +327,7 @@ export default {
       this.$refs.normalPlayer.style[transform] = `translate3d(0,${offsetHeight}px,0)`
       this.$refs.normalPlayer.style[transitionDuration] = `${time}ms`
       this.normalTouch.initiated = false
+      this.normalTouch.percent = 0
     },
     togglePlaying () {
       if (!this.songReady) {
@@ -336,6 +345,8 @@ export default {
       if (this.currentLyric) {
         this.currentLyric.seek(this.currentTime * 1000)
       }
+      // 保存当前播放歌曲到播放历史中
+      this.savePlayHistory(this.currentSong)
     },
     next () {
       if (!this.songReady) {
@@ -465,6 +476,7 @@ export default {
       // 用来判断是否是一次移动
       this.touch.moved = false
       const touch = e.touches[0]
+      e.preventDefault()
       this.touch.startX = touch.pageX
       this.touch.startY = touch.pageY
     },
@@ -472,7 +484,8 @@ export default {
       if (!this.touch.initiated) {
         return
       }
-      const touch = e.touches[0]
+      const touch = e.changedTouches[0]
+      e.preventDefault()
       const deltaX = touch.pageX - this.touch.startX
       const deltaY = touch.pageY - this.touch.startY
       if (Math.abs(deltaY) > Math.abs(deltaX)) {
@@ -526,7 +539,8 @@ export default {
     },
     ...mapMutations({
       setFullScreen: 'SET_FULL_SCREEN'
-    })
+    }),
+    ...mapActions(['savePlayHistory'])
   },
   watch: {
     // 所以需要判断newSong和oldSong 的歌曲id是否一致 或者 newSong为undefined
@@ -866,7 +880,7 @@ export default {
       }
       .desc {
         font-size: $font-size-small;
-        color: $color-theme-d;
+        color: $color-theme;
         @include no-wrap;
       }
     }
