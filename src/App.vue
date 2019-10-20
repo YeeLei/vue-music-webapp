@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <div class="app-bg bg-blur"></div>
     <m-header></m-header>
     <m-tab></m-tab>
     <transition :name="transitionName">
@@ -44,8 +45,16 @@ html,
 body,
 #app {
   height: 100%;
-  background: url('../src/common/image/bg.jpg') no-repeat;
-  background-size: cover;
+  .app-bg {
+    width: 100%;
+    height: 100%;
+    background: url('../src/common/image/bg.jpg') no-repeat;
+    &.bg-blur {
+      float: left;
+      filter: brightness(0.8);
+      background-size: cover;
+    }
+  }
 }
 .slide-right-enter-active,
 .slide-right-leave-active,

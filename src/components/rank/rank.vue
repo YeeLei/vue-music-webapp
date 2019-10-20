@@ -163,7 +163,7 @@ export default {
     height: 100%;
     overflow: hidden;
     .title {
-      color: #000;
+      color: $color-text;
       font-size: $font-size-large;
       font-weight: 400;
       padding: 20px 18px 0;
@@ -203,7 +203,7 @@ export default {
             bottom: 8px;
             left: 8px;
             font-size: $font-size-small-s;
-            color: $color-theme;
+            color: $color-text;
             .fa:before {
               margin-right: 3px;
             }
@@ -223,27 +223,23 @@ export default {
           padding: 0 10px;
           height: 100px;
           overflow: hidden;
-          background: $color-text-llll;
+          background: $color-background-ddd;
           color: $color-text;
           font-size: $font-size-small;
           h2 {
             font-size: $font-size-medium-x;
-            color: #000;
-            font-weight: 400;
             margin: 7px 0;
             text-indent: 3px;
           }
           .song {
             @include no-wrap();
             line-height: 20px;
-            color: #000;
             .song-num {
-              color: #000;
               font-weight: 400;
               font-size: $font-size-small-x;
             }
             .sub-name {
-              color: $color-theme;
+              color: $color-text-ggg;
             }
           }
         }
@@ -273,7 +269,7 @@ export default {
             bottom: 10px;
             left: 8px;
             font-size: $font-size-small-s;
-            color: $color-theme;
+            color: $color-text;
           }
           .iconfont {
             position: absolute;

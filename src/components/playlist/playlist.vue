@@ -233,7 +233,7 @@ export default {
         .icon {
           margin-right: 10px;
           font-size: 25px;
-          color: gray;
+          color: $color-text-ggg;
         }
         .text {
           flex: 1;
@@ -258,7 +258,7 @@ export default {
           align-items: center;
           height: 50px;
           margin-left: 20px;
-          @include border-bottom-1px($color-text-lm);
+          @include border-bottom-1px($color-text-gggg);
           overflow: hidden;
           &.list-enter-active,
           &.list-leave-active {
@@ -416,10 +416,9 @@ export default {
     .list-close {
       text-align: center;
       line-height: 45px;
-      background: rgba(63, 63, 63, 0.8);
       font-size: $font-size-medium-x;
       color: $color-text;
-      @include border-top-1px(#807373);
+      @include border-top-1px($color-text-ggg);
     }
   }
 }

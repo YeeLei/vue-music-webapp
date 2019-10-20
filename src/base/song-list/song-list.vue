@@ -1,5 +1,6 @@
 <template>
   <div class="song-list">
+    <div class="bg bg-blur"></div>
     <div class="random-play"
          v-if="playBtn">
       <i class="iconfont icon-random-play"
@@ -89,15 +90,24 @@ export default {
 @import 'common/scss/variable';
 @import 'common/scss/mixin';
 .song-list {
+  // .bg {
+  //   width: 100%;
+  //   height: 100%;
+  //   background: url('../../common/image/bg.jpg') no-repeat;
+  //   &.bg-blur {
+  //     float: left;
+  //     filter: brightness(0.8);
+  //     background-size: cover;
+  //   }
+  // }
   .random-play {
-    position: absolute;
+    position: relative;
     top: 0;
     display: flex;
     align-items: center;
     width: 100%;
     height: 40px;
     padding-left: 16px;
-    @include border-bottom-1px($color-text-lm);
     i {
       font-size: $font-size-large-x;
       color: $color-theme;
@@ -108,7 +118,7 @@ export default {
     }
     .count {
       font-size: $font-size-medium-x;
-      color: $color-theme;
+      color: $color-text;
       margin-left: 5px;
     }
   }

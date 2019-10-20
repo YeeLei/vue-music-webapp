@@ -190,7 +190,7 @@ export default {
     return {
       songReady: false,
       currentTime: 0,
-      radius: 32,
+      radius: 28,
       currentLyric: null,
       currentLineNum: 0,
       currentShow: 'cd',
@@ -844,7 +844,7 @@ export default {
     z-index: 180;
     width: 100%;
     height: 40px;
-    background: $color-text-llll;
+    background: rgba(0, 0, 0, 0.4);
     .icon {
       width: 50px;
       height: 50px;
@@ -878,16 +878,11 @@ export default {
         color: $color-text;
         @include no-wrap;
       }
-      .desc {
-        font-size: $font-size-small;
-        color: $color-theme;
-        @include no-wrap;
-      }
     }
     .control {
       flex: 0 0 30px;
       width: 30px;
-      padding: 0 10px;
+      margin: 0 5px;
       .icon-play-mini,
       .icon-pause-mini {
         font-size: 30px;
@@ -895,14 +890,14 @@ export default {
       }
       .icon-mini {
         position: absolute;
-        left: 9px;
-        top: 9px;
+        left: 7px;
+        top: 7px;
         font-size: $font-size-medium-x;
       }
       .icon-playlist {
         display: block;
         margin-top: 5px;
-        font-size: 22px;
+        font-size: 20px;
         color: $color-theme;
       }
     }

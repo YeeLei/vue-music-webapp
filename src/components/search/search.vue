@@ -1,5 +1,6 @@
 <template>
   <div class="search">
+    <div class="bg bg-blur"></div>
     <!-- 搜索框 -->
     <div class="search-box-wrapper">
       <search-box @query="onQueryChange"
@@ -154,7 +155,16 @@ export default {
   top: 0;
   bottom: 0;
   width: 100%;
-  background: $color-background;
+  .bg {
+    width: 100%;
+    height: 100%;
+    background: url('../../common/image/bg.jpg') no-repeat;
+    &.bg-blur {
+      float: left;
+      filter: brightness(0.8);
+      background-size: cover;
+    }
+  }
   .search-box-wrapper {
     position: fixed;
     top: 10px;
@@ -168,7 +178,7 @@ export default {
       top: 0;
       line-height: 35px;
       width: 40px;
-      color: #000;
+      color: $color-text;
       font-weight: 400;
       font-size: $font-size-medium;
     }
@@ -188,7 +198,7 @@ export default {
         .search-title {
           display: flex;
           align-items: center;
-          color: #000;
+          color: $color-text;
           font-size: $font-size-medium-x;
           font-weight: 400;
           margin-left: 10px;
@@ -199,6 +209,7 @@ export default {
           .clear {
             position: relative;
             right: 30px;
+            color: $color-text-ggg;
             @include extend-click();
           }
         }
@@ -207,7 +218,6 @@ export default {
         padding: 20px 0;
         .hot-key {
           .title {
-            color: #000;
             font-size: $font-size-medium-x;
             font-weight: 400;
             margin-left: 10px;
@@ -225,17 +235,16 @@ export default {
                 text-align: center;
                 line-height: 35px;
                 font-size: $font-size-medium-x;
-                color: $color-theme;
+                color: $color-text-ggg;
                 &.active {
-                  color: $color-theme;
+                  color: #c00;
                 }
               }
               .key {
                 flex: 1;
-                color: #000;
                 font-size: $font-size-medium;
                 .icon-hot {
-                  color: #ea4d41;
+                  color: #ff1301;
                 }
               }
             }

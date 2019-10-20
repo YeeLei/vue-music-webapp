@@ -61,7 +61,7 @@ export default {
       @include extend-click();
       .icon-delete {
         font-size: $font-size-large-x;
-        color: $color-text-gggg;
+        color: $color-text-ggg;
       }
     }
     &.list-enter-active,

@@ -5,11 +5,6 @@
             class="recommend-content"
             ref="scroll">
       <div>
-        <!-- 装饰 -->
-        <div v-show="banners.length"
-             v-if="banners.length"
-             class="decorate">
-        </div>
         <!-- 轮播图 -->
         <div v-if="banners.length"
              class="slider-wrapper">
@@ -177,7 +172,7 @@ export default {
 .recommend {
   position: fixed;
   width: 100%;
-  top: 88px;
+  top: 100px;
   bottom: 0;
   z-index: 100;
   .recommend-content {
@@ -185,16 +180,6 @@ export default {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    .decorate {
-      position: absolute;
-      top: -30vh;
-      z-index: -10;
-      background: $color-theme;
-      width: 100%;
-      height: 50vh;
-      vertical-align: inherit;
-      border-radius: 20px;
-    }
     .slider-wrapper {
       position: relative;
       width: 96%;
@@ -256,13 +241,13 @@ export default {
             bottom: 10px;
             left: 8px;
             font-size: $font-size-small-s;
-            color: $color-theme;
+            color: $color-text;
           }
           .iconfont {
             position: absolute;
             bottom: 7px;
             right: 5px;
-            color: #fff;
+            color: $color-text;
           }
         }
         .text {

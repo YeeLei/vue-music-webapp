@@ -36,7 +36,7 @@ export default {}
   .tab-item {
     flex: 1;
     text-align: center;
-    color: $color-text-ggg;
+    color: $color-text;
     span {
       padding-bottom: 3px;
     }

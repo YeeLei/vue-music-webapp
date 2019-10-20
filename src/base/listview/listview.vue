@@ -39,11 +39,11 @@
         </li>
       </ul>
     </div>
-    <div class="list-fixed"
+    <!-- <div class="list-fixed"
          ref="fixed"
          v-show="fixedTitle">
       <div class="fixed-title">{{fixedTitle}}</div>
-    </div>
+    </div> -->
     <div class="loading-container"
          v-show="!singers.length">
       <loading></loading>
@@ -58,7 +58,7 @@ import Loading from 'base/loading/loading'
 import { playlistMixin } from 'common/js/mixin'
 
 const ANCHOR_HEIGHT = 18
-const TITLE_HEIGHT = 25
+// const TITLE_HEIGHT = 25
 
 export default {
   mixins: [playlistMixin],
@@ -184,18 +184,18 @@ export default {
         let height2 = listHeight[i + 1]
         if (-newY >= height1 && -newY < height2) {
           this.currentIndex = i
-          this.diff = height2 + newY
+          // this.diff = height2 + newY
           return
         }
       }
       // 当滚动到底部，且-newY大于最后一个元素的上限
       this.currentIndex = listHeight.length - 2
-    },
-    diff (newVal) {
-      let fixedTop =
-        newVal > 0 && newVal < TITLE_HEIGHT ? newVal - TITLE_HEIGHT : 0
-      this.$refs.fixed.style.transform = `translate3d(0,${fixedTop}px,0)`
     }
+    // diff (newVal) {
+    //   let fixedTop =
+    //     newVal > 0 && newVal < TITLE_HEIGHT ? newVal - TITLE_HEIGHT : 0
+    //   this.$refs.fixed.style.transform = `translate3d(0,${fixedTop}px,0)`
+    // }
   },
   components: {
     Scroll,
@@ -223,7 +223,7 @@ export default {
       font-size: $font-size-small-x;
       color: #fff;
       font-weight: bold;
-      background: $color-text-ggg;
+      background: $color-background-list-title;
     }
     .list-group-item {
       display: flex;
@@ -249,7 +249,7 @@ export default {
     padding: 20px 0;
     border-radius: 10px;
     text-align: center;
-    background: rgba(0, 0, 0, 0.2);
+    background: $color-background-list-title;
     .item {
       padding: 3px;
       color: rgba(255, 255, 255, 0.8);
@@ -271,7 +271,7 @@ export default {
       font-size: $font-size-small-x;
       color: #fff;
       font-weight: bold;
-      background: $color-text-ggg;
+      background: $color-background-list-title;
     }
   }
   .loading-container {
