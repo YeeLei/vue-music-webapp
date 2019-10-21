@@ -286,26 +286,24 @@ export default {
       // 用来判断是否是一次移动
       this.normalTouch.moved = false
       const normalTouch = e.touches[0]
-      this.normalTouch.startX = parseInt(normalTouch.pageX - (this.$refs.normalPlayer.lefts || 0))
-      this.normalTouch.startY = parseInt(normalTouch.pageY - (this.$refs.normalPlayer.tops || 0))
+      this.normalTouch.startX = normalTouch.pageX
+      this.normalTouch.startY = normalTouch.pageY
     },
     normalTouchMove (e) {
       if (!this.normalTouch.initiated) {
         return
       }
-      // 低端安卓 touch事件 有的导致touchend事件时效  必须开始 就加   e.preventDefault();
       e.preventDefault()
       const touch = e.changedTouches[0]
-      const deltaY = parseInt(touch.pageY) - this.normalTouch.startY
+      const deltaY = touch.pageY - this.normalTouch.startY
 
       if (!this.normalTouch.moved) {
         this.normalTouch.moved = true
       }
       const top = this.fullScreen ? 0 : window.innerHeight
       const offsetHeight = Math.max(0, Math.min(window.innerHeight, top + deltaY))
-      // console.log(offsetHeight)
 
-      if (this.normalTouch.moved && offsetHeight < 50) {
+      if (!this.normalTouch.moved && offsetHeight < 50) {
         return
       }
       this.normalTouch.percent = Math.abs(offsetHeight / window.innerHeight)
@@ -844,7 +842,7 @@ export default {
     z-index: 180;
     width: 100%;
     height: 40px;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.6);
     .icon {
       width: 50px;
       height: 50px;

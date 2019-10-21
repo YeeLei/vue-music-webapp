@@ -1,11 +1,14 @@
 <template>
   <div class="music-list"
        ref="musicList">
-    <div class="header">
+    <div class="header"
+         ref="header">
       <div class="back"
            @click="back">
         <i class="fa fa-angle-left"></i>
       </div>
+      <div class="title"
+           ref="title"></div>
     </div>
     <div class="bg-image"
          :style="bgStyle"
@@ -37,6 +40,7 @@
     </div>
     <div class="bg-layer"
          ref="bgLayer">
+      <div class="bg bg-blur"></div>
     </div>
     <scroll :data="songs"
             :probeType="probeType"
@@ -67,7 +71,7 @@ import { getSongInfo } from 'api/song'
 import { ERR_OK } from 'api/config'
 import { mapMutations, mapActions } from 'vuex'
 import { playlistMixin } from 'common/js/mixin'
-const OFFSET_TOP = 20
+
 const RESERVED_HEIGHT = 40
 const transform = prefixStyle('transform')
 const backdrop = prefixStyle('backdrop-filter')
@@ -119,9 +123,8 @@ export default {
   mounted () {
     this.imageHeight = this.$refs.bgImage.clientHeight
     // 最小滚动距离
-    this.minTranslateY = -this.imageHeight + RESERVED_HEIGHT + OFFSET_TOP
-    this.$refs.list.$el.style.top = this.imageHeight - OFFSET_TOP + 'px'
-    this.$refs.bgLayer.style.top = `-${OFFSET_TOP + 41}px`
+    this.minTranslateY = -this.imageHeight + RESERVED_HEIGHT
+    this.$refs.list.$el.style.top = this.imageHeight + 'px'
   },
   methods: {
     scroll (pos) {
@@ -167,7 +170,6 @@ export default {
   watch: {
     scrollY (newY) {
       let translateY = Math.max(this.minTranslateY, newY)
-      let zIndex = 0
       let scale = 1
       let blur = 0
       this.$refs.bgLayer.style[transform] = `translate3d(0,${translateY}px,0)`
@@ -175,7 +177,6 @@ export default {
       const precent = Math.abs(newY / this.imageHeight)
       if (newY > 0) {
         scale = 1 + precent
-        zIndex = 10
       } else {
         blur = Math.min(20 * precent, 20)
       }
@@ -183,18 +184,16 @@ export default {
       this.$refs.filter.style[backdrop] = `blur(${blur}px)`
       // 向上滚动,固定header
       if (newY < this.minTranslateY) {
-        zIndex = 10
-        this.$refs.bgImage.style.paddingTop = 0
-        this.$refs.bgImage.style.height = `${RESERVED_HEIGHT}px`
         this.$refs.playBtn.style.display = 'none'
+        this.$refs.title.innerHTML = this.title
+        this.$refs.header.style.backgroundImage = `url(${this.bgImage})`
       } else {
-        zIndex = 0
-        this.$refs.bgImage.style.paddingTop = '70%'
-        this.$refs.bgImage.style.height = 0
+        this.$refs.title.innerHTML = ''
         this.$refs.playBtn.style.display = ''
+        this.$refs.header.style.backgroundImage = ``
       }
-      this.$refs.bgImage.style.zIndex = zIndex
       // 设置下拉放大图片的比例
+      this.$refs.bgImage.style[transform] = `translate3d(0,-${translateY}px),0`
       this.$refs.bgImage.style[transform] = `scale(${scale})`
     }
   },
@@ -218,8 +217,13 @@ export default {
   right: 0;
   background: $color-background;
   .header {
+    position: fixed;
+    width: 100%;
     height: 40px;
     line-height: 40px;
+    z-index: 10;
+    transform-origin: top;
+    background-size: cover;
     .back {
       position: absolute;
       top: 0;
@@ -227,13 +231,13 @@ export default {
       z-index: 50;
       width: 40px;
       height: 40px;
+      z-index: 10;
       i {
         display: block;
         text-align: center;
         line-height: 40px;
         font-weight: bold;
         font-size: 30px;
-        color: #fff;
       }
     }
     .title {
@@ -245,13 +249,11 @@ export default {
       text-align: center;
       line-height: 40px;
       font-size: $font-size-large;
-      color: #fff;
       @include no-wrap();
     }
   }
   .bg-image {
     position: relative;
-    top: -40px;
     padding-top: 70%;
     height: 0px;
     transform-origin: top;
@@ -267,7 +269,6 @@ export default {
       line-height: 40px;
       font-weight: bold;
       text-align: center;
-      color: #fff;
       z-index: 1;
     }
     .play-wrapper {
@@ -321,22 +322,34 @@ export default {
       left: 0;
       width: 100%;
       height: 100%;
+      background: rgba(0, 0, 0, 0.1);
     }
   }
   .bg-layer {
     position: relative;
     height: 100%;
-    background: $color-background;
-    border-radius: 10px;
+    z-index: 1;
+    .bg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: url('../../common/image/bg.jpg') no-repeat;
+      &.bg-blur {
+        float: left;
+        filter: brightness(0.8);
+        background-size: cover;
+        background-position: 0 -50px;
+      }
+    }
   }
   .list {
     position: absolute;
     top: 0;
     bottom: 0;
     width: 100%;
+    z-index: 2;
     .song-list-wrapper {
       position: relative;
-      border-radius: 10px;
       overflow: hidden;
     }
   }
@@ -345,6 +358,7 @@ export default {
     width: 100%;
     top: 60%;
     transform: translateY(-60%);
+    z-index: 999;
   }
 }
 </style>
