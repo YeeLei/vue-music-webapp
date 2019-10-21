@@ -125,6 +125,7 @@ export default {
       this.$router.push({
         path: `/rank/${item.listenNum}`
       })
+      // console.log(item)
       this.setTopList(item)
     },
     handlePlaylist (playlist) {

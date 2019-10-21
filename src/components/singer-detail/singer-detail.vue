@@ -13,7 +13,7 @@ import MusicList from 'components/music-list/music-list'
 import { getSingerDetail } from 'api/singer'
 import { ERR_OK } from 'api/config'
 import { createSong, isValidMusic, processSongUrl } from 'common/js/song'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   data () {
     return {
@@ -43,10 +43,10 @@ export default {
       getSingerDetail(this.singer.id).then(res => {
         if (res.code === ERR_OK) {
           // console.log(res.data.list)
-
           //  processSongUrl 对歌曲列表做处理
           processSongUrl(this._normalizeSongs(res.data.list)).then(songs => {
             this.songs = songs
+            this.setSingerSongList(this.songs)
             // console.log(this.songs)
           })
         }
@@ -62,7 +62,10 @@ export default {
         }
       })
       return ret
-    }
+    },
+    ...mapMutations({
+      setSingerSongList: 'SET_SINGER_SONG_LIST'
+    })
   },
   components: {
     MusicList

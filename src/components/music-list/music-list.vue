@@ -10,13 +10,12 @@
       <div class="title"
            ref="title"></div>
     </div>
-    <div class="bg-image"
-         :style="bgStyle"
-         ref="bgImage">
+    <div class="content">
       <div class="text"
            v-html="title"></div>
       <div class="play-wrapper"
-           v-show="playBtn">
+           v-show="playBtn"
+           ref="btn">
         <div class="play"
              v-show="songs.length > 0"
              ref="playBtn"
@@ -34,6 +33,10 @@
         </p>
       </div>
       <slot></slot>
+    </div>
+    <div class="bg-image"
+         :style="bgStyle"
+         ref="bgImage">
       <div class="filter"
            ref="filter">
       </div>
@@ -51,7 +54,8 @@
       <div class="song-list-wrapper">
         <song-list :songs="songs"
                    :rank="rank"
-                   @selectSong="selectSong">
+                   @selectSong="selectSong"
+                   @handleSeach="handleSeach">
         </song-list>
       </div>
     </scroll>
@@ -59,6 +63,10 @@
          v-show="!songs.length">
       <loading></loading>
     </div>
+    <song-seek :seek="seek"
+               @hide="hide"
+               @selectSong="selectSong">
+    </song-seek>
   </div>
 </template>
 
@@ -66,6 +74,7 @@
 import Scroll from 'base/scroll/scroll'
 import SongList from 'base/song-list/song-list'
 import Loading from 'base/loading/loading'
+import SongSeek from 'base/song-seek/song-seek'
 import { prefixStyle } from 'common/js/dom'
 import { getSongInfo } from 'api/song'
 import { ERR_OK } from 'api/config'
@@ -107,7 +116,8 @@ export default {
   },
   data () {
     return {
-      scrollY: 0
+      scrollY: 0,
+      seek: false
     }
   },
   computed: {
@@ -153,6 +163,12 @@ export default {
       const bottom = playlist.length ? '40px' : ''
       this.$refs.musicList.style.bottom = bottom
       this.$refs.list.refresh()
+    },
+    handleSeach () {
+      this.seek = true
+    },
+    hide () {
+      this.seek = false
     },
     _getSongInfo (type, mid, id) {
       getSongInfo(type, mid, id).then(res => {
@@ -200,7 +216,8 @@ export default {
   components: {
     SongList,
     Scroll,
-    Loading
+    Loading,
+    SongSeek
   }
 }
 </script>
@@ -252,12 +269,11 @@ export default {
       @include no-wrap();
     }
   }
-  .bg-image {
-    position: relative;
-    padding-top: 70%;
-    height: 0px;
-    transform-origin: top;
-    background-size: cover;
+  .content {
+    position: absolute;
+    width: 100%;
+    height: 70vw;
+    z-index: 1;
     .text {
       position: absolute;
       top: 50%;
@@ -278,17 +294,20 @@ export default {
       width: 100%;
       .play {
         width: 135px;
+        height: 20px;
+        line-height: 20px;
         padding: 5px 0;
         margin: 0 auto;
         text-align: center;
-        border: 1px solid $color-theme;
-        color: $color-theme;
+        border: 1px solid $color-theme-g;
+        color: $color-theme-g;
         border-radius: 100px;
         font-size: 0;
         i {
           display: inline-block;
           vertical-align: middle;
           margin-right: 6px;
+          margin-top: 2px;
           font-size: $font-size-large-x;
         }
         .play-text {
@@ -316,6 +335,13 @@ export default {
         }
       }
     }
+  }
+  .bg-image {
+    position: relative;
+    padding-top: 70%;
+    height: 0px;
+    transform-origin: top;
+    background-size: cover;
     .filter {
       position: absolute;
       top: 0;
@@ -336,7 +362,7 @@ export default {
       background: url('../../common/image/bg.jpg') no-repeat;
       &.bg-blur {
         float: left;
-        filter: brightness(0.8);
+        filter: brightness(0.7);
         background-size: cover;
         background-position: 0 -50px;
       }

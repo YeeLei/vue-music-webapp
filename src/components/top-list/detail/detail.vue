@@ -2,6 +2,7 @@
   <transition name="fade">
     <div class="top-list-detail"
          v-if="flag">
+      <div class="bg bg-blur"></div>
       <div class="header">
         <div class="back"
              @click="back">
@@ -46,11 +47,22 @@ export default {
 @import 'common/scss/mixin.scss';
 .top-list-detail {
   position: fixed;
+  width: 100%;
+  height: 100%;
   top: 0;
   bottom: 0;
-  width: 100%;
   z-index: 999;
   background: $color-background;
+  .bg {
+    width: 100%;
+    height: 100%;
+    background: url('../../../common/image/bg.jpg') no-repeat;
+    &.bg-blur {
+      float: left;
+      filter: brightness(0.8);
+      background-size: cover;
+    }
+  }
   .header {
     width: 100%;
     height: 40px;

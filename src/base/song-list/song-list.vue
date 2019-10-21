@@ -1,5 +1,15 @@
 <template>
   <div class="song-list">
+    <div class="search-song">
+      <div class="search-wrapper"
+           @click="handleSearch">
+        <div class="search-box">
+          <i class="iconfont icon-search1"></i>
+          <span class="text">搜索此歌手的歌曲</span>
+        </div>
+        <!-- <search-box :placeholder="placeholder"></search-box> -->
+      </div>
+    </div>
     <div class="random-play"
          v-if="playBtn">
       <i class="iconfont icon-random-play"
@@ -36,6 +46,7 @@
 
 <script>
 import { mapActions } from 'vuex'
+import SearchBox from 'base/search-box/search-box'
 export default {
   props: {
     songs: {
@@ -59,6 +70,11 @@ export default {
       default: true
     }
   },
+  data () {
+    return {
+      placeholder: '搜索此歌手的歌曲'
+    }
+  },
   computed: {
     count () {
       return this.songs.length
@@ -80,7 +96,13 @@ export default {
         list: this.songs
       })
     },
+    handleSearch () {
+      this.$emit('handleSeach')
+    },
     ...mapActions(['sequencePlay'])
+  },
+  components: {
+    SearchBox
   }
 }
 </script>
@@ -88,9 +110,35 @@ export default {
 <style lang="scss" scoped>
 @import 'common/scss/variable';
 @import 'common/scss/mixin';
-@import 'common/scss/variable';
-@import 'common/scss/mixin';
 .song-list {
+  .search-song {
+    position: relative;
+    top: 0;
+    width: 100%;
+    height: 50px;
+    margin-top: 10px;
+    .search-wrapper {
+      padding: 10px;
+      margin: 0 auto;
+      .search-box {
+        width: 100%;
+        height: 35px;
+        line-height: 35px;
+        background: $color-background-ddd;
+        border-radius: 15px;
+        text-align: center;
+        .icon-search1 {
+          font-size: $font-size-medium-x;
+          color: rgba(255, 255, 255, 0.4);
+        }
+        .text {
+          margin-left: 5px;
+          font-size: $font-size-medium;
+          color: rgba(255, 255, 255, 0.4);
+        }
+      }
+    }
+  }
   .random-play {
     position: relative;
     top: 0;
@@ -101,7 +149,7 @@ export default {
     padding-left: 16px;
     i {
       font-size: $font-size-large-x;
-      color: $color-theme;
+      color: $color-theme-g;
       padding-right: 14px;
     }
     .text {
@@ -155,7 +203,7 @@ export default {
             margin-left: 5px;
           }
           .detail-icon {
-            color: $color-theme;
+            color: $color-theme-g;
             height: 16px;
             display: inline-block;
             vertical-align: top;

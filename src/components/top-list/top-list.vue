@@ -69,6 +69,7 @@ export default {
           this.songList = res
           processSongUrl(this._normalizeSongs(res.songlist)).then((songs) => {
             this.songs = songs
+            this.setSingerSongList(this.songs)
           })
         }
       })
@@ -84,7 +85,8 @@ export default {
       return ret
     },
     ...mapMutations({
-      setDetail: 'SET_DETAIL'
+      setDetail: 'SET_DETAIL',
+      setSingerSongList: 'SET_SINGER_SONG_LIST'
     })
   },
   components: {
