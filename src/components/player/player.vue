@@ -147,7 +147,7 @@
           <progress-circle :radius="radius"
                            :percent="percent">
             <i @click.stop="togglePlaying"
-               class="icon-mini iconfont"
+               class="iconfont"
                :class="miniIcon">
             </i>
           </progress-circle>
@@ -787,7 +787,7 @@ export default {
           padding: 0 20px;
           text-align: center;
           i {
-            font-size: 45px;
+            font-size: 50px;
           }
         }
         .i-right {
@@ -905,14 +905,18 @@ export default {
       margin: 0 5px;
       .icon-play-mini,
       .icon-pause-mini {
-        font-size: 30px;
+        font-size: 15px;
         color: $color-theme;
       }
-      .icon-mini {
+      .icon-pause-mini {
         position: absolute;
         left: 7px;
-        top: 8px;
-        font-size: 15px;
+        top: 7px;
+      }
+      .icon-play-mini {
+        position: absolute;
+        left: 8px;
+        top: 7px;
       }
       .icon-playlist {
         display: block;
@@ -936,7 +940,7 @@ export default {
     .top-tip-wrapper {
       background: rgba(30, 28, 28, 0.7);
       .tip-title {
-        width: 65%;
+        width: 120px;
         margin: 0 auto;
       }
       .tip-icon {

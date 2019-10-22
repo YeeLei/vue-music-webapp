@@ -309,7 +309,6 @@ export default {
           display: inline-block;
           vertical-align: middle;
           margin-right: 6px;
-          margin-top: 2px;
           font-size: $font-size-large-x;
         }
         .play-text {
@@ -366,7 +365,7 @@ export default {
         float: left;
         filter: brightness(0.7);
         background-size: cover;
-        background-position: 0 -50px;
+        background-position: 0 -20px;
       }
     }
   }

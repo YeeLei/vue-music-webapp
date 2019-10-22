@@ -50,7 +50,7 @@ export default {
 
 .progress-circle {
   position: relative;
-  margin-top: 6px;
+  margin-top: 5px;
   circle {
     stroke-width: 8px;
     transform-origin: center;

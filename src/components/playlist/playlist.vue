@@ -10,7 +10,7 @@
             <i class="icon iconfont"
                :class="iconMode"
                @click="changeMode"></i>
-            <span class="text">{{playListMode}}({{playlist.length}}首)</span>
+            <span class="text">{{playListMode}}<span v-show="this.mode!== 1">({{playlist.length}}首)</span></span>
             <span class="clear"
                   @click="showConfirm">
               <i class="iconfont icon-clear"></i>
@@ -43,11 +43,11 @@
                     <i></i>
                   </div>
                 </span>
-                <span class="like"
-                      @click.stop="toggleFavorite(item)">
+                <!-- <span class="like"
+                      @click.stop="">
                   <i class="iconfont"
                      :class="getFavoriteIcon(item)"></i>
-                </span>
+                </span> -->
                 <span class="delete"
                       @click.stop="deleteOne(item)">
                   <i class="iconfont icon-delete-list"></i>
