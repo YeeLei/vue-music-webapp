@@ -54,6 +54,7 @@ export default {
   z-index: 999;
   background: $color-background;
   .bg {
+    position: absolute;
     width: 100%;
     height: 100%;
     background: url('../../../common/image/bg.jpg') no-repeat;
@@ -64,9 +65,11 @@ export default {
     }
   }
   .header {
+    position: relative;
     width: 100%;
     height: 40px;
     line-height: 40px;
+    background: rgba(165, 165, 165, 0.2);
     .back {
       position: absolute;
       top: 0;
@@ -78,7 +81,6 @@ export default {
         text-align: center;
         line-height: 40px;
         font-size: 30px;
-        color: rgba(0, 0, 0, 0.6);
       }
     }
     .title {
@@ -90,16 +92,16 @@ export default {
       line-height: 40px;
       font-size: $font-size-medium-x;
       font-weight: 400px;
-      color: #000;
       @include no-wrap();
     }
   }
   .detail {
+    position: relative;
     margin-top: 20px;
     padding: 0 10px;
     box-sizing: border-box;
-    color: $color-text;
     line-height: 24px;
+    color: #e9e9e9;
     font-size: $font-size-small-x;
   }
 }

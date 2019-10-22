@@ -32,7 +32,6 @@
              @click="detail"></i>
         </p>
       </div>
-      <slot></slot>
     </div>
     <div class="bg-image"
          :style="bgStyle"
@@ -65,8 +64,10 @@
     </div>
     <song-seek :seek="seek"
                @hide="hide"
-               @selectSong="selectSong">
+               @selectSong="selectSong"
+               ref="seek">
     </song-seek>
+    <slot></slot>
   </div>
 </template>
 
@@ -166,6 +167,7 @@ export default {
     },
     handleSeach () {
       this.seek = true
+      this.$refs.seek.trigger()
     },
     hide () {
       this.seek = false

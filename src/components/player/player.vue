@@ -934,7 +934,7 @@ export default {
     height: 120px;
     text-align: center;
     .top-tip-wrapper {
-      background: rgba(23, 22, 22, 0.7);
+      background: rgba(30, 28, 28, 0.7);
       .tip-title {
         width: 65%;
         margin: 0 auto;

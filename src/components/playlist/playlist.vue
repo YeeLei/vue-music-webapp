@@ -10,7 +10,7 @@
             <i class="icon iconfont"
                :class="iconMode"
                @click="changeMode"></i>
-            <span class="text">{{modeText}}({{playlist.length}}首)</span>
+            <span class="text">{{playListMode}}({{playlist.length}}首)</span>
             <span class="clear"
                   @click="showConfirm">
               <i class="iconfont icon-clear"></i>
@@ -407,7 +407,7 @@ export default {
     }
     .list-close {
       text-align: center;
-      line-height: 40px;
+      line-height: 50px;
       font-size: $font-size-medium-x;
       color: $color-text;
       @include border-top-1px($color-border);

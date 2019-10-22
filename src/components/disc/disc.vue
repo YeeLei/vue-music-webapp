@@ -3,7 +3,8 @@
               name="slide">
     <div class="disc"
          ref="disc">
-      <div class="header">
+      <div class="header"
+           ref="header">
         <div class="back"
              @click="back">
           <i class="fa fa-angle-left"></i>
@@ -59,6 +60,7 @@
       </div>
       <div class="bg-layer"
            ref="bgLayer">
+        <div class="bg bg-blur"></div>
       </div>
       <scroll :data="songs"
               :probeType="probeType"
@@ -69,7 +71,8 @@
         <div class="song-list-wrapper">
           <song-list :songs="songs"
                      :rank="rank"
-                     @selectSong="selectSong">
+                     @selectSong="selectSong"
+                     @handleSeach="handleSeach">
           </song-list>
         </div>
       </scroll>
@@ -80,6 +83,11 @@
       <disc-brief :flag="flag"
                   @back="hideBrief">
       </disc-brief>
+      <song-seek :seek="seek"
+                 @hide="hide"
+                 @selectSong="selectSong"
+                 ref="seek">
+      </song-seek>
     </div>
   </transition>
 </template>
@@ -90,6 +98,7 @@ import SongList from 'base/song-list/song-list'
 import Scroll from 'base/scroll/scroll'
 import Loading from 'base/loading/loading'
 import DiscBrief from 'components/disc/disc-brief/disc-brief'
+import SongSeek from 'base/song-seek/song-seek'
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import { ERR_OK } from 'api/config'
 import { getSongInfo } from 'api/song'
@@ -110,7 +119,8 @@ export default {
       detail: {},
       checkloaded: false,
       scrollY: 0,
-      flag: false
+      flag: false,
+      seek: false
     }
   },
   created () {
@@ -155,6 +165,13 @@ export default {
     hideBrief () {
       this.flag = false
     },
+    handleSeach () {
+      this.seek = true
+      this.$refs.seek.trigger()
+    },
+    hide () {
+      this.seek = false
+    },
     selectSong (song, index) {
       // 保存点击的当前歌曲的信息
       this._getSongInfo(song.type, song.mid, song.id)
@@ -181,6 +198,7 @@ export default {
           processSongUrl(this._normalizeSongs(res.cdlist[0].songlist)).then(
             songs => {
               this.songs = songs
+              this.setSingerSongList(this.songs)
               // console.log(this.songs)
             }
           )
@@ -206,14 +224,14 @@ export default {
     },
     ...mapMutations({
       setBrief: 'SET_BRIEF',
-      setSongInfo: 'SET_SONGINFO'
+      setSongInfo: 'SET_SONGINFO',
+      setSingerSongList: 'SET_SINGER_SONG_LIST'
     }),
     ...mapActions(['selectPlay'])
   },
   watch: {
     scrollY (newY) {
       let translateY = Math.max(this.minTranslateY, newY)
-      let zIndex = 0
       let scale = 1
       let blur = 0
 
@@ -223,25 +241,20 @@ export default {
 
       if (newY > 0) {
         scale = 1 + percent
-        zIndex = 100
       } else {
-        blur = Math.min(17, 17 * percent)
+        blur = Math.min(20 * percent, 20)
       }
 
       // 向上滚动,固定header
       if (newY < this.minTranslateY) {
-        zIndex = 100
-        this.$refs.bgImage.style.height = `${RESERVED_HEIGHT}px`
-        this.$refs.bgImage.style.filter = 'none'
         this.$refs.title.innerHTML = `${this.detail.dissname}`
+        this.$refs.header.style.backgroundImage = `url(${this.detail.logo})`
       } else {
-        zIndex = 0
-        this.$refs.bgImage.style.height = '70vw'
         this.$refs.bgImage.style.filter = 'blur(17px)'
         this.$refs.title.innerHTML = `${this.title}`
         this.$refs.detail.style.filter = `blur(${blur}px)`
+        this.$refs.header.style.backgroundImage = ``
       }
-      this.$refs.bgImage.style.zIndex = zIndex
       // 设置下拉放大图片的比例
       this.$refs.bgImage.style[transform] = `scale(${scale})`
     }
@@ -250,7 +263,8 @@ export default {
     SongList,
     Scroll,
     Loading,
-    DiscBrief
+    DiscBrief,
+    SongSeek
   }
 }
 </script>
@@ -265,8 +279,9 @@ export default {
   left: 0;
   bottom: 0;
   right: 0;
-  background: $color-background;
+  background: #fff;
   .header {
+    position: relative;
     width: 100%;
     z-index: 100;
     height: 40px;
@@ -283,7 +298,6 @@ export default {
         text-align: center;
         line-height: 40px;
         font-size: 30px;
-        color: #fff;
       }
     }
     .title {
@@ -306,7 +320,7 @@ export default {
     height: 70vw;
     background-repeat: no-repeat;
     background-size: cover;
-    filter: blur(17px);
+    filter: blur(5px);
     .filter {
       position: absolute;
       top: 0;
@@ -320,7 +334,7 @@ export default {
     top: 0px;
     width: 100%;
     height: 70vw;
-    z-index: 10;
+    z-index: 1;
     padding: 25px 15px 0;
     box-sizing: border-box;
     font-size: 0;
@@ -407,7 +421,6 @@ export default {
         height: 30px;
         line-height: 30px;
         font-size: $font-size-small;
-        color: #fff;
         @include no-wrap();
         .detail-brief-text {
           width: 95%;
@@ -425,21 +438,37 @@ export default {
   .bg-layer {
     position: relative;
     height: 100%;
-    background: $color-background;
-    border-radius: 10px;
+    z-index: 1;
+    .bg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: url('../../common/image/bg.jpg') no-repeat;
+      &.bg-blur {
+        float: left;
+        filter: brightness(0.7);
+        background-size: cover;
+        background-position: 0 -50px;
+      }
+    }
   }
   .list {
     position: absolute;
     top: 0;
     bottom: 0;
     width: 100%;
-    z-index: 50;
+    z-index: 2;
     .song-list-wrapper {
       position: relative;
-      border-radius: 10px;
-      background: #f2f3f4;
       overflow: hidden;
     }
+  }
+  .loading-container {
+    position: absolute;
+    width: 100%;
+    top: 60%;
+    transform: translateY(-60%);
+    z-index: 999;
   }
   .loading-container {
     position: absolute;

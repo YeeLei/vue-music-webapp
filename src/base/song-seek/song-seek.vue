@@ -34,6 +34,10 @@
             </div>
           </li>
         </ul>
+        <div class="no-result-wrapper"
+             v-show="!this.songs.length && this.query">
+          <p class="no-result-text">很抱歉，暂时没有找到与“<span class="text">{{`${this.query}`}}</span>”相关的结果。</p>
+        </div>
       </scroll>
     </div>
   </transition>
@@ -70,6 +74,9 @@ export default {
   methods: {
     hide () {
       this.$emit('hide')
+    },
+    trigger () {
+      this.$refs.searchBox.trigger()
     },
     getDesc (song) {
       if (song.albumdesc) {
@@ -132,7 +139,7 @@ export default {
   width: 100%;
   height: 100%;
   background: #000;
-  z-index: 50;
+  z-index: 100;
   .bg {
     width: 100%;
     height: 100%;
@@ -200,6 +207,24 @@ export default {
             }
           }
         }
+      }
+    }
+  }
+  .no-result-wrapper {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    .no-result-text {
+      margin-top: 30px;
+      font-size: $font-size-medium;
+      line-height: 30px;
+      .text {
+        color: $color-theme-g;
       }
     }
   }

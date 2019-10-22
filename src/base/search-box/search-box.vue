@@ -4,6 +4,7 @@
     <input v-model="query"
            class="box"
            :placeholder="placeholder"
+           autofocus="autofocus"
            ref="query">
     <i class="iconfont icon-delete"
        v-show="query"
@@ -45,6 +46,9 @@ export default {
     },
     blur () {
       this.$refs.query.blur()
+    },
+    trigger () {
+      this.$refs.query.focus()
     }
   }
 }

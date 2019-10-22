@@ -11,55 +11,63 @@ const SingerDetail = () => import('components/singer-detail/singer-detail')
 const Disc = () => import('components/disc/disc')
 const TopList = () => import('components/top-list/top-list')
 const Search = () => import('components/search/search')
-
 export default new Router({
-  routes: [{
-    path: '/',
-    redirect: '/recommend'
-  },
-  {
-    path: '/recommend',
-    component: Recommend,
-    meta: {
-      index: 0
+  routes: [
+    {
+      path: '/',
+      redirect: '/recommend'
     },
-    children: [{
-      path: ':id',
-      component: Disc
-    }]
-  },
-  {
-    path: '/singer',
-    component: Singer,
-    meta: {
-      index: 1
+    {
+      path: '/recommend',
+      component: Recommend,
+      meta: {
+        index: 0
+      },
+      children: [
+        {
+          path: ':id',
+          component: Disc
+        }
+      ]
     },
-    children: [{
-      path: ':id',
-      component: SingerDetail
-    }]
-  },
-  {
-    path: '/rank',
-    component: Rank,
-    meta: {
-      index: 3
+    {
+      path: '/singer',
+      component: Singer,
+      meta: {
+        index: 1
+      },
+      children: [
+        {
+          path: ':id',
+          component: SingerDetail
+        }
+      ]
     },
-    children: [{
-      path: ':id',
-      component: TopList
-    }]
-  },
-  {
-    path: '/search',
-    component: Search,
-    meta: {
-      index: 4
+    {
+      path: '/rank',
+      component: Rank,
+      meta: {
+        index: 3
+      },
+      children: [
+        {
+          path: ':id',
+          component: TopList
+        }
+      ]
     },
-    children: [{
-      path: ':id',
-      component: SingerDetail
-    }]
-  }
+    {
+      path: '/search',
+      component: Search,
+      meta: {
+        index: 4
+      },
+      children: [
+        {
+          path: ':id',
+          component: SingerDetail
+        }
+      ]
+    }
   ]
 })

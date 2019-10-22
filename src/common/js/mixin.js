@@ -48,6 +48,13 @@ export const playerMixin = {
           ? '已切换到随机播放模式'
           : '已切换到单曲循环模式'
     },
+    playListMode () {
+      return this.mode === playMode.sequence
+        ? '顺序播放'
+        : this.mode === playMode.random
+          ? '随机播放'
+          : '单曲循环'
+    },
     ...mapGetters([
       'sequenceList',
       'currentSong',

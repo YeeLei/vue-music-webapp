@@ -39,7 +39,7 @@
           </p>
         </li>
         <loading v-show="hasMore"
-                 title="">
+                 title="正在加载...">
         </loading>
       </ul>
       <div class="no-result-wrapper"

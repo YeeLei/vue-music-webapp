@@ -84,7 +84,7 @@ export default {
       this.$emit('back')
     },
     handlePlaylist (playlist) {
-      const bottom = playlist.length ? '50px' : ''
+      const bottom = playlist.length ? '40px' : ''
       this.$refs.disc.style.bottom = bottom
       this.$refs.scroll.refresh()
     }
@@ -103,20 +103,20 @@ export default {
   bottom: 0;
   width: 100%;
   z-index: 999;
-  background: $color-background;
   .bg-image {
     position: relative;
     width: 100%;
     height: 100%;
     background-size: 100% 100%;
     background-repeat: no-repeat;
-    filter: blur(17px);
+    filter: blur(5px);
   }
   .disc-brief-wrapper {
     position: absolute;
     top: 0;
     bottom: 0;
     width: 100%;
+    background: rgba(0, 0, 0, 0.7);
     .header {
       height: 40px;
       line-height: 40px;

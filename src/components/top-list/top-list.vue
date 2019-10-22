@@ -8,9 +8,11 @@
                 :play-btn="false"
                 :date-time="dateTime"
                 @detailList="detailList">
-      <detail :flag="flag"
-              @back="back">
-      </detail>
+      <div class="detail">
+        <detail :flag="flag"
+                @back="back">
+        </detail>
+      </div>
     </music-list>
   </transition>
 </template>
