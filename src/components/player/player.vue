@@ -159,6 +159,20 @@
       </div>
     </transition>
     <play-list ref="playlist"></play-list>
+    <!-- 提示框 -->
+    <top-tip ref="topTip">
+      <div class="tip-icon">
+        <i class="iconfont icon-add-list"></i>
+      </div>
+      <div class="tip-title">
+        <span class="text">{{modeText}}</span>
+      </div>
+    </top-tip>
+    <!-- confirm -->
+    <confirm ref="confirm"
+             @confirm="handleConfirm"
+             text="确定从我喜欢中删除这首歌?"
+             :confirmBtnText="confirmBtnText"></confirm>
     <audio :src="currentSong.url"
            @playing="ready"
            @error="error"
@@ -179,6 +193,8 @@ import ProgressCircle from './progress-circle/progress-circle'
 import Lyric from 'lyric-parser'
 import Scroll from 'base/scroll/scroll'
 import PlayList from 'components/playlist/playlist'
+import TopTip from 'base/top-tip/top-tip'
+import Confirm from 'base/confirm/confirm'
 import { prefixStyle } from 'common/js/dom'
 import { playerMixin } from 'common/js/mixin'
 const transform = prefixStyle('transform')
@@ -194,7 +210,8 @@ export default {
       currentLyric: null,
       currentLineNum: 0,
       currentShow: 'cd',
-      playingLyric: ''
+      playingLyric: '',
+      confirmBtnText: '确定删除'
     }
   },
   created () {
@@ -535,6 +552,9 @@ export default {
     showPlayList () {
       this.$refs.playlist.show()
     },
+    handleConfirm () {
+      this.deleteFavoriteList(this.currentSong)
+    },
     ...mapMutations({
       setFullScreen: 'SET_FULL_SCREEN'
     }),
@@ -579,7 +599,9 @@ export default {
     ProgressBar,
     ProgressCircle,
     Scroll,
-    PlayList
+    PlayList,
+    TopTip,
+    Confirm
   }
 }
 </script>
@@ -842,7 +864,7 @@ export default {
     z-index: 180;
     width: 100%;
     height: 40px;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(42, 40, 40, 0.9);
     .icon {
       width: 50px;
       height: 50px;
@@ -889,8 +911,8 @@ export default {
       .icon-mini {
         position: absolute;
         left: 7px;
-        top: 7px;
-        font-size: $font-size-medium-x;
+        top: 8px;
+        font-size: 15px;
       }
       .icon-playlist {
         display: block;
@@ -906,6 +928,31 @@ export default {
     &.mini-enter,
     &.mini-leave-to {
       opacity: 0;
+    }
+  }
+  .top-tip {
+    height: 120px;
+    text-align: center;
+    .top-tip-wrapper {
+      background: rgba(23, 22, 22, 0.7);
+      .tip-title {
+        width: 65%;
+        margin: 0 auto;
+      }
+      .tip-icon {
+        margin: 10px 0;
+        height: 40px;
+        line-height: 40px;
+        .icon-add-list {
+          font-size: 30px;
+          color: $color-text-llll;
+        }
+      }
+      .text {
+        font-size: 15px;
+        color: $color-text-llll;
+        line-height: 25px;
+      }
     }
   }
   @keyframes rotate {

@@ -1,6 +1,7 @@
 <template>
   <div class="song-list">
-    <div class="search-song">
+    <div class="search-song"
+         v-show="songs.length> 0 && seekFlag">
       <div class="search-wrapper"
            @click="handleSearch">
         <div class="search-box">
@@ -46,7 +47,6 @@
 
 <script>
 import { mapActions } from 'vuex'
-import SearchBox from 'base/search-box/search-box'
 export default {
   props: {
     songs: {
@@ -66,6 +66,10 @@ export default {
       default: false
     },
     playBtn: {
+      type: Boolean,
+      default: true
+    },
+    seekFlag: {
       type: Boolean,
       default: true
     }
@@ -100,10 +104,8 @@ export default {
       this.$emit('handleSeach')
     },
     ...mapActions(['sequencePlay'])
-  },
-  components: {
-    SearchBox
   }
+
 }
 </script>
 

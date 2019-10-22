@@ -3,6 +3,11 @@ import { playMode } from 'common/js/config'
 import { shuffle } from 'common/js/util'
 // playlistMixin 用于处理当有playlist 的时候,打开mini播放器,需要重新对组件计算高度以自适应
 export const playlistMixin = {
+  data () {
+    return {
+      showFlag: false
+    }
+  },
   computed: {
     ...mapGetters(['playlist'])
   },
@@ -36,6 +41,13 @@ export const playerMixin = {
           ? 'icon-loop'
           : 'icon-random'
     },
+    modeText () {
+      return this.mode === playMode.sequence
+        ? '已切换到顺序播放模式'
+        : this.mode === playMode.random
+          ? '已切换到随机播放模式'
+          : '已切换到单曲循环模式'
+    },
     ...mapGetters([
       'sequenceList',
       'currentSong',
@@ -56,7 +68,7 @@ export const playerMixin = {
         list = this.sequenceList
       }
       // 展示提示框显示当前播放状态
-      // this.$refs.topTip.show()
+      this.$refs.topTip.show()
       this.resetCurrentIndex(list)
       this.setPlaylist(list)
     },
@@ -75,7 +87,7 @@ export const playerMixin = {
     toggleFavorite (song) {
       // 如果当前是收藏的歌曲,则取消收藏
       if (this.isFavorite(song)) {
-        this.deleteFavoriteList(song)
+        this.$refs.confirm.show()
       } else {
         this.saveFavoriteList(song)
       }

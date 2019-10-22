@@ -94,15 +94,6 @@ export default {
       showFlag: false
     }
   },
-  computed: {
-    modeText () {
-      return this.mode === playMode.sequence
-        ? '顺序播放'
-        : this.mode === playMode.random
-          ? '随机播放'
-          : '单曲循环'
-    }
-  },
   methods: {
     show () {
       this.showFlag = true
@@ -226,7 +217,7 @@ export default {
     .list-header {
       position: relative;
       padding: 20px 20px 10px 20px;
-      @include border-bottom-1px($color-text-ggg);
+      @include border-bottom-1px($color-border);
       .title {
         display: flex;
         align-items: center;
@@ -258,7 +249,7 @@ export default {
           align-items: center;
           height: 50px;
           margin-left: 20px;
-          @include border-bottom-1px($color-text-gggg);
+          @include border-bottom-1px($color-border);
           overflow: hidden;
           &.list-enter-active,
           &.list-leave-active {
@@ -396,11 +387,12 @@ export default {
       }
       .list-operate {
         width: 140px;
-        margin: 5px auto 5px auto;
+        height: 40px;
+        margin: 3px auto 5px auto;
         .add {
           display: flex;
           align-items: center;
-          padding: 8px 10px;
+          padding: 10px 10px 0 10px;
           color: $color-text;
           .icon-add {
             margin-right: 5px;
@@ -415,10 +407,11 @@ export default {
     }
     .list-close {
       text-align: center;
-      line-height: 45px;
+      line-height: 40px;
       font-size: $font-size-medium-x;
       color: $color-text;
-      @include border-top-1px($color-text-ggg);
+      @include border-top-1px($color-border);
+      background: rgba(53, 49, 49, 0.9);
     }
   }
 }

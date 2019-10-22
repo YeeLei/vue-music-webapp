@@ -3,9 +3,7 @@
     <div class="add-song"
          v-show="showFlag"
          @click.stop>
-      <div class="bg-image">
-
-      </div>
+      <div class="bg-image"></div>
       <!-- 头部 -->
       <div class="header">
         <h1 class="title">添加歌曲到列表</h1>
@@ -38,7 +36,8 @@
             <div class="list-inner">
               <song-list :songs="playHistory"
                          @selectSong="selectSong"
-                         :playBtn="false">
+                         :playBtn="false"
+                         :seekFlag="false">
               </song-list>
             </div>
           </scroll>
@@ -65,7 +64,7 @@
                  @listScroll="blurInput">
         </suggest>
       </div>
-      <!-- 顶部提示框 -->
+      <!-- 提示框 -->
       <top-tip ref="topTip">
         <div class="tip-icon">
           <i class="iconfont icon-add-list"></i>

@@ -84,7 +84,7 @@ export default {
       border-radius: 5px;
       background: $color-text-llll;
       .text {
-        padding: 19px 15px;
+        padding: 22px 15px;
         line-height: 22px;
         text-align: center;
         font-size: $font-size-medium-x;
@@ -94,7 +94,7 @@ export default {
         display: flex;
         align-items: center;
         text-align: center;
-        font-size: $font-size-large;
+        font-size: $font-size-medium-x;
         .operate-btn {
           flex: 1;
           line-height: 22px;

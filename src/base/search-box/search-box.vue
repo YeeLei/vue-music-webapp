@@ -33,6 +33,9 @@ export default {
       this.$emit('query', newQuery)
     }, 200))
   },
+  mounted () {
+    this.$refs.query.focus()
+  },
   methods: {
     clear () {
       this.query = ''
