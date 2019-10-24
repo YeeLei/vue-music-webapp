@@ -94,7 +94,7 @@ export default {
   },
   computed: {
     list () {
-      return this.discList.concat(this.hotList)
+      return this.discList.concat(this.hotList).concat(this.banners)
     }
   },
   created () {
