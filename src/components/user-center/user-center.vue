@@ -27,7 +27,8 @@
         <div class="list-inner">
           <song-list :songs="favoriteList"
                      @selectSong="selectSong"
-                     :seekFlag="false">
+                     :seekFlag="false"
+                     :playBtn="false">
           </song-list>
         </div>
       </scroll>
@@ -39,10 +40,16 @@
         <div class="list-inner">
           <song-list :songs="playHistory"
                      @selectSong="selectSong"
-                     :seekFlag="false">
+                     :seekFlag="false"
+                     :playBtn="false">
           </song-list>
         </div>
       </scroll>
+    </div>
+    <div class="no-result-wrapper">
+      <no-result :title="noResultDesc"
+                 v-show="noResult">
+      </no-result>
     </div>
   </div>
 </template>
@@ -51,7 +58,7 @@
 import Switches from 'base/switches/switches'
 import Scroll from 'base/scroll/scroll'
 import SongList from 'base/song-list/song-list'
-// import NoResult from 'base/no-result/no-result'
+import NoResult from 'base/no-result/no-result'
 import Song from 'common/js/song'
 import { mapGetters, mapActions } from 'vuex'
 import { playlistMixin } from 'common/js/mixin'
@@ -68,6 +75,20 @@ export default {
     }
   },
   computed: {
+    noResult () {
+      if (this.currentIndex === 0) {
+        return !this.favoriteList.length
+      } else {
+        return !this.playHistory.length
+      }
+    },
+    noResultDesc () {
+      if (this.currentIndex === 0) {
+        return '暂无收藏的歌曲,赶紧去添加吧！'
+      } else {
+        return '您还没有听过歌曲,赶紧去听歌吧!'
+      }
+    },
     ...mapGetters([
       'favoriteList',
       'playHistory'
@@ -112,7 +133,8 @@ export default {
   components: {
     Switches,
     Scroll,
-    SongList
+    SongList,
+    NoResult
   }
 }
 </script>
@@ -193,7 +215,7 @@ export default {
       overflow: hidden;
     }
     .list-inner {
-      padding: 20px 10px;
+      padding: 0 10px;
       .iconfont {
         margin-top: 5px;
       }

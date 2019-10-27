@@ -99,7 +99,9 @@ export default {
   },
   created () {
     this._getRecommend()
-    this._getDiscList()
+    setTimeout(() => {
+      this._getDiscList()
+    }, 30)
   },
   activated () {
     setTimeout(() => {

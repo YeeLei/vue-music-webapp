@@ -38,14 +38,15 @@ export default {
   align-items: center;
   width: 240px;
   margin: 0 auto;
-  border: 1px solid $color-theme;
-  border-radius: 5px;
+  border-radius: 3px;
+  overflow: hidden;
   .switch-item {
     flex: 1;
     padding: 8px;
     text-align: center;
     font-size: $font-size-medium;
     color: $color-theme;
+    border: 1px solid $color-theme;
     &.active {
       background: $color-theme;
       color: $color-text;
