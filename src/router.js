@@ -11,6 +11,7 @@ const SingerDetail = () => import('components/singer-detail/singer-detail')
 const Disc = () => import('components/disc/disc')
 const TopList = () => import('components/top-list/top-list')
 const Search = () => import('components/search/search')
+const UserCenter = () => import('components/user-center/user-center')
 export default new Router({
   routes: [
     {
@@ -68,6 +69,13 @@ export default new Router({
           component: SingerDetail
         }
       ]
+    },
+    {
+      path: '/user-center',
+      component: UserCenter,
+      meta: {
+        index: 0
+      }
     }
   ]
 })

@@ -1,9 +1,11 @@
 <template>
   <div class="header">
     <h1 class="text">YeeLeiMusic</h1>
-    <div class="mine">
+    <router-link to="/user-center"
+                 class="mine"
+                 tag="div">
       <i class="iconfont icon-list"></i>
-    </div>
+    </router-link>
     <router-link to="/search"
                  class="search"
                  tag="div">
