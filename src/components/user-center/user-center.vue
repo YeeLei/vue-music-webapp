@@ -155,7 +155,7 @@ export default {
     z-index: -1;
     &.bg-blur {
       float: left;
-      filter: brightness(0.8);
+      filter: brightness(0.7);
       background-size: cover;
     }
   }

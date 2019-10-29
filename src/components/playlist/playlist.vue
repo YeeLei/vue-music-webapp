@@ -27,8 +27,7 @@
               <li class="item border-bottom-1px"
                   v-for="(item,index) in sequenceList"
                   :key="item.id"
-                  @click="selectItem(item,index)"
-                  ref="listItem">
+                  @click="selectItem(item,index)">
                 <span class="text"
                       :class="textActive(item)">
                   {{item.name}}
@@ -80,7 +79,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import Scroll from 'base/scroll/scroll'
 import Confirm from 'base/confirm/confirm'
 import AddSong from 'components/add-song/add-song'
@@ -93,6 +92,11 @@ export default {
     return {
       showFlag: false
     }
+  },
+  computed: {
+    ...mapGetters([
+      'playing'
+    ])
   },
   methods: {
     show () {
@@ -131,16 +135,22 @@ export default {
           return item.id === song.id
         })
       }
+      // console.log(index)
       this.setCurrentIndex(index)
-      // 设置播放状态
-      this.setPlayingState(true)
+      if (this.playing) {
+        // 设置播放状态
+        this.setPlayingState(false)
+      } else {
+        this.setPlayingState(true)
+      }
     },
     scrollToCurrent (current) {
       // 根据索引滚动到当前再list列表中的位置
       const index = this.sequenceList.findIndex((song) => {
         return current.id === song.id
       })
-      this.$refs.listContent.scrollToElement(this.$refs.listItem[index], 300)
+      // 组件显示之后,滚动到当前歌曲
+      this.$refs.listContent.scrollToElement(this.$refs.list.$el.children[index], 300)
     },
     deleteOne (item) {
       // 从播放列表删除一条歌曲

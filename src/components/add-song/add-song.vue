@@ -176,7 +176,7 @@ export default {
     z-index: -1;
     background: url('../../common/image/bg.jpg') no-repeat;
     background-size: cover;
-    filter: brightness(0.8);
+    filter: brightness(0.7);
   }
   &.slide-enter-active,
   &.slide-leave-active {
@@ -222,7 +222,7 @@ export default {
         height: 100%;
         overflow: hidden;
         .list-inner {
-          padding: 20px 30px;
+          padding: 0 0 0 10px;
         }
       }
     }

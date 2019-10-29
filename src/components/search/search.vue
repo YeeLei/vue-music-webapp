@@ -67,6 +67,15 @@
              confirmBtnText="清空"
              @confirm="deleteAll">
     </confirm>
+    <!-- 提示框 -->
+    <top-tip ref="topTip">
+      <div class="tip-icon">
+        <i class="iconfont icon-add-list"></i>
+      </div>
+      <div class="tip-title">
+        <span class="text">1首歌曲已添加到播放队列</span>
+      </div>
+    </top-tip>
     <router-view></router-view>
   </div>
 </template>
@@ -77,6 +86,7 @@ import Scroll from 'base/scroll/scroll'
 import Suggest from 'components/suggest/suggest'
 import SearchList from 'base/search-list/search-list'
 import Confirm from 'base/confirm/confirm'
+import TopTip from 'base/top-tip/top-tip'
 import { getHotKey } from 'api/search'
 import { ERR_OK } from 'api/config'
 import { mapActions } from 'vuex'
@@ -142,7 +152,8 @@ export default {
     Scroll,
     Suggest,
     SearchList,
-    Confirm
+    Confirm,
+    TopTip
   }
 }
 </script>
@@ -161,7 +172,7 @@ export default {
     background: url('../../common/image/bg.jpg') no-repeat;
     &.bg-blur {
       float: left;
-      filter: brightness(0.8);
+      filter: brightness(0.7);
       background-size: cover;
     }
   }
@@ -259,6 +270,22 @@ export default {
     bottom: 0;
     width: 100%;
     overflow: hidden;
+  }
+  .top-tip {
+    text-align: center;
+    .tip-icon {
+      margin: 10px 0;
+      height: 40px;
+      line-height: 40px;
+      .icon-add-list {
+        font-size: 30px;
+        color: $color-text-llll;
+      }
+    }
+    .text {
+      font-size: 15px;
+      color: $color-text-llll;
+    }
   }
 }
 </style>

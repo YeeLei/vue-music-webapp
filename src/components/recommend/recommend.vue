@@ -94,24 +94,17 @@ export default {
   },
   computed: {
     list () {
-      return this.discList.concat(this.hotList).concat(this.banners)
+      return this.discList.concat(this.hotList)
     }
   },
   created () {
     this._getRecommend()
-    setTimeout(() => {
-      this._getDiscList()
-    }, 30)
+    this._getDiscList()
   },
   activated () {
     setTimeout(() => {
       this.$refs.slider && this.$refs.slider.refresh()
     }, 20)
-  },
-  mounted () {
-    this.$nextTick(() => {
-      this.$refs.scroll.refresh()
-    })
   },
   methods: {
     loadImage () {
@@ -144,15 +137,12 @@ export default {
         if (res.code === ERR_OK) {
           this.banners = res.data.slider
           this.hotList = res.data.songList
-          // console.log(this.hotList)
-          // console.log(this.banners)
         }
       })
     },
     _getDiscList () {
       getDiscList().then(res => {
         if (res.code === ERR_OK) {
-          // console.log(res.data.list)
           this.discList = res.data.list
         }
       })

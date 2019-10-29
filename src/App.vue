@@ -60,7 +60,7 @@ body,
 .slide-right-leave-active,
 .slide-left-enter-active,
 .slide-left-leave-active {
-  transition: all 0.5s;
+  transition: all 0.4s;
 }
 .slide-right-enter {
   opacity: 0;

@@ -167,12 +167,7 @@ export default {
     },
     // 监听Y轴方向上滚动的距离
     scrollY (newY) {
-      window.onscroll = function () {
-        console.log('11')
-      }
-      this.$refs.listShortcut.style.display = 'block'
       const listHeight = this.listHeight
-      // console.log(newY)
       // 当滚动到顶部，newY>0
       if (newY > 0) {
         this.currentIndex = 0
@@ -223,7 +218,7 @@ export default {
       font-size: $font-size-small-x;
       color: #fff;
       font-weight: bold;
-      background: $color-background-list-title;
+      background: rgba(0, 0, 0, 0.1);
     }
     .list-group-item {
       display: flex;
