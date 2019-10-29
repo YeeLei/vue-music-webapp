@@ -143,7 +143,7 @@ export default {
         // 插入当前歌曲到播放列表中
         this.insertSong(item)
       }
-      this.$emit('select')
+      this.$emit('select', item)
     },
     listScroll () {
       this.$emit('listScroll')

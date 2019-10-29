@@ -8,7 +8,7 @@ import 'common/scss/index.scss'
 Vue.config.productionTip = false
 
 Vue.use(VueLazyload, {
-  loading: require('common/image/loading.gif')
+  loading: require('common/image/default.png')
 })
 fastclick.attach(document.body)
 new Vue({

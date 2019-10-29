@@ -131,9 +131,13 @@ export const searchMixin = {
       this.$refs.searchBox.blur()
     },
     // 保存搜索历史
-    saveSearch () {
+    saveSearch (item) {
       this.saveSearchHistory(this.query)
-      this.$refs.topTip.show()
+      if (item.type === 'singer') {
+        return false
+      } else {
+        this.$refs.topTip.show()
+      }
     },
     onQueryChange (query) {
       // 处理带空格的情况
