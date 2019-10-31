@@ -27,9 +27,9 @@
                 </span>
               </li>
             </ul>
-            <div class="singer-list-close border-top-1px"
+            <div class="singer-list-close"
                  @click="hide">
-              <span>关闭</span>
+              <span>取消</span>
             </div>
           </div>
         </scroll>
@@ -143,7 +143,7 @@ export default {
           .singer-name {
             flex: 1;
             position: relative;
-            line-height: 40px;
+            line-height: 50px;
             text-align: left;
             margin-left: 10px;
             font-size: $font-size-small-x;
@@ -163,7 +163,6 @@ export default {
         line-height: 50px;
         font-size: $font-size-medium-x;
         color: $color-text;
-        @include border-top-1px($color-border);
         background: rgba(53, 49, 49, 0.9);
       }
     }
