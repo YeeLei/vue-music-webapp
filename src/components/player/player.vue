@@ -204,6 +204,7 @@ import Confirm from 'base/confirm/confirm'
 import PlaySingerList from 'components/play-singer-list/play-singer-list'
 import { prefixStyle } from 'common/js/dom'
 import { playerMixin } from 'common/js/mixin'
+import Singer from 'common/js/singer'
 
 const transform = prefixStyle('transform')
 const transitionDuration = prefixStyle('transitionDuration')
@@ -248,7 +249,8 @@ export default {
     ...mapGetters([
       'fullScreen',
       'currentIndex',
-      'playing'
+      'playing',
+      'singer'
     ])
   },
   methods: {
@@ -567,7 +569,21 @@ export default {
       if (this.currentSong.singermid.length === 1) {
         // 如果只有一个歌手,说明返回到歌手列表
         this.setFullScreen(false)
+        let singer = new Singer({
+          id: this.currentSong.singermid[0].mid,
+          name: this.currentSong.singermid[0].name
+        })
+        this.setSinger(singer)
+        if (this.singer.id === this.$route.params.id) { // 如果当前歌手id等于之前获取到的歌手的id
+          this.setFullScreen(false)
+          this.$refs.singerlist.hide()
+        } else {
+          this.$router.push({
+            path: `/singer/${this.singer.id}`
+          })
+        }
       } else {
+        // 如果有多个歌手,则弹出歌手列表浮层
         this.$refs.singerlist.show()
       }
     },
