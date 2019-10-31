@@ -18,7 +18,7 @@
         <ul>
           <li v-for="(song,index) in songs"
               :key="index"
-              @click="selectSong(song,index)"
+              @click="selectSong(song)"
               class="item">
             <div class="content">
               <h2 class="name">{{song.name}}</h2>
@@ -105,7 +105,11 @@ export default {
     blurInput () {
       this.$refs.searchBox.blur()
     },
-    selectSong (song, index) {
+    selectSong (song) {
+      // 找到当前搜索点击的歌曲在歌曲列表的索引
+      let index = this.singerSongList.findIndex((item) => {
+        return item.id === song.id
+      })
       // 选择播放的歌曲
       this.$emit('selectSong', song, index)
     },

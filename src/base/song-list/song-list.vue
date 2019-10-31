@@ -8,7 +8,6 @@
           <i class="iconfont icon-search1"></i>
           <span class="text">搜索此歌手的歌曲</span>
         </div>
-        <!-- <search-box :placeholder="placeholder"></search-box> -->
       </div>
     </div>
     <div class="random-play"

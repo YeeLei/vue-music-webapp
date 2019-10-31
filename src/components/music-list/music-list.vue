@@ -147,6 +147,7 @@ export default {
       })
     },
     selectSong (song, index) {
+      console.log(song, index)
       // 保存点击的当前歌曲的信息
       this._getSongInfo(song.type, song.mid, song.id)
       this.selectPlay({

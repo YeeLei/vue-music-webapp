@@ -23,10 +23,6 @@ export default {
   created () {
     this._getSingerDetail()
   },
-  mounted () {
-    // 保存当前点击歌手的所有歌曲,用于搜索当前歌手的歌曲
-    this.setSingerSongList(this.songs)
-  },
   updated () {
     this._getSingerDetail()
   },
@@ -53,6 +49,7 @@ export default {
           //  processSongUrl 对歌曲列表做处理
           processSongUrl(this._normalizeSongs(res.data.list)).then(songs => {
             this.songs = songs
+            this.setSingerSongList(this.songs)
           })
         }
       })
