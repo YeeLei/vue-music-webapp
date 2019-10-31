@@ -28,10 +28,10 @@
           <h1 class="title"
               v-html="currentSong.name"></h1>
           <h2 class="subtitle">
-            <span class="sub subtitle-l"></span>
             <span class="subtitle-m"
-                  @click="selectSinger">{{currentSong.singer}}</span>
-            <span class="sub subtitle-r"></span>
+                  @click="selectSinger"
+                  v-html="currentSong.singer">
+            </span>
           </h2>
         </div>
         <!-- middle -->
@@ -564,7 +564,12 @@ export default {
       this.deleteFavoriteList(this.currentSong)
     },
     selectSinger () {
-      this.$refs.singerlist.show()
+      if (this.currentSong.singermid.length === 1) {
+        // 如果只有一个歌手,说明返回到歌手列表
+        this.setFullScreen(false)
+      } else {
+        this.$refs.singerlist.show()
+      }
     },
     selectSingerDetail (singer) {
       if (!singer.id) { // 如果不是当前id，则返回到singer页面
@@ -686,25 +691,30 @@ export default {
       }
       .subtitle {
         position: relative;
-        width: 70%;
+        width: 95%;
         margin: 0 auto;
         line-height: 20px;
         text-align: center;
         font-size: $font-size-small-x;
         color: #fff;
         @include no-wrap();
-        .sub {
-          display: inline-block;
-          vertical-align: middle;
-          width: 15px;
-          height: 1px;
-          background: $color-text-lll;
-        }
         .subtitle-m {
+          width: 90%;
           display: inline-block;
           vertical-align: middle;
           padding: 0 7px;
           box-sizing: border-box;
+          @include no-wrap();
+          &:before,
+          &:after {
+            content: '';
+            display: inline-block;
+            vertical-align: middle;
+            width: 15px;
+            height: 1px;
+            margin: 0 5px;
+            background: $color-text-lll;
+          }
         }
       }
     }

@@ -160,7 +160,7 @@ export default {
       }
       .singer-list-close {
         text-align: center;
-        line-height: 50px;
+        line-height: 40px;
         font-size: $font-size-medium-x;
         color: $color-text;
         background: rgba(53, 49, 49, 0.9);
