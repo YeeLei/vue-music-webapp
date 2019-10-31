@@ -29,7 +29,8 @@
               v-html="currentSong.name"></h1>
           <h2 class="subtitle">
             <span class="sub subtitle-l"></span>
-            <span class="subtitle-m">{{currentSong.singer}}</span>
+            <span class="subtitle-m"
+                  @click="selectSinger">{{currentSong.singer}}</span>
             <span class="sub subtitle-r"></span>
           </h2>
         </div>
@@ -104,7 +105,8 @@
               <i class="iconfont icon-prev"
                  @click.stop="prev"></i>
             </div>
-            <div class="icon i-center">
+            <div class="icon i-center"
+                 :class="disableCls">
               <i :class="playIcon"
                  @click.stop="togglePlaying"
                  class="iconfont">
@@ -159,6 +161,10 @@
       </div>
     </transition>
     <play-list ref="playlist"></play-list>
+    <play-singer-list ref="singerlist"
+                      :singerList="this.currentSong.singermid"
+                      @selectSinger="selectSingerDetail">
+    </play-singer-list>
     <!-- 提示框 -->
     <top-tip ref="topTip">
       <div class="tip-icon">
@@ -195,8 +201,10 @@ import Scroll from 'base/scroll/scroll'
 import PlayList from 'components/playlist/playlist'
 import TopTip from 'base/top-tip/top-tip'
 import Confirm from 'base/confirm/confirm'
+import PlaySingerList from 'components/play-singer-list/play-singer-list'
 import { prefixStyle } from 'common/js/dom'
 import { playerMixin } from 'common/js/mixin'
+
 const transform = prefixStyle('transform')
 const transitionDuration = prefixStyle('transitionDuration')
 
@@ -555,8 +563,31 @@ export default {
     handleConfirm () {
       this.deleteFavoriteList(this.currentSong)
     },
+    selectSinger () {
+      this.$refs.singerlist.show()
+    },
+    selectSingerDetail (singer) {
+      if (!singer.id) { // 如果不是当前id，则返回到singer页面
+        this.$router.push({
+          path: '/singer'
+        })
+        return
+      }
+      if (singer.id === this.$route.params.id) { // 如果当前歌手id等于之前获取到的歌手的id
+        this.setFullScreen(false)
+        this.$refs.singerlist.hide()
+        return
+      }
+      this.$router.push({
+        path: `/singer/${singer.id}`
+      })
+      this.setSinger(singer)
+      this.setFullScreen(false)
+      this.$refs.singerlist.hide()
+    },
     ...mapMutations({
-      setFullScreen: 'SET_FULL_SCREEN'
+      setFullScreen: 'SET_FULL_SCREEN',
+      setSinger: 'SET_SINGER'
     }),
     ...mapActions(['savePlayHistory'])
   },
@@ -601,7 +632,8 @@ export default {
     Scroll,
     PlayList,
     TopTip,
-    Confirm
+    Confirm,
+    PlaySingerList
   }
 }
 </script>
@@ -767,7 +799,7 @@ export default {
           flex: 1;
           color: #fff;
           &.disable {
-            color: $color-text-ggg;
+            color: rgba(255, 255, 255, 0.4);
           }
           i {
             font-size: 27px;
@@ -848,7 +880,7 @@ export default {
     }
     &.normal-enter-active,
     &.normal-leave-active {
-      transition: all 0.4s;
+      transition: all 0.5s;
     }
     &.normal-enter,
     &.normal-leave-to {

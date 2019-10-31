@@ -1,45 +1,42 @@
-import {
-  commonParams
-} from './config'
-import {
-  getUid
-} from 'common/js/uid'
+import { commonParams } from './config'
+import { getUid } from 'common/js/uid'
 import axios from 'axios'
-import {
-  ERR_OK
-} from 'api/config'
+import { ERR_OK } from 'api/config'
 
 const debug = process.env.NODE_ENV !== 'production'
 
-// 获取歌曲相关简介
+// 获取歌曲相关信息
 export function getSongInfo (type, mid, id) {
-  const url = debug ? '/api/getSongInfo' : 'http://www.yeelei.top/music/api/getSongInfo'
-
+  const url = debug
+    ? '/api/getSongInfo'
+    : 'http://www.yeelei.top/music/api/getSongInfo'
   const data = Object.assign({}, commonParams, {
     platform: 'yqq.json',
     hostUin: 0,
     needNewCode: 0,
     data: {
-      'comm': {
-        'ct': 24,
-        'cv': 0
+      comm: {
+        ct: 24,
+        cv: 0
       },
-      'songinfo': {
-        'method': 'get_song_detail_yqq',
-        'param': {
-          'song_type': type,
-          'song_mid': mid,
-          'song_id': id
+      songinfo: {
+        method: 'get_song_detail_yqq',
+        param: {
+          song_type: type,
+          song_mid: mid,
+          song_id: id
         },
-        'module': 'music.pf_song_detail_svr'
+        module: 'music.pf_song_detail_svr'
       }
     }
   })
-  return axios.get(url, {
-    data
-  }).then((res) => {
-    return Promise.resolve(res.data)
-  })
+  return axios
+    .get(url, {
+      data
+    })
+    .then(res => {
+      return Promise.resolve(res.data)
+    })
 }
 // 获取歌词
 export function getLyric (mid) {
@@ -55,21 +52,25 @@ export function getLyric (mid) {
     format: 'json'
   })
 
-  return axios.get(url, {
-    params: data
-  }).then((res) => {
-    return Promise.resolve(res.data)
-  })
+  return axios
+    .get(url, {
+      params: data
+    })
+    .then(res => {
+      return Promise.resolve(res.data)
+    })
 }
 
 // 这个方法可以批量拿到这个歌曲列表的 midUrlInfo
 export function getSongsUrl (songs) {
-  const url = debug ? '/api/getPurlUrl' : 'http://www.yeelei.top/music/api/getPurlUrl'
+  const url = debug
+    ? '/api/getPurlUrl'
+    : 'http://www.yeelei.top/music/api/getPurlUrl'
 
   let mids = []
   let types = []
 
-  songs.forEach((song) => {
+  songs.forEach(song => {
     mids.push(song.mid)
     types.push(0)
   })
@@ -89,32 +90,34 @@ export function getSongsUrl (songs) {
     let tryTime = 3
 
     function request () {
-      return axios.post(url, {
-        comm: data,
-        req_0: urlMid
-      }).then((response) => {
-        const res = response.data
-        if (res.code === ERR_OK) {
-          let urlMid = res.req_0
-          if (urlMid && urlMid.code === ERR_OK) {
-            const purlMap = {}
-            urlMid.data.midurlinfo.forEach((item) => {
-              if (item.purl) {
-                purlMap[item.songmid] = item.purl
+      return axios
+        .post(url, {
+          comm: data,
+          req_0: urlMid
+        })
+        .then(response => {
+          const res = response.data
+          if (res.code === ERR_OK) {
+            let urlMid = res.req_0
+            if (urlMid && urlMid.code === ERR_OK) {
+              const purlMap = {}
+              urlMid.data.midurlinfo.forEach(item => {
+                if (item.purl) {
+                  purlMap[item.songmid] = item.purl
+                }
+              })
+              if (Object.keys(purlMap).length > 0) {
+                resolve(purlMap)
+              } else {
+                retry()
               }
-            })
-            if (Object.keys(purlMap).length > 0) {
-              resolve(purlMap)
             } else {
               retry()
             }
           } else {
             retry()
           }
-        } else {
-          retry()
-        }
-      })
+        })
     }
 
     function retry () {

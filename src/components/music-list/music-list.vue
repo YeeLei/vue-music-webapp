@@ -142,7 +142,9 @@ export default {
       this.scrollY = pos.y
     },
     back () {
-      this.$router.back()
+      this.$router.push({
+        path: '/singer'
+      })
     },
     selectSong (song, index) {
       // 保存点击的当前歌曲的信息

@@ -93,7 +93,11 @@ export default {
         if (this.singerSongList[i].album.indexOf(keyWord) >= 0 ||
           this.singerSongList[i].name.indexOf(keyWord) >= 0 ||
           this.singerSongList[i].singer.indexOf(keyWord) >= 0) {
-          songs.push(this.singerSongList[i])
+          if (!keyWord) { // 如果为空
+            return
+          } else {
+            songs.push(this.singerSongList[i])
+          }
         }
       }
       this.songs = songs
@@ -220,7 +224,6 @@ export default {
     text-align: center;
     transform: translate(-50%, -50%);
     .no-result-text {
-      margin-top: 30px;
       font-size: $font-size-medium;
       line-height: 30px;
       .text {

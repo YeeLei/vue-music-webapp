@@ -1,18 +1,12 @@
-import {
-  getLyric,
-  getSongsUrl
-} from 'api/song'
-import {
-  ERR_OK
-} from 'api/config'
-import {
-  Base64
-} from 'js-base64'
+import { getLyric, getSongsUrl } from 'api/song'
+import { ERR_OK } from 'api/config'
+import { Base64 } from 'js-base64'
 export default class Song {
   constructor ({
     id,
     mid,
     singer,
+    singermid,
     name,
     album,
     albumdesc,
@@ -25,6 +19,7 @@ export default class Song {
     this.id = id
     this.mid = mid
     this.singer = singer
+    this.singermid = singermid
     this.name = name
     this.album = album
     this.albumdesc = albumdesc
@@ -41,7 +36,7 @@ export default class Song {
     }
 
     return new Promise((resolve, reject) => {
-      getLyric(this.mid).then((res) => {
+      getLyric(this.mid).then(res => {
         if (res.retcode === ERR_OK) {
           this.lyric = Base64.decode(res.lyric)
           resolve(this.lyric)
@@ -58,6 +53,7 @@ export function createSong (musicData) {
     id: musicData.songid,
     mid: musicData.songmid,
     singer: filterSinger(musicData.singer),
+    singermid: musicData.singer,
     name: musicData.songname,
     album: musicData.albumname,
     albumdesc: musicData.albumdesc,
@@ -77,7 +73,7 @@ function filterSinger (singer) {
     return ''
   }
   // singer:[{id: 5062,mid: "002J4UUk29y8BY",name: "薛之谦"}]
-  singer.forEach((s) => {
+  singer.forEach(s => {
     ret.push(s.name)
   })
   return ret.join('/')
@@ -85,7 +81,11 @@ function filterSinger (singer) {
 
 // 判断歌曲是否有效
 export function isValidMusic (musicData) {
-  return musicData.songid && musicData.albummid && (!musicData.pay || musicData.pay.payalbumprice === 0)
+  return (
+    musicData.songid &&
+    musicData.albummid &&
+    (!musicData.pay || musicData.pay.payalbumprice === 0)
+  )
 }
 
 // 对歌曲列表做处理
@@ -97,7 +97,10 @@ export function processSongUrl (songs) {
     songs = songs.filter(song => {
       const purl = purlMap[song.mid]
       if (purl) {
-        song.url = purl.indexOf('http') === -1 ? `http://dl.stream.qqmusic.qq.com/${purl}` : purl
+        song.url =
+          purl.indexOf('http') === -1
+            ? `http://dl.stream.qqmusic.qq.com/${purl}`
+            : purl
         return true
       }
       return false
