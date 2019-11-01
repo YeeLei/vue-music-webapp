@@ -3,7 +3,7 @@
     <div class="disc-brief"
          v-show="flag"
          ref="disc">
-      <div class="bg-image"
+      <div class="bg-image bg"
            :style="bgStyle">
       </div>
       <scroll class="disc-brief-wrapper"
@@ -109,7 +109,10 @@ export default {
     height: 100%;
     background-size: 100% 100%;
     background-repeat: no-repeat;
-    filter: blur(5px);
+    &.bg {
+      float: left;
+      filter: blur(5px);
+    }
   }
   .disc-brief-wrapper {
     position: absolute;
@@ -195,7 +198,6 @@ export default {
           box-sizing: border-box;
           line-height: 25px;
           text-align: center;
-          color: #fff;
           border: 1px solid #fff;
           border-radius: 15px;
           font-size: $font-size-small-x;

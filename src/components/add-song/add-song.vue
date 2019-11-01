@@ -55,6 +55,11 @@
           </scroll>
         </div>
       </div>
+      <div class="no-result-wrapper">
+        <no-result :title="noResultDesc"
+                   v-show="noResult">
+        </no-result>
+      </div>
       <!-- 搜索列表 -->
       <div class="search-result"
            v-show="query">
@@ -85,6 +90,7 @@ import Scroll from 'base/scroll/scroll'
 import SongList from 'base/song-list/song-list'
 import SearchList from 'base/search-list/search-list'
 import TopTip from 'base/top-tip/top-tip'
+import NoResult from 'base/no-result/no-result'
 import { searchMixin } from 'common/js/mixin'
 import { mapGetters, mapActions } from 'vuex'
 import Song from 'common/js/song'
@@ -101,6 +107,25 @@ export default {
         name: '搜索历史'
       }]
     }
+  },
+  computed: {
+    noResult () {
+      if (this.currentIndex === 0) {
+        return !this.playHistory.length
+      } else {
+        return !this.searchHistory.length
+      }
+    },
+    noResultDesc () {
+      if (this.currentIndex === 0) {
+        return '你还没有听过歌曲,赶紧去听歌吧！'
+      } else {
+        return '暂无搜索历史,现在去搜索听歌吧!'
+      }
+    },
+    ...mapGetters([
+      'playHistory'
+    ])
   },
   methods: {
     show () {
@@ -141,11 +166,6 @@ export default {
       'insertSong'
     ])
   },
-  computed: {
-    ...mapGetters([
-      'playHistory'
-    ])
-  },
   components: {
     SearchBox,
     Suggest,
@@ -153,7 +173,8 @@ export default {
     Scroll,
     SongList,
     SearchList,
-    TopTip
+    TopTip,
+    NoResult
   }
 }
 </script>

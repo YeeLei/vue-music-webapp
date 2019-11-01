@@ -35,6 +35,10 @@ export default {
       type: Boolean,
       default: false
     },
+    scrollEnd: {
+      type: Boolean,
+      default: false
+    },
     refreshDelay: {
       type: Number,
       default: 20
@@ -72,6 +76,13 @@ export default {
       if (this.beforeScroll) {
         this.scroll.on('beforeScrollStart', () => {
           this.$emit('beforeScroll')
+        })
+      }
+      if (this.scrollEnd) {
+        let me = this
+        this.scroll.on('scrollEnd', pos => {
+          // pos:滚动的实时坐标
+          me.$emit('scrollEnd', pos)
         })
       }
     },
