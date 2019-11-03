@@ -142,9 +142,7 @@ export default {
       this.scrollY = pos.y
     },
     back () {
-      this.$router.push({
-        path: '/singer'
-      })
+      this.$router.back()
     },
     selectSong (song, index) {
       console.log(song, index)

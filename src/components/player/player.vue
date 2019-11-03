@@ -567,7 +567,7 @@ export default {
     },
     selectSinger () {
       if (this.currentSong.singermid.length === 1) {
-        // 如果只有一个歌手,说明返回到歌手列表
+        // 如果只有一个歌手,返回到歌手列表
         this.setFullScreen(false)
         let singer = new Singer({
           id: this.currentSong.singermid[0].mid,

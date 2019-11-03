@@ -171,7 +171,7 @@ export default {
       })
     },
     handlePlaylist (playlist) {
-      const bottom = playlist.length ? '50px' : ''
+      const bottom = playlist.length ? '40px' : ''
       this.$refs.disc.style.bottom = bottom
       this.$refs.contentWrapper.refresh()
     },

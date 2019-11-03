@@ -238,7 +238,7 @@ export default {
 }
 .hide-enter-active,
 .hide-leave-active {
-  transition: all 0.4s cubic-bezier(0.86, 0.18, 0.82, 1.32);
+  transition: all 0.4s;
 }
 .hide-enter,
 .hide-leave-to {
