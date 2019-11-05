@@ -145,7 +145,7 @@ export default {
       this.$router.back()
     },
     selectSong (song, index) {
-      console.log(song, index)
+      // console.log(song, index)
       // 保存点击的当前歌曲的信息
       this._getSongInfo(song.type, song.mid, song.id)
       this.selectPlay({
@@ -168,7 +168,6 @@ export default {
     },
     handleSeach () {
       this.seek = true
-      this.$refs.seek.trigger()
     },
     hide () {
       this.seek = false

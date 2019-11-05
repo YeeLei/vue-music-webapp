@@ -200,14 +200,14 @@ export default {
           .detail-song-name {
             font-size: $font-size-small-x;
             color: $color-text-gggg;
-            vertical-align: top;
+            vertical-align: middle;
             margin-left: 5px;
           }
           .detail-icon {
             color: $color-theme-g;
             height: 16px;
             display: inline-block;
-            vertical-align: top;
+            vertical-align: middle;
             line-height: 16px;
           }
         }

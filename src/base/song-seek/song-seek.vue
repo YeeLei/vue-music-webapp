@@ -76,6 +76,8 @@ export default {
       this.$emit('hide')
     },
     trigger () {
+      console.log(111)
+
       this.$refs.searchBox.trigger()
     },
     getDesc (song) {
@@ -127,6 +129,13 @@ export default {
         setTimeout(() => {
           this.$refs.list.refresh()
         }, this.refreshDelay)
+      }
+    },
+    seek (newSeek) {
+      if (!newSeek) {
+        return false
+      } else {
+        this.trigger()
       }
     }
   },

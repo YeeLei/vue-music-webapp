@@ -180,6 +180,8 @@ export default {
       // 如果组件没有显示或newSong与oldSong的id值相等
       if (!this.showFlag || newSong.id === oldSong.id) {
         return
+      } else {
+        this.setPlayingState(true)
       }
       this.scrollToCurrent(newSong)
     }
