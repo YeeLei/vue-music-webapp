@@ -168,6 +168,7 @@ export default {
     },
     handleSeach () {
       this.seek = true
+      this.$refs.seek.trigger()
     },
     hide () {
       this.seek = false

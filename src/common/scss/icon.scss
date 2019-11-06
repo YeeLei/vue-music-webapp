@@ -1,9 +1,11 @@
 @font-face {
-  font-family: "iconfont";
-  src: url("../fonts/iconfont.eot?t=1572183371597"); /* IE9 */
-  src: url("../fonts/iconfont.eot?t=1572183371597#iefix") format("embedded-opentype"),
-    /* IE6-IE8 */ url("../fonts/iconfont.woff?t=1572183371597") format("woff"),
-    url("../fonts/iconfont.ttf?t=1572183371597") format("truetype");
+  font-family: "iconfont"; /* project id 1451521 */
+  src: url("//at.alicdn.com/t/font_1451521_49gc9qcwsbt.eot");
+  src: url("//at.alicdn.com/t/font_1451521_49gc9qcwsbt.eot?#iefix") format("embedded-opentype"),
+    url("//at.alicdn.com/t/font_1451521_49gc9qcwsbt.woff2") format("woff2"),
+    url("//at.alicdn.com/t/font_1451521_49gc9qcwsbt.woff") format("woff"),
+    url("//at.alicdn.com/t/font_1451521_49gc9qcwsbt.ttf") format("truetype"),
+    url("//at.alicdn.com/t/font_1451521_49gc9qcwsbt.svg#iconfont") format("svg");
 }
 
 .iconfont {
@@ -75,11 +77,11 @@
 }
 
 .icon-not-favorite:before {
-  content: "\e74f";
+  content: "\e60b";
 }
 
 .icon-favorite:before {
-  content: "\e74f";
+  content: "\e60a";
 }
 
 .icon-play-mini:before {

@@ -76,8 +76,6 @@ export default {
       this.$emit('hide')
     },
     trigger () {
-      console.log(111)
-
       this.$refs.searchBox.trigger()
     },
     getDesc (song) {

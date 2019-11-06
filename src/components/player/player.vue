@@ -62,15 +62,26 @@
                    class="text"
                    :class="{'current': currentLineNum === index}"
                    v-for="(line,index) in currentLyric.lines"
-                   :key="index">{{line.txt}}
+                   :key="index">
+                  {{line.txt}}
                 </p>
               </div>
             </div>
+            <p class="playing-no-lyric"
+               v-if="currentLyric && currentLyric.lines.length === 0">
+              {{currentLyric.lrc}}
+            </p>
+            <p class="playing-no-lyric"
+               v-if="!currentLyric">
+              此歌曲为没有歌词的歌曲，请您欣赏
+            </p>
           </scroll>
           <!-- 歌词 -->
           <div class="playing-lyric-wrapper">
             <div class="playing-lyric"
-                 v-show="currentShow === 'cd'">{{playingLyric}}</div>
+                 v-show="currentShow === 'cd'"
+                 v-html="playingLyric">
+            </div>
           </div>
         </div>
         <div class="bottom">
@@ -779,6 +790,7 @@ export default {
         }
       }
       .middle-r {
+        position: relative;
         display: inline-block;
         vertical-align: top;
         width: 100%;
@@ -791,12 +803,21 @@ export default {
           text-align: center;
           .text {
             line-height: 32px;
-            color: $color-text-lll;
+            color: rgba(255, 255, 255, 0.8);
             font-size: $font-size-medium;
             &.current {
-              color: #fff;
+              color: $color-theme;
             }
           }
+        }
+        .playing-no-lyric {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          line-height: 32px;
+          color: $color-theme;
+          font-size: $font-size-medium;
         }
       }
       .playing-lyric-wrapper {
@@ -823,7 +844,6 @@ export default {
         align-items: center;
         .icon {
           flex: 1;
-          color: #fff;
           &.disable {
             color: rgba(255, 255, 255, 0.4);
           }
@@ -853,12 +873,12 @@ export default {
           i {
             font-size: 35px;
           }
+          .icon-favorite {
+            color: red;
+          }
           .icon-favorite,
           .icon-not-favorite {
-            font-size: 25px;
-          }
-          .icon-favorite {
-            color: $color-theme;
+            font-size: 30px;
           }
         }
       }
