@@ -128,13 +128,6 @@ export default {
           this.$refs.list.refresh()
         }, this.refreshDelay)
       }
-    },
-    seek (newSeek) {
-      if (!newSeek) {
-        return false
-      } else {
-        this.trigger()
-      }
     }
   },
   components: {
