@@ -7,7 +7,7 @@ const debug = process.env.NODE_ENV !== 'production';
 export function getRecommend () {
   const url = debug
     ? '/api/getTopBanner'
-    : 'http://yeelei.top/music/api/getTopBanner';
+    : 'http://www.yeelei.top/music/api/getTopBanner';
   const data = Object.assign({}, commonParams, {
     platform: 'yqq.json',
     hostUin: 0,
