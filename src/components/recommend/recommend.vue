@@ -1,20 +1,14 @@
 <template>
-  <div class="recommend"
-       ref="recommend">
-    <scroll :data="list"
-            class="recommend-content"
-            ref="scroll">
+  <div class="recommend" ref="recommend">
+    <scroll :data="list" class="recommend-content" ref="scroll">
       <div>
         <!-- 轮播图 -->
-        <div v-if="banners.length"
-             class="slider-wrapper">
+        <div v-if="banners.length" class="slider-wrapper">
           <div class="slider-content">
             <slider ref="slider">
-              <div v-for="(item,index) in banners"
-                   :key="index">
+              <div v-for="(item, index) in banners" :key="index">
                 <a :href="item.linkUrl">
-                  <img @load="loadImage"
-                       :src="item.picUrl">
+                  <img @load="loadImage" :src="item.picUrl" />
                 </a>
               </div>
             </slider>
@@ -24,49 +18,30 @@
         <div class="recommend-list">
           <h1 class="title">推荐歌单</h1>
           <ul>
-            <li v-for="(item,index) in discList"
-                :key="index"
-                @click="selectDiscList(item)"
-                class="item">
+            <li
+              v-for="(item, index) in discList"
+              :key="index"
+              @click="selectDiscList(item)"
+              class="item"
+            >
               <div class="icon">
                 <div class="gradients"></div>
                 <p class="play-count">
-                  <i class="fa fa-headphones"> {{Math.floor(item.listennum / 10000)}}万</i>
+                  <i class="fa fa-headphones">
+                    {{ Math.floor(item.listennum / 10000) }}万</i
+                  >
                 </p>
                 <i class="iconfont icon-play"></i>
-                <img v-lazy="item.imgurl">
+                <img v-lazy="item.imgurl" />
               </div>
               <div class="text">
-                <p class="name">{{item.dissname}}</p>
-              </div>
-            </li>
-          </ul>
-        </div>
-        <!-- 热门歌单 -->
-        <div class="recommend-list">
-          <h1 class="title">热门歌单</h1>
-          <ul>
-            <li v-for="(item,index) in hotList"
-                :key="index"
-                @click="selectHotList(item)"
-                class="item">
-              <div class="icon">
-                <div class="gradients"></div>
-                <p class="play-count">
-                  <i class="fa fa-headphones"> {{Math.floor(item.accessnum / 10000)}}万</i>
-                </p>
-                <i class="iconfont icon-play"></i>
-                <img v-lazy="item.picUrl">
-              </div>
-              <div class="text">
-                <p class="name">{{item.songListDesc}}</p>
+                <p class="name">{{ item.dissname }}</p>
               </div>
             </li>
           </ul>
         </div>
       </div>
-      <div v-show="!list.length"
-           class="loading-wrapper">
+      <div v-show="!list.length" class="loading-wrapper">
         <loading></loading>
       </div>
     </scroll>
@@ -75,26 +50,25 @@
 </template>
 
 <script>
-import Slider from 'base/slider/slider'
-import Scroll from 'base/scroll/scroll'
-import Loading from 'base/loading/loading'
-import { getRecommend, getDiscList } from 'api/recommend'
-import { ERR_OK } from 'api/config'
-import { mapMutations } from 'vuex'
-import { playlistMixin } from 'common/js/mixin'
+import Slider from 'base/slider/slider';
+import Scroll from 'base/scroll/scroll';
+import Loading from 'base/loading/loading';
+import { getRecommend, getDiscList } from 'api/recommend';
+import { ERR_OK } from 'api/config';
+import { mapMutations } from 'vuex';
+import { playlistMixin } from 'common/js/mixin';
 
 export default {
   mixins: [playlistMixin],
   data () {
     return {
       banners: [],
-      discList: [],
-      hotList: []
+      discList: []
     }
   },
   computed: {
     list () {
-      return this.discList.concat(this.hotList)
+      return this.discList
     }
   },
   created () {
@@ -128,7 +102,7 @@ export default {
       this.setDisc(list)
     },
     handlePlaylist (playlist) {
-      const bottom = playlist.length ? '40px' : ''
+      const bottom = playlist.length ? '40px' : '';
       this.$refs.recommend.style.bottom = bottom
       this.$refs.scroll.refresh()
     },
@@ -136,7 +110,6 @@ export default {
       getRecommend().then(res => {
         if (res.code === ERR_OK) {
           this.banners = res.data.slider
-          this.hotList = res.data.songList
         }
       })
     },
@@ -160,7 +133,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import 'common/scss/variable.scss';
+@import "common/scss/variable.scss";
 .recommend {
   position: fixed;
   width: 100%;
