@@ -152,7 +152,9 @@ apiRoutes.get('/search', function (req, res) {
 })
 
 apiRoutes.get('/getTopBanner', function (req, res) {
+  // eslint-disable-next-line semi
   const url = 'https://u.y.qq.com/cgi-bin/musicu.fcg';
+  // eslint-disable-next-line semi
   const jumpPrefix = 'https://y.qq.com/n/yqq/album/';
 
   axios
